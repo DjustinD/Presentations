@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Futures Tick Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        .chart-container {
+            width: 1000px;
+            height: 500px;
+            margin: 20px auto;
+        }
+        .tick-line {
+            stroke: #2166ac;
+            stroke-width: 1.5;
+            fill: none;
+        }
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.3;
+        }
+        .y-axis-label {
+            font-size: 12px;
+            fill: #666;
+        }
+        .time-label {
+            font-size: 10px;
+            fill: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container"></div>
+    <script>
+        // Sample tick data - replace with your actual data
+        // Each entry represents a trade with timestamp and price
+        const data = generateSampleData();
+
+        function generateSampleData() {
+            const trades = [];
+            let currentTime = new Date('2025-01-30T09:30:00');
+            let currentPrice = 100.00;
+        
+            // Generate random trades for a day
+            while (currentTime < new Date('2025-01-30T16:00:00')) {
+                // Random time increment between trades (0.1 to 10 seconds)
+                const timeIncrement = Math.random() * 99000 + 100;
+                currentTime = new Date(currentTime.getTime() + timeIncrement);
+        
+                // Random price movement (-1, 0, or +1 tick, assuming 0.25 tick size)
+                const tickChange = (Math.floor(Math.random() * 3) - 1) * 0.25;
+                currentPrice += tickChange;
+        
+                trades.push({
+                    timestamp: currentTime,
+                    price: currentPrice
+                });
+            }
+            return trades;
+        }
+
+        // Set up the chart dimensions
+        const margin = { top: 40, right: 50, bottom: 40, left: 60 };
+        const width = 1000 - margin.left - margin.right;
+        const height = 500 - margin.top - margin.bottom;
+
+        // Create the SVG container
+        const svg = d3.select('.chart-container')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        // Set up scales
+        const xScale = d3.scaleLinear()
+            .domain([0, data.length - 1])
+            .range([0, width]);
+
+        const yScale = d3.scaleLinear()
+            .domain([
+                d3.min(data, d => d.price) * 0.9999,
+                d3.max(data, d => d.price) * 1.0001
+            ])
+            .range([height, 0]);
+
+        // Create the line generator
+        const line = d3.line()
+            .x((d, i) => xScale(i))
+            .y(d => yScale(d.price));
+
+        // Add grid lines
+        svg.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(yScale)
+                .tickSize(-width)
+                .tickFormat('')
+            );
+
+        // Add the price line
+        svg.append('path')
+            .datum(data)
+            .attr('class', 'tick-line')
+            .attr('d', line);
+
+        // Add Y axis
+        svg.append('g')
+            .call(d3.axisLeft(yScale)
+                .tickFormat(d3.format('.2f')));
+
+        // Add X axis with time labels
+        const xAxis = svg.append('g')
+            .attr('transform', `translate(0,${height})`);
+
+        // Add time labels at regular intervals
+        const numTimeLabels = 8;
+        const timeLabels = [];
+        for (let i = 0; i <= numTimeLabels; i++) {
+            const index = Math.floor((i / numTimeLabels) * (data.length - 1));
+            timeLabels.push({
+                index: index,
+                time: data[index].timestamp
+            });
+        }
+
+        xAxis.selectAll('.time-label')
+            .data(timeLabels)
+            .enter()
+            .append('text')
+            .attr('class', 'time-label')
+            .attr('x', d => xScale(d.index))
+            .attr('y', 20)
+            .attr('text-anchor', 'middle')
+            .text(d => d3.timeFormat('%H:%M:%S')(d.time));
+
+        // Add title
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', -margin.top / 2)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .text('Futures Tick Chart (Single Day)');
+
+        // Add Y axis label
+        svg.append('text')
+            .attr('class', 'y-axis-label')
+            .attr('transform', 'rotate(-90)')
+            .attr('y', -margin.left + 15)
+            .attr('x', -height / 2)
+            .attr('text-anchor', 'middle')
+            .text('Price');
+    </script>
+</body>
+</html>

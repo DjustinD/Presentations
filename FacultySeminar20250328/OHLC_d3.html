@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Daily Futures OHLC Chart</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        .chart-container {
+            width: 800px;
+            height: 400px;
+            margin: 20px auto;
+        }
+        .price-line {
+            stroke: black;
+            stroke-width: 1;
+        }
+        .open-tick {
+            stroke: black;
+            stroke-width: 1;
+        }
+        .close-tick {
+            stroke: black;
+            stroke-width: 1;
+        }
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container"></div>
+    <script>
+        // Sample data - replace with your actual data
+        const data = [
+            { date: '2025-01-02', open: 105.0, high: 108.5, low: 104.0, close: 107.2 },
+            { date: '2025-01-03', open: 107.3, high: 110.0, low: 106.8, close: 109.5 },
+            { date: '2025-01-06', open: 109.6, high: 112.4, low: 109.0, close: 111.8 },
+            { date: '2025-01-07', open: 111.9, high: 113.2, low: 110.5, close: 112.0 },
+            { date: '2025-01-08', open: 112.1, high: 114.8, low: 111.8, close: 114.5 },
+            { date: '2025-01-09', open: 114.6, high: 116.2, low: 114.0, close: 115.8 },
+            { date: '2025-01-10', open: 115.9, high: 117.5, low: 115.2, close: 116.9 },
+            { date: '2025-01-13', open: 117.0, high: 118.8, low: 116.5, close: 118.2 },
+            { date: '2025-01-14', open: 118.3, high: 119.6, low: 117.8, close: 119.1 },
+            { date: '2025-01-15', open: 119.2, high: 120.5, low: 118.7, close: 120.0 }
+        ];
+
+        // Set up the chart dimensions
+        const margin = { top: 30, right: 30, bottom: 30, left: 60 };
+        const width = 800 - margin.left - margin.right;
+        const height = 400 - margin.top - margin.bottom;
+
+        // Create the SVG container
+        const svg = d3.select('.chart-container')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        // Create index-based x-scale for even spacing
+        const xScale = d3.scaleLinear()
+            .domain([-0.5, data.length - 1])
+            .range([0, width]);
+
+        const yScale = d3.scaleLinear()
+            .domain([
+                d3.min(data, d => d.low) * 0.999,
+                d3.max(data, d => d.high) * 1.001
+            ])
+            .range([height, 0]);
+
+        // Create custom x-axis ticks for dates
+        const xAxis = d3.axisBottom(xScale)
+            .ticks(data.length)
+            .tickFormat((d, i) => {
+                const date = new Date(data[i].date);
+                return d3.timeFormat('%m/%d')(date);
+            });
+
+        // Add X axis
+        svg.append('g')
+            .attr('transform', `translate(0,${height})`)
+            .call(xAxis)
+            .selectAll("text")
+            .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-45)");
+
+        // Add Y axis
+        svg.append('g')
+            .call(d3.axisLeft(yScale));
+
+        // Add grid lines
+        svg.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(yScale)
+                .tickSize(-width)
+                .tickFormat('')
+            );
+
+        // Calculate the width for open/close ticks
+        const tickWidth = 5;
+
+        // Create OHLC elements
+        const ohlc = svg.selectAll('.ohlc')
+            .data(data)
+            .enter()
+            .append('g')
+            .attr('class', 'ohlc');
+
+        // Add vertical lines (high-low range)
+        ohlc.append('line')
+            .attr('class', 'price-line')
+            .attr('x1', (d, i) => xScale(i))
+            .attr('x2', (d, i) => xScale(i))
+            .attr('y1', d => yScale(d.high))
+            .attr('y2', d => yScale(d.low));
+
+        // Add open tick marks
+        ohlc.append('line')
+            .attr('class', 'open-tick')
+            .attr('x1', (d, i) => xScale(i) - tickWidth)
+            .attr('x2', (d, i) => xScale(i))
+            .attr('y1', d => yScale(d.open))
+            .attr('y2', d => yScale(d.open));
+
+        // Add close tick marks
+        ohlc.append('line')
+            .attr('class', 'close-tick')
+            .attr('x1', (d, i) => xScale(i))
+            .attr('x2', (d, i) => xScale(i) + tickWidth)
+            .attr('y1', d => yScale(d.close))
+            .attr('y2', d => yScale(d.close));
+
+        // Add title
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', -margin.top / 2)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .text('Futures Daily OHLC Chart');
+    </script>
+</body>
+</html>

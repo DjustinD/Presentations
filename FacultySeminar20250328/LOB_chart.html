@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Book Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        .chart-container {
+            width: 1200px;
+            height: 600px;
+            margin: 20px auto;
+        }
+        .bid-bar {
+            fill: #4daf4a;
+            opacity: 0.6;
+        }
+        .ask-bar {
+            fill: #e41a1c;
+            opacity: 0.6;
+        }
+        .time-separator {
+            stroke: #999;
+            stroke-dasharray: 4,4;
+            stroke-width: 1;
+        }
+        .grid line {
+            stroke: lightgrey;
+            stroke-opacity: 0.3;
+        }
+        .time-label {
+            font-size: 10px;
+            fill: #666;
+        }
+        .zero-line {
+            stroke: #666;
+            stroke-width: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container"></div>
+    <script>
+        const data = {
+            "snapshots": [
+                {
+                    "timestamp": "2025-01-30T09:30:00",
+                    "bids": [
+                        { "price": 99.75, "quantity": 10 },
+                        { "price": 99.50, "quantity": 20 },
+                        { "price": 99.25, "quantity": 15 }
+                    ],
+                    "asks": [
+                        { "price": 100.25, "quantity": 10 },
+                        { "price": 100.50, "quantity": 20 },
+                        { "price": 100.75, "quantity": 15 }
+                    ]
+                },
+                {
+                    "timestamp": "2025-01-30T09:35:00",
+                    "bids": [
+                        { "price": 99.80, "quantity": 12 },
+                        { "price": 99.60, "quantity": 18 },
+                        { "price": 99.40, "quantity": 22 }
+                    ],
+                    "asks": [
+                        { "price": 100.20, "quantity": 12 },
+                        { "price": 100.40, "quantity": 18 },
+                        { "price": 100.60, "quantity": 22 }
+                    ]
+                },
+                {
+                    "timestamp": "2025-01-30T09:55:00",
+                    "bids": [
+                        { "price": 99.80, "quantity": 18 },
+                        { "price": 99.75, "quantity": 32 },
+                        { "price": 99.30, "quantity": 12 }
+                    ],
+                    "asks": [
+                        { "price": 100.20, "quantity": 12 },
+                        { "price": 100.40, "quantity": 18 },
+                        { "price": 100.60, "quantity": 22 }
+                    ]
+                }
+                // Add more snapshots as needed
+            ]
+        };
+
+        // Set up the chart dimensions
+        const margin = { top: 40, right: 60, bottom: 40, left: 70 };
+        const width = 1200 - margin.left - margin.right;
+        const height = 600 - margin.top - margin.bottom;
+
+        // Create the SVG container
+        const svg = d3.select('.chart-container')
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .append('g')
+            .attr('transform', `translate(${margin.left},${margin.top})`);
+
+        // Calculate the width for each time segment
+        const timeSegmentWidth = width / data.snapshots.length;
+
+        // Get all prices and quantities for scaling
+        const allBids = data.snapshots.flatMap(snapshot => snapshot.bids);
+        const allAsks = data.snapshots.flatMap(snapshot => snapshot.asks);
+        const allPrices = [...allBids, ...allAsks].map(order => order.price);
+        const maxQuantity = d3.max([...allBids, ...allAsks], order => order.quantity);
+
+        // Set up scales
+        const yScale = d3.scaleLinear()
+            .domain([
+                d3.min(allPrices) * 0.95, // Minimum price - 5%
+                d3.max(allPrices) * 1.05  // Maximum price + 5%
+            ])
+            .range([height, 0]);
+
+        // Scale for order bar widths within each time segment
+        const orderScale = d3.scaleLinear()
+            .domain([0, maxQuantity])
+            .range([0, timeSegmentWidth * 0.4]); // Use less width to leave space between segments
+
+        // Add grid lines
+        svg.append('g')
+            .attr('class', 'grid')
+            .call(d3.axisLeft(yScale)
+                .tickSize(-width)
+                .tickFormat('')
+            );
+
+        // Create groups for each time snapshot
+        const timeGroups = svg.selectAll('.time-group')
+            .data(data.snapshots)
+            .enter()
+            .append('g')
+            .attr('class', 'time-group')
+            .attr('transform', (d, i) => `translate(${i * timeSegmentWidth},0)`);
+
+        // Add vertical separators between time segments
+        timeGroups.append('line')
+            .attr('class', 'time-separator')
+            .attr('x1', timeSegmentWidth / 2)
+            .attr('x2', timeSegmentWidth / 2)
+            .attr('y1', 0)
+            .attr('y2', height);
+
+        // Add bid bars (right side)
+        timeGroups.selectAll('.bid-bar')
+            .data(d => d.bids)
+            .enter()
+            .append('rect')
+            .attr('class', 'bid-bar')
+            .attr('x', timeSegmentWidth / 2)
+            .attr('y', d => yScale(d.price) - 1)
+            .attr('width', d => orderScale(d.quantity))
+            .attr('height', 2);
+
+        // Add ask bars (left side)
+        timeGroups.selectAll('.ask-bar')
+            .data(d => d.asks)
+            .enter()
+            .append('rect')
+            .attr('class', 'ask-bar')
+            .attr('x', d => timeSegmentWidth / 2 - orderScale(d.quantity))
+            .attr('y', d => yScale(d.price) - 1)
+            .attr('width', d => orderScale(d.quantity))
+            .attr('height', 2);
+
+        // Add Y axis
+        svg.append('g')
+            .call(d3.axisLeft(yScale)
+                .tickFormat(d3.format('.2f')));
+
+        // Add time labels
+        svg.selectAll('.time-label')
+            .data(data.snapshots)
+            .enter()
+            .append('text')
+            .attr('class', 'time-label')
+            .attr('x', (d, i) => i * timeSegmentWidth + timeSegmentWidth / 2)
+            .attr('y', height + 25)
+            .attr('text-anchor', 'middle')
+            .text(d => d3.timeFormat('%H:%M:%S')(new Date(d.timestamp)));
+
+        // Add title
+        svg.append('text')
+            .attr('x', width / 2)
+            .attr('y', -margin.top / 2)
+            .attr('text-anchor', 'middle')
+            .style('font-size', '16px')
+            .text('Order Book Time Series Visualization');
+
+        // Add Y axis label
+        svg.append('text')
+            .attr('transform', 'rotate(-90)')
+            .attr('y', -margin.left + 15)
+            .attr('x', -height / 2)
+            .attr('text-anchor', 'middle')
+            .text('Price Level');
+    </script>
+</body>
+</html>
