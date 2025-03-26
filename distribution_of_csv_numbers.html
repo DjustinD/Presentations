@@ -9,21 +9,26 @@
         .heatmap rect {
             stroke: #ddd;
         }
+        .legend rect {
+            stroke: none;
+        }
     </style>
 </head>
 <body>
+    <h2 style="text-align: center;">Digit Frequency Heatmap</h2>
     <svg></svg>
     <script>
-        const height = 400;
+        const height = 500;
         
         // Load data from CSV
         d3.csv("https://raw.githubusercontent.com/DjustinD/Presentations/refs/heads/main/distribution_of_csv_numbers.csv").then(data => {
             // Parse numbers from the CSV file
             const parsedData = data.map(d => d.numbers.split('').map(Number));
             const numDigits = parsedData[0].length;
-            const width = numDigits * 30; // Adjust width dynamically
+            const cellSize = 30; // Ensures perfect squares
+            const width = numDigits * cellSize; // Adjust width dynamically
             
-            const svg = d3.select("svg").attr("width", width + 100).attr("height", height);
+            const svg = d3.select("svg").attr("width", width + 150).attr("height", height);
 
             // Compute frequency of each digit at each position
             const frequencies = Array.from({ length: 10 }, () => Array(numDigits).fill(0));
@@ -43,7 +48,7 @@
 
             // Define scales
             const xScale = d3.scaleBand().domain(d3.range(numDigits)).range([50, width - 50]).padding(0.05);
-            const yScale = d3.scaleBand().domain(d3.range(10)).range([50, height - 50]).padding(0.05);
+            const yScale = d3.scaleBand().domain(d3.range(10)).range([50, height - 100]).padding(0.05);
             const colorScale = d3.scaleLinear().domain([0, d3.max(flatData, d => d.value)]).range(["#ffffff", "#000000"]);
 
             // Draw heatmap
@@ -53,16 +58,59 @@
                 .enter().append("rect")
                 .attr("x", d => xScale(d.pos))
                 .attr("y", d => yScale(d.digit))
-                .attr("width", xScale.bandwidth())
-                .attr("height", yScale.bandwidth())
+                .attr("width", cellSize)
+                .attr("height", cellSize)
                 .attr("fill", d => colorScale(d.value))
                 .attr("class", "heatmap");
 
             // Add axes
             const xAxis = d3.axisBottom(xScale).tickFormat(d => d);
             const yAxis = d3.axisLeft(yScale).tickFormat(d => d);
-            svg.append("g").attr("transform", `translate(0,${height - 50})`).call(xAxis);
+            svg.append("g").attr("transform", `translate(0,${height - 100})`).call(xAxis);
             svg.append("g").attr("transform", "translate(50,0)").call(yAxis);
+            
+            // Axis labels
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", height - 60)
+                .attr("text-anchor", "middle")
+                .text("Digit Position");
+            
+            svg.append("text")
+                .attr("x", -height / 2 + 50)
+                .attr("y", 15)
+                .attr("transform", "rotate(-90)")
+                .attr("text-anchor", "middle")
+                .text("Digit Value");
+            
+            // Legend
+            const legendWidth = 120, legendHeight = 20;
+            const legendScale = d3.scaleLinear().domain([0, d3.max(flatData, d => d.value)]).range(["#ffffff", "#000000"]);
+            
+            const legend = svg.append("g").attr("class", "legend").attr("transform", `translate(${width - 50}, 50)`);
+            
+            const legendGradient = legend.append("defs").append("linearGradient")
+                .attr("id", "gradient")
+                .attr("x1", "0%").attr("y1", "0%")
+                .attr("x2", "100%").attr("y2", "0%");
+            
+            legendGradient.append("stop").attr("offset", "0%").attr("stop-color", "#ffffff");
+            legendGradient.append("stop").attr("offset", "100%").attr("stop-color", "#000000");
+            
+            legend.append("rect")
+                .attr("width", legendWidth)
+                .attr("height", legendHeight)
+                .style("fill", "url(#gradient)");
+            
+            legend.append("text")
+                .attr("x", 0)
+                .attr("y", legendHeight + 15)
+                .text("Low");
+            legend.append("text")
+                .attr("x", legendWidth)
+                .attr("y", legendHeight + 15)
+                .attr("text-anchor", "end")
+                .text("High");
         }).catch(error => {
             console.error("Error loading the CSV file:", error);
         });
