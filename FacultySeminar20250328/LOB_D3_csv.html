@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Futures OHLC Chart</title>
+    <title>ZCZ9 Futures Daily OHLC Chart</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
     <style>
+        body {
+            margin: 0;
+            padding: 10px;
+            font-family: Arial, sans-serif;
+        }
         .chart-container {
-            width: 800px;
-            height: 400px;
+            width: 90%;
+            height: 90vh;
             margin: 20px auto;
         }
         .price-line {
@@ -25,36 +30,28 @@
             stroke: lightgrey;
             stroke-opacity: 0.3;
         }
-        .control-panel {
-            width: 800px;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #f5f5f5;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .volume-container {
-            width: 800px;
-            height: 100px;
-            margin: 0 auto;
-        }
-        .volume-bar {
-            fill: #888;
-        }
         .loading {
             text-align: center;
             font-size: 18px;
             margin: 100px;
         }
+        .axis text {
+            font-size: 14px;
+        }
+        .axis-label {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .chart-title {
+            font-size: 20px;
+            font-weight: bold;
+            text-anchor: middle;
+        }
     </style>
 </head>
 <body>
     <div class="loading">Loading data...</div>
-    <div class="control-panel" style="display: none;">
-        <button id="toggleVolume">Show/Hide Volume</button>
-    </div>
     <div class="chart-container"></div>
-    <div class="volume-container" style="display: none;"></div>
     
     <script>
         // CSV URL
@@ -68,9 +65,7 @@
                     open: +d.open,
                     high: +d.high_trade,
                     low: +d.low_trade,
-                    close: +d.settlement,
-                    volume: +d.volume,
-                    openInterest: +d.open_interest
+                    close: +d.settlement
                 };
             }).sort((a, b) => new Date(a.date) - new Date(b.date)); // Ensure dates are sorted
         }
@@ -78,18 +73,19 @@
         // Function to create the OHLC chart
         function createOHLCChart(data) {
             document.querySelector('.loading').style.display = 'none';
-            document.querySelector('.control-panel').style.display = 'block';
             
             // Set up the chart dimensions
-            const margin = { top: 30, right: 30, bottom: 50, left: 60 };
-            const width = 800 - margin.left - margin.right;
-            const height = 400 - margin.top - margin.bottom;
+            const margin = { top: 50, right: 50, bottom: 80, left: 80 };
+            const containerWidth = document.querySelector('.chart-container').clientWidth;
+            const containerHeight = document.querySelector('.chart-container').clientHeight;
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
             
             // Create the SVG container
             const svg = d3.select('.chart-container')
                 .append('svg')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
+                .attr('width', containerWidth)
+                .attr('height', containerHeight)
                 .append('g')
                 .attr('transform', `translate(${margin.left},${margin.top})`);
             
@@ -112,6 +108,7 @@
             
             // Add X axis
             svg.append('g')
+                .attr('class', 'axis')
                 .attr('transform', `translate(0,${height})`)
                 .call(xAxis)
                 .selectAll("text")
@@ -122,6 +119,7 @@
             
             // Add Y axis
             svg.append('g')
+                .attr('class', 'axis')
                 .call(d3.axisLeft(yScale));
             
             // Add grid lines
@@ -166,80 +164,30 @@
                 .attr('y1', d => yScale(d.close))
                 .attr('y2', d => yScale(d.close));
             
-            // Add title
+            // Add chart title
             svg.append('text')
+                .attr('class', 'chart-title')
                 .attr('x', width / 2)
                 .attr('y', -margin.top / 2)
-                .attr('text-anchor', 'middle')
-                .style('font-size', '16px')
-                .text('Futures Daily OHLC Chart');
+                .text('ZCZ9 Futures; Daily OHLC');
             
-            // Create volume chart
-            createVolumeChart(data);
-        }
-        
-        // Function to create the volume chart
-        function createVolumeChart(data) {
-            const margin = { top: 10, right: 30, bottom: 20, left: 60 };
-            const width = 800 - margin.left - margin.right;
-            const height = 100 - margin.top - margin.bottom;
-            
-            // Create the SVG container
-            const svg = d3.select('.volume-container')
-                .append('svg')
-                .attr('width', width + margin.left + margin.right)
-                .attr('height', height + margin.top + margin.bottom)
-                .append('g')
-                .attr('transform', `translate(${margin.left},${margin.top})`);
-                
-            // Create scales
-            const xScale = d3.scaleBand()
-                .domain(data.map(d => d.date))
-                .range([0, width])
-                .padding(0.2);
-                
-            const yScale = d3.scaleLinear()
-                .domain([0, d3.max(data, d => d.volume) * 1.1])
-                .range([height, 0]);
-                
-            // Add X axis (we just need the line, not the ticks)
-            svg.append('g')
-                .attr('transform', `translate(0,${height})`)
-                .call(d3.axisBottom(xScale).tickValues([]));
-                
-            // Add Y axis
-            svg.append('g')
-                .call(d3.axisLeft(yScale).ticks(3));
-                
-            // Add title
+            // Add X axis label
             svg.append('text')
+                .attr('class', 'axis-label')
                 .attr('x', width / 2)
-                .attr('y', -margin.top / 2 + 10)
+                .attr('y', height + margin.bottom - 10)
                 .attr('text-anchor', 'middle')
-                .style('font-size', '12px')
-                .text('Volume');
-                
-            // Add the bars
-            svg.selectAll('.volume-bar')
-                .data(data)
-                .enter()
-                .append('rect')
-                .attr('class', 'volume-bar')
-                .attr('x', d => xScale(d.date))
-                .attr('y', d => yScale(d.volume))
-                .attr('width', xScale.bandwidth())
-                .attr('height', d => height - yScale(d.volume));
+                .text('Date');
+            
+            // Add Y axis label
+            svg.append('text')
+                .attr('class', 'axis-label')
+                .attr('transform', 'rotate(-90)')
+                .attr('x', -height / 2)
+                .attr('y', -margin.left + 20)
+                .attr('text-anchor', 'middle')
+                .text('Price');
         }
-        
-        // Toggle volume display
-        document.getElementById('toggleVolume').addEventListener('click', function() {
-            const volumeContainer = document.querySelector('.volume-container');
-            if (volumeContainer.style.display === 'none') {
-                volumeContainer.style.display = 'block';
-            } else {
-                volumeContainer.style.display = 'none';
-            }
-        });
         
         // Fetch the CSV data and create the chart
         fetch(csvUrl)
@@ -257,6 +205,20 @@
                 console.error('Error fetching CSV data:', error);
                 document.querySelector('.loading').innerHTML = 'Error loading data. Please check console for details.';
             });
+            
+        // Make the chart responsive
+        window.addEventListener('resize', function() {
+            const chartContainer = document.querySelector('.chart-container');
+            if (chartContainer.querySelector('svg')) {
+                chartContainer.querySelector('svg').remove();
+                fetch(csvUrl)
+                    .then(response => response.text())
+                    .then(csvData => {
+                        const data = parseCSVData(csvData);
+                        createOHLCChart(data);
+                    });
+            }
+        });
     </script>
 </body>
 </html>
