@@ -3,7 +3,14 @@
 <head>
     <title>Futures Tick Chart</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
         .chart-container {
             width: 1000px;
             height: 500px;
@@ -26,128 +33,236 @@
             font-size: 10px;
             fill: #666;
         }
+        .loading {
+            text-align: center;
+            margin: 50px;
+            font-size: 18px;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin: 50px;
+            font-size: 18px;
+        }
+        .controls {
+            width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <div class="chart-container"></div>
+    <div class="controls">
+        <h1>Futures Tick Chart</h1>
+        <p>Data Source: ZCH0 Futures (2019-12-11)</p>
+        <div id="status" class="loading">Loading data, please wait...</div>
+    </div>
+    <div class="chart-container" id="chart"></div>
+
     <script>
-        // Sample tick data - replace with your actual data
-        // Each entry represents a trade with timestamp and price
-        const data = generateSampleData();
-
-        function generateSampleData() {
-            const trades = [];
-            let currentTime = new Date('2025-01-30T09:30:00');
-            let currentPrice = 100.00;
+        // URL to the CSV file
+        const csvUrl = "https://raw.githubusercontent.com/DjustinD/Presentations/refs/heads/main/FacultySeminar20250328/mbo_trades_20191211_fut_ZCH0.csv";
         
-            // Generate random trades for a day
-            while (currentTime < new Date('2025-01-30T16:00:00')) {
-                // Random time increment between trades (0.1 to 10 seconds)
-                const timeIncrement = Math.random() * 99000 + 100;
-                currentTime = new Date(currentTime.getTime() + timeIncrement);
-        
-                // Random price movement (-1, 0, or +1 tick, assuming 0.25 tick size)
-                const tickChange = (Math.floor(Math.random() * 3) - 1) * 0.25;
-                currentPrice += tickChange;
-        
-                trades.push({
-                    timestamp: currentTime,
-                    price: currentPrice
+        // Main function to fetch, process, and visualize data
+        async function fetchAndVisualize() {
+            try {
+                // Fetch the CSV data
+                const response = await fetch(csvUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch data: ${response.status} ${response.statusText}`);
+                }
+                
+                const csvText = await response.text();
+                document.getElementById('status').innerHTML = "Processing data...";
+                
+                // Parse CSV
+                const parsedData = Papa.parse(csvText, {
+                    header: true,
+                    skipEmptyLines: true,
+                    dynamicTyping: true
                 });
+                
+                if (parsedData.errors.length > 0) {
+                    console.warn("CSV parsing had errors:", parsedData.errors);
+                }
+                
+                // Process the data for charting
+                const processedData = processData(parsedData.data);
+                
+                // Create the chart
+                document.getElementById('status').style.display = 'none';
+                createChart(processedData);
+                
+            } catch (error) {
+                console.error("Error:", error);
+                document.getElementById('status').className = 'error';
+                document.getElementById('status').innerHTML = `Error loading data: ${error.message}`;
             }
-            return trades;
         }
-
-        // Set up the chart dimensions
-        const margin = { top: 40, right: 50, bottom: 40, left: 60 };
-        const width = 1000 - margin.left - margin.right;
-        const height = 500 - margin.top - margin.bottom;
-
-        // Create the SVG container
-        const svg = d3.select('.chart-container')
-            .append('svg')
-            .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
-            .append('g')
-            .attr('transform', `translate(${margin.left},${margin.top})`);
-
-        // Set up scales
-        const xScale = d3.scaleLinear()
-            .domain([0, data.length - 1])
-            .range([0, width]);
-
-        const yScale = d3.scaleLinear()
-            .domain([
-                d3.min(data, d => d.price) * 0.9999,
-                d3.max(data, d => d.price) * 1.0001
-            ])
-            .range([height, 0]);
-
-        // Create the line generator
-        const line = d3.line()
-            .x((d, i) => xScale(i))
-            .y(d => yScale(d.price));
-
-        // Add grid lines
-        svg.append('g')
-            .attr('class', 'grid')
-            .call(d3.axisLeft(yScale)
-                .tickSize(-width)
-                .tickFormat('')
+        
+        // Process the raw CSV data
+        function processData(rawData) {
+            // Filter out rows with missing timestamp or price
+            const validData = rawData.filter(row => 
+                row.tag60_unix != null && 
+                row.tag270 != null && 
+                !isNaN(parseFloat(row.tag270))
             );
-
-        // Add the price line
-        svg.append('path')
-            .datum(data)
-            .attr('class', 'tick-line')
-            .attr('d', line);
-
-        // Add Y axis
-        svg.append('g')
-            .call(d3.axisLeft(yScale)
-                .tickFormat(d3.format('.2f')));
-
-        // Add X axis with time labels
-        const xAxis = svg.append('g')
-            .attr('transform', `translate(0,${height})`);
-
-        // Add time labels at regular intervals
-        const numTimeLabels = 8;
-        const timeLabels = [];
-        for (let i = 0; i <= numTimeLabels; i++) {
-            const index = Math.floor((i / numTimeLabels) * (data.length - 1));
-            timeLabels.push({
-                index: index,
-                time: data[index].timestamp
+            
+            // Map to the format we need for the chart
+            const mappedData = validData.map(row => {
+                // Convert Unix timestamp to Date (may need adjustments based on actual data format)
+                const timestamp = new Date(parseInt(row.tag60_unix) * 1000);
+                
+                // Parse price from tag270
+                const price = parseFloat(row.tag270);
+                
+                return {
+                    timestamp,
+                    price,
+                    // Include any other fields needed for analysis
+                    unix_time: parseInt(row.tag60_unix),
+                    nanosec: row.tag60_nanosec
+                };
             });
+            
+            // Sort by timestamp
+            const sortedData = _.sortBy(mappedData, 'unix_time');
+            
+            // Group by timestamp and calculate average price if there are multiple entries
+            const groupedData = [];
+            const groups = _.groupBy(sortedData, 'unix_time');
+            
+            Object.keys(groups).forEach(timestamp => {
+                const entries = groups[timestamp];
+                const avgPrice = _.meanBy(entries, 'price');
+                
+                groupedData.push({
+                    timestamp: new Date(parseInt(timestamp) * 1000),
+                    price: avgPrice,
+                    count: entries.length // Number of trades at this timestamp
+                });
+            });
+            
+            return groupedData;
         }
-
-        xAxis.selectAll('.time-label')
-            .data(timeLabels)
-            .enter()
-            .append('text')
-            .attr('class', 'time-label')
-            .attr('x', d => xScale(d.index))
-            .attr('y', 20)
-            .attr('text-anchor', 'middle')
-            .text(d => d3.timeFormat('%H:%M:%S')(d.time));
-
-        // Add title
-        svg.append('text')
-            .attr('x', width / 2)
-            .attr('y', -margin.top / 2)
-            .attr('text-anchor', 'middle')
-            .style('font-size', '16px')
-            .text('Futures Tick Chart (Single Day)');
-
-        // Add Y axis label
-        svg.append('text')
-            .attr('class', 'y-axis-label')
-            .attr('transform', 'rotate(-90)')
-            .attr('y', -margin.left + 15)
-            .attr('x', -height / 2)
-            .attr('text-anchor', 'middle')
-            .text('Price');
+        
+        // Create the D3.js chart
+        function createChart(data) {
+            // Set up the chart dimensions
+            const margin = { top: 40, right: 50, bottom: 60, left: 60 };
+            const width = 1000 - margin.left - margin.right;
+            const height = 500 - margin.top - margin.bottom;
+            
+            // Create the SVG container
+            const svg = d3.select('#chart')
+                .append('svg')
+                .attr('width', width + margin.left + margin.right)
+                .attr('height', height + margin.top + margin.bottom)
+                .append('g')
+                .attr('transform', `translate(${margin.left},${margin.top})`);
+            
+            // Set up scales
+            const xScale = d3.scaleLinear()
+                .domain([0, data.length - 1])
+                .range([0, width]);
+            
+            const yScale = d3.scaleLinear()
+                .domain([
+                    d3.min(data, d => d.price) * 0.9995,
+                    d3.max(data, d => d.price) * 1.0005
+                ])
+                .range([height, 0]);
+            
+            // Create the line generator
+            const line = d3.line()
+                .x((d, i) => xScale(i))
+                .y(d => yScale(d.price));
+            
+            // Add grid lines
+            svg.append('g')
+                .attr('class', 'grid')
+                .call(d3.axisLeft(yScale)
+                    .tickSize(-width)
+                    .tickFormat('')
+                );
+            
+            // Add the price line
+            svg.append('path')
+                .datum(data)
+                .attr('class', 'tick-line')
+                .attr('d', line);
+            
+            // Add Y axis with price
+            svg.append('g')
+                .call(d3.axisLeft(yScale)
+                    .tickFormat(d3.format('.2f')));
+            
+            // Add X axis with time labels
+            const xAxis = svg.append('g')
+                .attr('transform', `translate(0,${height})`);
+            
+            // Add time labels at regular intervals
+            const numTimeLabels = 10;
+            const timeLabels = [];
+            
+            for (let i = 0; i <= numTimeLabels; i++) {
+                const index = Math.floor((i / numTimeLabels) * (data.length - 1));
+                if (index >= 0 && index < data.length) {
+                    timeLabels.push({
+                        index: index,
+                        time: data[index].timestamp
+                    });
+                }
+            }
+            
+            xAxis.selectAll('.time-label')
+                .data(timeLabels)
+                .enter()
+                .append('text')
+                .attr('class', 'time-label')
+                .attr('x', d => xScale(d.index))
+                .attr('y', 30)
+                .attr('text-anchor', 'middle')
+                .text(d => d3.timeFormat('%H:%M:%S')(d.time));
+            
+            // Add title
+            svg.append('text')
+                .attr('x', width / 2)
+                .attr('y', -margin.top / 2)
+                .attr('text-anchor', 'middle')
+                .style('font-size', '16px')
+                .text('ZCH0 Futures Tick Chart (2019-12-11)');
+            
+            // Add Y axis label
+            svg.append('text')
+                .attr('class', 'y-axis-label')
+                .attr('transform', 'rotate(-90)')
+                .attr('y', -margin.left + 15)
+                .attr('x', -height / 2)
+                .attr('text-anchor', 'middle')
+                .text('Price');
+                
+            // Add X axis label
+            svg.append('text')
+                .attr('class', 'y-axis-label')
+                .attr('x', width / 2)
+                .attr('y', height + margin.bottom - 10)
+                .attr('text-anchor', 'middle')
+                .text('Trade Time');
+                
+            // Add data summary
+            svg.append('text')
+                .attr('x', width - 100)
+                .attr('y', 20)
+                .attr('text-anchor', 'end')
+                .style('font-size', '12px')
+                .text(`Total Trades: ${data.length}`);
+        }
+        
+        // Start the visualization process
+        fetchAndVisualize();
     </script>
 </body>
 </html>
