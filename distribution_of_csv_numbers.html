@@ -12,16 +12,18 @@
     </style>
 </head>
 <body>
-    <svg width="600" height="400"></svg>
+    <svg></svg>
     <script>
-        const width = 600, height = 400;
-        const numDigits = 19;
-        const svg = d3.select("svg").attr("width", width).attr("height", height);
-
+        const height = 400;
+        
         // Load data from CSV
         d3.csv("https://raw.githubusercontent.com/DjustinD/Presentations/refs/heads/main/distribution_of_csv_numbers.csv").then(data => {
             // Parse numbers from the CSV file
             const parsedData = data.map(d => d.numbers.split('').map(Number));
+            const numDigits = parsedData[0].length;
+            const width = numDigits * 30; // Adjust width dynamically
+            
+            const svg = d3.select("svg").attr("width", width + 100).attr("height", height);
 
             // Compute frequency of each digit at each position
             const frequencies = Array.from({ length: 10 }, () => Array(numDigits).fill(0));
