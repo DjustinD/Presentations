@@ -163,6 +163,56 @@
             stroke-width: 1.5;
             stroke-dasharray: 3, 2;
         }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 100%;
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #orderbook-chart {
+            width: 100%;
+            height: 100%;
+        }
+
+        #orderbook-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Make header more compact */
+        .header {
+            margin-bottom: 10px;
+        }
+
+        /* Make controls and legend more compact */
+        .legend,
+        .controls,
+        #file-upload {
+            margin-top: 10px;
+        }
     </style>
 </head>
 
@@ -342,17 +392,31 @@
         }
 
         // Set up SVG dimensions and margins
-        const margin = { top: 20, right: 80, bottom: 50, left: 80 };
-        const width = 900 - margin.left - margin.right;
-        const height = 500 - margin.top - margin.bottom;
+        function updateSvgDimensions() {
+            // Get the current width of the chart container
+            const chartContainer = document.getElementById('orderbook-chart');
+            const containerWidth = chartContainer.clientWidth;
+            const containerHeight = chartContainer.clientHeight;
 
-        // Create the SVG container
-        let svg = d3.select("#orderbook-chart")
-            .append("svg")
-            .attr("width", width + margin.left + margin.right)
-            .attr("height", height + margin.top + margin.bottom)
-            .append("g")
-            .attr("transform", `translate(${margin.left},${margin.top})`);
+            // Update margin and dimensions
+            const margin = { top: 20, right: 80, bottom: 50, left: 80 };
+            const width = containerWidth - margin.left - margin.right;
+            const height = containerHeight - margin.top - margin.bottom;
+
+            // Remove existing SVG if it exists
+            d3.select("#orderbook-chart svg").remove();
+
+            // Create new SVG with updated dimensions
+            let svg = d3.select("#orderbook-chart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", `translate(${margin.left},${margin.top})`);
+
+            return { width, height, margin, svg };
+        }
+
 
         // Create tooltip div
         const tooltip = d3.select("body").append("div")
@@ -369,7 +433,12 @@
                 if (isUpdating) toggleUpdate();
                 nextFrame();
             });
-
+            // Add window resize event listener
+            window.addEventListener('resize', function () {
+                if (parsedData.length > 0) {
+                    updateVisualization(parsedData[currentDataIndex]);
+                }
+            });
             // Handle file upload
             document.getElementById("csv-input").addEventListener("change", handleFileUpload);
 
@@ -440,8 +509,11 @@
 
 
         function updateVisualization(data) {
-            // Clear previous elements
-            svg.selectAll("*").remove();
+            // Get updated dimensions and SVG
+            const dimensions = updateSvgDimensions();
+            const width = dimensions.width;
+            const height = dimensions.height;
+            const svg = dimensions.svg;
 
             // Update timestamp
             document.getElementById("update-time").textContent = new Date(data.timestamp).toLocaleTimeString();
@@ -695,57 +767,57 @@
                 .attr("fill", "#333")
                 .text(d => d.totalVolume);
 
-// Add volume labels for new bid volumes (inside the bars with white text)
-svg.selectAll(".new-bid-text")
-    .data(data.aggregatedBids)
-    .enter()
-    .append("text")
-    .attr("class", "new-bid-text total-volume-label")
-    .attr("x", d => xScaleBids(d.oldVolume + d.newVolume/2))
-    .attr("y", d => yScale(d.price) + 4)
-    .attr("text-anchor", "middle")
-    .attr("fill", "white")
-    .attr("font-weight", "bold")
-    .text(d => d.newVolume > 0 ? d.newVolume : "");
+            // Add volume labels for new bid volumes (inside the bars with white text)
+            svg.selectAll(".new-bid-text")
+                .data(data.aggregatedBids)
+                .enter()
+                .append("text")
+                .attr("class", "new-bid-text total-volume-label")
+                .attr("x", d => xScaleBids(d.oldVolume + d.newVolume / 2))
+                .attr("y", d => yScale(d.price) + 4)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .attr("font-weight", "bold")
+                .text(d => d.newVolume > 0 ? d.newVolume : "");
 
-// Add volume labels for old bid volumes
-svg.selectAll(".old-bid-text")
-    .data(data.aggregatedBids)
-    .enter()
-    .append("text")
-    .attr("class", "old-bid-text total-volume-label")
-    .attr("x", d => xScaleBids(d.oldVolume/2))
-    .attr("y", d => yScale(d.price) + 4)
-    .attr("text-anchor", "middle")
-    .attr("fill", "white")
-    .attr("font-weight", "bold")
-    .text(d => d.oldVolume > 0 ? d.oldVolume : "");
+            // Add volume labels for old bid volumes
+            svg.selectAll(".old-bid-text")
+                .data(data.aggregatedBids)
+                .enter()
+                .append("text")
+                .attr("class", "old-bid-text total-volume-label")
+                .attr("x", d => xScaleBids(d.oldVolume / 2))
+                .attr("y", d => yScale(d.price) + 4)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .attr("font-weight", "bold")
+                .text(d => d.oldVolume > 0 ? d.oldVolume : "");
 
-// Add volume labels for new ask volumes (inside the bars with white text)
-svg.selectAll(".new-ask-text")
-    .data(data.aggregatedAsks)
-    .enter()
-    .append("text")
-    .attr("class", "new-ask-text total-volume-label")
-    .attr("x", d => width/2 + xScaleAsks(d.oldVolume) + (xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume))/2)
-    .attr("y", d => yScale(d.price) + 4)
-    .attr("text-anchor", "middle")
-    .attr("fill", "white")
-    .attr("font-weight", "bold")
-    .text(d => d.newVolume > 0 ? d.newVolume : "");
+            // Add volume labels for new ask volumes (inside the bars with white text)
+            svg.selectAll(".new-ask-text")
+                .data(data.aggregatedAsks)
+                .enter()
+                .append("text")
+                .attr("class", "new-ask-text total-volume-label")
+                .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) + (xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume)) / 2)
+                .attr("y", d => yScale(d.price) + 4)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .attr("font-weight", "bold")
+                .text(d => d.newVolume > 0 ? d.newVolume : "");
 
-// Add volume labels for old ask volumes
-svg.selectAll(".old-ask-text")
-    .data(data.aggregatedAsks)
-    .enter()
-    .append("text")
-    .attr("class", "old-ask-text total-volume-label")
-    .attr("x", d => width/2 + xScaleAsks(d.oldVolume)/2)
-    .attr("y", d => yScale(d.price) + 4)
-    .attr("text-anchor", "middle")
-    .attr("fill", "white")
-    .attr("font-weight", "bold")
-    .text(d => d.oldVolume > 0 ? d.oldVolume : "");
+            // Add volume labels for old ask volumes
+            svg.selectAll(".old-ask-text")
+                .data(data.aggregatedAsks)
+                .enter()
+                .append("text")
+                .attr("class", "old-ask-text total-volume-label")
+                .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) / 2)
+                .attr("y", d => yScale(d.price) + 4)
+                .attr("text-anchor", "middle")
+                .attr("fill", "white")
+                .attr("font-weight", "bold")
+                .text(d => d.oldVolume > 0 ? d.oldVolume : "");
 
             // Add mid price line
             svg.append("line")
