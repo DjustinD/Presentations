@@ -104,15 +104,17 @@
         function processData(rawData) {
             // Filter out rows with missing timestamp or price
             const validData = rawData.filter(row => 
-                row.tag60_unix != null && 
+                row.tag60_unix_nanoseconds != null && 
                 row.tag270 != null && 
                 !isNaN(parseFloat(row.tag270))
             );
             
             // Map to the format we need for the chart
             const mappedData = validData.map(row => {
-                // Convert Unix timestamp to Date (may need adjustments based on actual data format)
-                const timestamp = new Date(parseInt(row.tag60_unix) * 1000);
+                // Convert nanosecond timestamp to milliseconds for Date
+                // The format is nanoseconds since epoch (1970-01-01)
+                const nanosToMillis = Math.floor(Number(row.tag60_unix_nanoseconds) / 1000000);
+                const timestamp = new Date(nanosToMillis);
                 
                 // Parse price from tag270
                 const price = parseFloat(row.tag270);
@@ -121,15 +123,15 @@
                     timestamp,
                     price,
                     // Include any other fields needed for analysis
-                    unix_time: parseInt(row.tag60_unix),
-                    nanosec: row.tag60_nanosec
+                    unix_time: nanosToMillis,
+                    nanosec: Number(row.tag60_unix_nanoseconds) % 1000000000
                 };
             });
             
             // Sort by timestamp
             const sortedData = _.sortBy(mappedData, 'unix_time');
             
-            // Group by timestamp and calculate average price if there are multiple entries
+            // Group by timestamp millisecond and calculate average price if there are multiple entries
             const groupedData = [];
             const groups = _.groupBy(sortedData, 'unix_time');
             
@@ -138,7 +140,7 @@
                 const avgPrice = _.meanBy(entries, 'price');
                 
                 groupedData.push({
-                    timestamp: new Date(parseInt(timestamp) * 1000),
+                    timestamp: new Date(parseInt(timestamp)),
                     price: avgPrice,
                     count: entries.length // Number of trades at this timestamp
                 });
@@ -224,7 +226,7 @@
                 .attr('x', d => xScale(d.index))
                 .attr('y', 30)
                 .attr('text-anchor', 'middle')
-                .text(d => d3.timeFormat('%H:%M:%S')(d.time));
+                .text(d => d3.timeFormat('%H:%M:%S.%L')(d.time));
             
             // Add title
             svg.append('text')
