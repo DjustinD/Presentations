@@ -626,218 +626,204 @@
             </aside>
             <div class="slide-number" aria-hidden="true"></div>
         </section>
-        <!-- Information Share Results (table) Slide -->
-        <section class="slide" id="info-share-table" aria-labelledby="info-price-heading">
-            <h2 id="info-price-heading">Information Share Results Table</h2>
 
-            <div id="table-container">
-                <!-- Table will be loaded here -->
+        <!-- Information Share Results (visualization) Slide -->
+        <section class="slide" id="info-share-visualization" aria-labelledby="info-viz-heading">
+            <h2 id="info-viz-heading">Information Share Results Chart</h2>
+
+            <object id="chart-container" data="info-share-chart.svg" type="image/svg+xml"
+                style="width: 100%; height: 500px;"></object>
+
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
+
+        <!-- Section 6: Implications for Market Microstructure -->
+        <section class="slide section-slide" id="section-6" aria-labelledby="section-6-heading">
+            <h2 id="section-6-heading">6. Implications for Market Microstructure</h2>
+            <div class="slide-number" aria-hidden="true"></div>
+            <nav class="navigation-links">
+                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+            </nav>
+        </section>
+
+        <!-- Theoretical Implications Slide -->
+        <section class="slide" id="theoretical-implications" aria-labelledby="theoretical-heading">
+            <h2 id="theoretical-heading">Theoretical Implications</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>Information Theory</h3>
+                    <ul>
+                        <li>Supports asymmetric information models</li>
+                        <li>Confirms information lifecycle in limit orders</li>
+                        <li>Quantifies information decay rates</li>
+                        <li>Validates public vs. private information persistence patterns</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <h3>Market Efficiency</h3>
+                    <ul>
+                        <li>Information quickly incorporated in nearby price levels</li>
+                        <li>Deeper book levels contain less relevant information</li>
+                        <li>30-minute threshold suggests efficient processing speed</li>
+                        <li>Consistent with semi-strong form efficiency</li>
+                    </ul>
+                </div>
             </div>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
 
+        <!-- Practical Applications Slide -->
+        <section class="slide" id="practical-applications" aria-labelledby="practical-heading">
+            <h2 id="practical-heading">Practical Applications</h2>
+            <ul>
+                <li><strong>For Traders:</strong>
+                    <ul>
+                        <li>Focus on newer orders (< 30 min) for price signals</li>
+                        <li>Prioritize best bid/ask and nearby price steps for information</li>
+                        <li>Develop strategies that account for order information lifecycle</li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
+
+
+
+        <!-- Section 7: Conclusions and Future Research -->
+        <section class="slide section-slide" id="section-7" aria-labelledby="section-7-heading">
+            <h2 id="section-7-heading">7. Conclusions and Future Research</h2>
+            <div class="slide-number" aria-hidden="true"></div>
+            <nav class="navigation-links">
+                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+            </nav>
+        </section>
+
+        <!-- Key Conclusions Slide -->
+        <section class="slide" id="key-conclusions" aria-labelledby="conclusions-heading">
+            <h2 id="conclusions-heading">Key Conclusions</h2>
+            <ul>
+                <li><strong>Order Age Matters:</strong> Limit orders lose significant information content after 30
+                    minutes in the book</li>
+                <li><strong>Price Proximity Importance:</strong> Best bid/ask and nearby price steps contain most
+                    valuable information</li>
+                <li><strong>Robust Findings:</strong> Consistent patterns across different market conditions and
+                    model
+                    specifications</li>
+                <li><strong>Information Efficiency:</strong> <s>Agricultural futures markets efficiently process
+                        information</s></li>
+                <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price
+                        discovery</s></li>
+            </ul>
             <aside class="aside-box">
-                <p>Information share results show the percentage of price discovery attributed to different order age
-                    groups.</p>
-                <p>Results are based on the Modified Information Share (MIS) measure.</p>
+                <p>Our research provides empirical evidence that order information decays over time, suggesting
+                    market
+                    participants should focus on newer orders near the current market price.</p>
             </aside>
             <div class="slide-number" aria-hidden="true"></div>
+        </section>
 
-            <!-- Information Share Results (visualization) Slide -->
-            <section class="slide" id="info-share-visualization" aria-labelledby="info-viz-heading">
-                <h2 id="info-viz-heading">Information Share Results Chart</h2>
+        <!-- Future Research Directions Slide -->
+        <section class="slide" id="future-research" aria-labelledby="future-heading">
+            <h2 id="future-heading">Future Research Directions</h2>
+            <ul>
+                <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and
+                    non-agricultural futures</li>
+                <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading
+                    sessions</li>
+                <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain
+                    inforamtion</li>
+                <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information
+                    persistence
+                </li>
+                <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout
+                    the
+                    trading day
+            </ul>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
 
-                <div id="chart-container">
-                    <p class="loading">Loading chart...</p>
+        <!-- Acknowledgments Slide -->
+        <section class="slide" id="acknowledgments" aria-labelledby="ack-heading">
+            <h2 id="ack-heading">Acknowledgments</h2>
+            <ul>
+                <li><strong>Thesis Advisor:</strong> Dr. Jullieta Frank, University of Manitoba</li>
+                <li><strong>Committee Member:</strong> Dr. Mehdi Arznadeh, Lakehead University</li>
+                <li><strong>Committee Member:</strong> Dr. Barry Coyle, University of Manitoba</li>
+                <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance
+                    Computing Center</li>
+                <li><strong>Funding:</strong> Natural Sciences and Engineering Research Council (NSERC)/li>
+                <li><strong>Additional Funding:</strong> Graduate Enhancement of Tri-Agency Stipends (GETS)</li>
+                <li><strong>Additional Funding:</strong> Winnipeg Commodity Excahnge Fellowship</li>
+                <li><strong>Computing Resources:</strong> University of Manitoba High Performance Computing Center
+                </li>
+                <li><strong>Data Providers:</strong> MDP 3.0 Data licenced from CME Group</li>
+            </ul>
+            <aside class="aside-box">
+                <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the
+                    opportunity to present this research.</p>
+            </aside>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
+
+        <!-- Contact Information Slide -->
+        <section class="slide" id="contact-info" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Contact Information</h2>
+            <div class="two-column">
+                <div class="column">
+                    <h3>Primary Contact</h3>
+                    <ul>
+                        <li>Email: <a href="mailto:daniel.daniels@umanitoba.ca">daniel.daniels@umanitoba.ca</a></li>
+                    </ul>
                 </div>
-
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
-
-            <!-- Section 6: Implications for Market Microstructure -->
-            <section class="slide section-slide" id="section-6" aria-labelledby="section-6-heading">
-                <h2 id="section-6-heading">6. Implications for Market Microstructure</h2>
-                <div class="slide-number" aria-hidden="true"></div>
-                <nav class="navigation-links">
-                    <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-                </nav>
-            </section>
-
-            <!-- Theoretical Implications Slide -->
-            <section class="slide" id="theoretical-implications" aria-labelledby="theoretical-heading">
-                <h2 id="theoretical-heading">Theoretical Implications</h2>
-                <div class="two-column">
-                    <div class="column">
-                        <h3>Information Theory</h3>
-                        <ul>
-                            <li>Supports asymmetric information models</li>
-                            <li>Confirms information lifecycle in limit orders</li>
-                            <li>Quantifies information decay rates</li>
-                            <li>Validates public vs. private information persistence patterns</li>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h3>Market Efficiency</h3>
-                        <ul>
-                            <li>Information quickly incorporated in nearby price levels</li>
-                            <li>Deeper book levels contain less relevant information</li>
-                            <li>30-minute threshold suggests efficient processing speed</li>
-                            <li>Consistent with semi-strong form efficiency</li>
-                        </ul>
-                    </div>
+                <div class="column">
+                    <h3>Research Group</h3>
+                    <ul>
+                        <li>Department of Agribusiness and Agricultural Economics</li>
+                        <li>Faculty of Agricultural and Food Sciences</li>
+                        <li>University of Manitoba</li>
+                        <li><a href="https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics"
+                                target="_blank"
+                                rel="noopener">https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics</a>
+                        </li>
+                    </ul>
                 </div>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
+            </div>
 
-            <!-- Practical Applications Slide -->
-            <section class="slide" id="practical-applications" aria-labelledby="practical-heading">
-                <h2 id="practical-heading">Practical Applications</h2>
-                <ul>
-                    <li><strong>For Traders:</strong>
-                        <ul>
-                            <li>Focus on newer orders (< 30 min) for price signals</li>
-                            <li>Prioritize best bid/ask and nearby price steps for information</li>
-                            <li>Develop strategies that account for order information lifecycle</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
 
-
-
-            <!-- Section 7: Conclusions and Future Research -->
-            <section class="slide section-slide" id="section-7" aria-labelledby="section-7-heading">
-                <h2 id="section-7-heading">7. Conclusions and Future Research</h2>
-                <div class="slide-number" aria-hidden="true"></div>
-                <nav class="navigation-links">
-                    <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-                </nav>
-            </section>
-
-            <!-- Key Conclusions Slide -->
-            <section class="slide" id="key-conclusions" aria-labelledby="conclusions-heading">
-                <h2 id="conclusions-heading">Key Conclusions</h2>
-                <ul>
-                    <li><strong>Order Age Matters:</strong> Limit orders lose significant information content after 30
-                        minutes in the book</li>
-                    <li><strong>Price Proximity Importance:</strong> Best bid/ask and nearby price steps contain most
-                        valuable information</li>
-                    <li><strong>Robust Findings:</strong> Consistent patterns across different market conditions and
-                        model
-                        specifications</li>
-                    <li><strong>Information Efficiency:</strong> <s>Agricultural futures markets efficiently process
-                            information</s></li>
-                    <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price
-                            discovery</s></li>
-                </ul>
-                <aside class="aside-box">
-                    <p>Our research provides empirical evidence that order information decays over time, suggesting
-                        market
-                        participants should focus on newer orders near the current market price.</p>
-                </aside>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
-
-            <!-- Future Research Directions Slide -->
-            <section class="slide" id="future-research" aria-labelledby="future-heading">
-                <h2 id="future-heading">Future Research Directions</h2>
-                <ul>
-                    <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and
-                        non-agricultural futures</li>
-                    <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading
-                        sessions</li>
-                    <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain
-                        inforamtion</li>
-                    <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information
-                        persistence
-                    </li>
-                    <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout
-                        the
-                        trading day
-                </ul>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
-
-            <!-- Acknowledgments Slide -->
-            <section class="slide" id="acknowledgments" aria-labelledby="ack-heading">
-                <h2 id="ack-heading">Acknowledgments</h2>
-                <ul>
-                    <li><strong>Thesis Advisor:</strong> Dr. Jullieta Frank, University of Manitoba</li>
-                    <li><strong>Committee Member:</strong> Dr. Mehdi Arznadeh, Lakehead University</li>
-                    <li><strong>Committee Member:</strong> Dr. Barry Coyle, University of Manitoba</li>
-                    <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance
-                        Computing Center</li>
-                    <li><strong>Funding:</strong> Natural Sciences and Engineering Research Council (NSERC)/li>
-                    <li><strong>Additional Funding:</strong> Graduate Enhancement of Tri-Agency Stipends (GETS)</li>
-                    <li><strong>Additional Funding:</strong> Winnipeg Commodity Excahnge Fellowship</li>
-                    <li><strong>Computing Resources:</strong> University of Manitoba High Performance Computing Center
-                    </li>
-                    <li><strong>Data Providers:</strong> MDP 3.0 Data licenced from CME Group</li>
-                </ul>
-                <aside class="aside-box">
-                    <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the
-                        opportunity to present this research.</p>
-                </aside>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
-
-            <!-- Contact Information Slide -->
-            <section class="slide" id="contact-info" aria-labelledby="contact-heading">
-                <h2 id="contact-heading">Contact Information</h2>
-                <div class="two-column">
-                    <div class="column">
-                        <h3>Primary Contact</h3>
-                        <ul>
-                            <li>Email: <a href="mailto:daniel.daniels@umanitoba.ca">daniel.daniels@umanitoba.ca</a></li>
-                        </ul>
-                    </div>
-                    <div class="column">
-                        <h3>Research Group</h3>
-                        <ul>
-                            <li>Department of Agribusiness and Agricultural Economics</li>
-                            <li>Faculty of Agricultural and Food Sciences</li>
-                            <li>University of Manitoba</li>
-                            <li><a href="https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics"
-                                    target="_blank"
-                                    rel="noopener">https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
-
-            <!-- Bibliography Slide -->
-            <section class="slide" id="bibliography" aria-labelledby="bib-heading">
-                <h2 id="bib-heading">Selected References</h2>
-                <ul class="small-text">
-                    <li>Arzandeh, Mehdi, and Julieta Frank.“Price Discovery in Agricultural Futures Markets: Should We
-                        Look beyond the Best Bid-Ask Spread?” <a href="https://doi.org/10.1093/ajae/aaz001"
-                            rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 101, no. 5,
-                            2019, pp. 1482–98</a>.</li>
-                    <li>Cao, Charles, Oliver Hansch, and Xiaoxin Wang. “The Information Content of an Open Limit-Order
-                        Book.” <a href="https://doi.org/10.1002/fut.20334" rel="noopener" target="_blank">The Journal of
-                            Futures Markets, vol. 29, no. 1, 2009, pp. 16–41</a>.</li>
-                    <li>Hasbrouck, Joel. “One Security, Many Markets: Determining the Contributions to Price Discovery.”
-                        <a href="https://doi.org/10.1111/j.1540-6261.1995.tb04054.x" rel="noopener" target="_blank">The
-                            Journal of Finance (New York), vol. 50, no. 4, 1995, pp. 1175–99</a>.</li>
-                    <li>Lehecka, Georg V, Xiaoyang Wang, and Philip Garcia. “Gone in Ten Minutes: Intraday Evidence of
-                        Announcement Effects in the Electronic Corn Futures Market.” <a
-                            href="https://doi.org/10.1093/aepp/ppu010" rel="noopener" target="_blank">Applied Economic
-                            Perspectives and Policy, vol. 36, no. 3, 2014, pp. 504–26</a>.</li>
-                    <li>Lien, Donald, and Keshab Shrestha. “A New Information Share Measure.” <a
-                            href="https://doi.org/10.1002/fut.20356" rel="noopener" target="_blank">The Journal of
-                            Futures Markets, vol. 29, no. 4, 2009, pp. 377–95</a>.</li>
-                    <li>Putnin, Talis J. “What Do Price Discovery Metrics Really Measure?” <a
-                            href="https://doi.org/10.1016/j.jempfin.2013.05.004" rel="noopener" target="_blank">Journal
-                            of Empirical Finance, vol. 23, 2013, pp. 68–83</a>.</li>
-                    <li>Wang, Xiaoyang, Philip Garcia, and Scott H Irwin. “The Behavior of Bid-Ask Spreads in the
-                        Electronically-Traded Corn Futures Market.” <a href="https://doi.org/10.1093/ajae/aat096"
-                            rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 96, no. 2,
-                            2014, pp. 557–77</a>.</li>
-                </ul>
-                <div class="slide-number" aria-hidden="true"></div>
-            </section>
+        <!-- Bibliography Slide -->
+        <section class="slide" id="bibliography" aria-labelledby="bib-heading">
+            <h2 id="bib-heading">Selected References</h2>
+            <ul class="small-text">
+                <li>Arzandeh, Mehdi, and Julieta Frank.“Price Discovery in Agricultural Futures Markets: Should We
+                    Look beyond the Best Bid-Ask Spread?” <a href="https://doi.org/10.1093/ajae/aaz001" rel="noopener"
+                        target="_blank">American Journal of Agricultural Economics, vol. 101, no. 5,
+                        2019, pp. 1482–98</a>.</li>
+                <li>Cao, Charles, Oliver Hansch, and Xiaoxin Wang. “The Information Content of an Open Limit-Order
+                    Book.” <a href="https://doi.org/10.1002/fut.20334" rel="noopener" target="_blank">The Journal of
+                        Futures Markets, vol. 29, no. 1, 2009, pp. 16–41</a>.</li>
+                <li>Hasbrouck, Joel. “One Security, Many Markets: Determining the Contributions to Price Discovery.”
+                    <a href="https://doi.org/10.1111/j.1540-6261.1995.tb04054.x" rel="noopener" target="_blank">The
+                        Journal of Finance (New York), vol. 50, no. 4, 1995, pp. 1175–99</a>.
+                </li>
+                <li>Lehecka, Georg V, Xiaoyang Wang, and Philip Garcia. “Gone in Ten Minutes: Intraday Evidence of
+                    Announcement Effects in the Electronic Corn Futures Market.” <a
+                        href="https://doi.org/10.1093/aepp/ppu010" rel="noopener" target="_blank">Applied Economic
+                        Perspectives and Policy, vol. 36, no. 3, 2014, pp. 504–26</a>.</li>
+                <li>Lien, Donald, and Keshab Shrestha. “A New Information Share Measure.” <a
+                        href="https://doi.org/10.1002/fut.20356" rel="noopener" target="_blank">The Journal of
+                        Futures Markets, vol. 29, no. 4, 2009, pp. 377–95</a>.</li>
+                <li>Putnin, Talis J. “What Do Price Discovery Metrics Really Measure?” <a
+                        href="https://doi.org/10.1016/j.jempfin.2013.05.004" rel="noopener" target="_blank">Journal
+                        of Empirical Finance, vol. 23, 2013, pp. 68–83</a>.</li>
+                <li>Wang, Xiaoyang, Philip Garcia, and Scott H Irwin. “The Behavior of Bid-Ask Spreads in the
+                    Electronically-Traded Corn Futures Market.” <a href="https://doi.org/10.1093/ajae/aat096"
+                        rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 96, no. 2,
+                        2014, pp. 557–77</a>.</li>
+            </ul>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
     </main>
 
     <!-- Navigation Slider -->
