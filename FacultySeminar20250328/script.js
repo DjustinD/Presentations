@@ -50,26 +50,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Event handler for slide changes - updates all UI elements
     function triggerSlideChanged(oldIndex, newIndex) {
-        updateSlideNumbers();
         updateProgressBar();
         updateSlider();
         updateSideNavActive();
     }
-
-    // ====================================
-    // Slide Numbering
-    // ====================================
-    function updateSlideNumbers() {
-        slides.forEach((slide, index) => {
-            const slideNumberDiv = slide.querySelector('.slide-number');
-            if (slideNumberDiv) {
-                slideNumberDiv.textContent = `${index + 1} / ${slides.length}`;
-            }
-        });
-    }
-
-    // Initialize slide numbers
-    updateSlideNumbers();
 
     // ====================================
     // Button Navigation

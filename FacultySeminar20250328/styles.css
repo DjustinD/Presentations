@@ -269,14 +269,6 @@ button:hover {
     background-color: var(--hover-color);
 }
 
-.slide-number {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 0.8em;
-    color: #777;
-}
-
 .navigation-links {
     position: absolute;
     bottom: 10px;
