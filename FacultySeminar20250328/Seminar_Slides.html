@@ -36,7 +36,7 @@
         <section class="slide title-slide active" id="slide-1" aria-labelledby="title-heading">
             <h1 id="title-heading">How old is too old?</h1>
             <h2>Examining the Decline of Information in Aging Futures Orders</h2>
-            <p>Faculty Seminar</p>
+            <p>Department Seminar</p>
             <p>March 28, 2025</p>
 
         </section>
@@ -456,6 +456,12 @@
         <!-- VECM Slide -->
         <section class="slide" id="vecm" aria-labelledby="vecm-heading">
             <h2 id="vecm-heading">Vector Error Correction Model (VECM)</h2>
+            <!--
+            For an I(1) process and a vector y_t of endogenous variables of dimension K1 the Vector Error Correction representation is,
+            ▭(Δy_t=Πy_(t-1)+Γ_1 Δy_(t-1)+ … + Γ_(p-1) Δy_(t-p+1)+u_t )	(2)
+            where: y_t is a vector of endogenous variables containing the last transaction price (Pt) and the aggregate prices made up of various components of the pLOB as specified in Table 6.2.1 (this study estimates VECM models with 2, 3, and 4 variables), Π and Γ_i are KK matrices of coefficients, with Π = αβ^', α and β being matrices of rank r, 0  < r < K, I = 1, …, p-1 is the number of lags, and u_t~ (0,Ω) is white noise.  
+            An important consideration when using the VECM is to be able to assume that all the endogenous variables are jointly determined.  In the case of our tests, we have two main areas of concern.  The first is that each of the variables that makeup yt are historical to varying degrees at each snapshot (that is each of the variables in yt has a different time between their last update and the snapshot).  The second is that when including orders older than an age interval as a pLOB there is some historical component to this variable.  However, it should be noted that each of the variables in yt is influenced by two things.  The first is the impact from the trader adding, editing, or cancelling the orders.  The second is the market trading orders which impact the quantities on the top steps and may impact the prices on all steps as well as the transaction prices.  These two actions are the only thing that can influence the time series in the variables, and neither of these results in the predetermination of one of the variables.  On a nanosecond scale, it is reasonable to assume that the variables that makeup yt are not simultaneously updated, however, they are simultaneously determined in that contemporaneous action is needed to update the data that is grouped into the variables.  
+            -->
             <div class="model-diagram">
                 <div class="equation" aria-label="Vector Error Correction Model equation">
                     ΔY<sub>t</sub> = μ + αβ'Y<sub>t-1</sub> + ∑<sub>l=1</sub><sup>p-1</sup>Γ<sub>l</sub>ΔY<sub>t-l</sub>
@@ -477,12 +483,53 @@
             <aside class="aside-box">
                 <p>Model specifications include 80 lags to cover approximately 10 minutes of trading activity.</p>
             </aside>
+        </section>
 
+        <!-- Information Share Slide-->
+        <section class="slide" id="information-share" aria-labelledby="info-share-heading">
+            <h2 id="info-share-heading">Information Share (IS) Measure</h2>
+            <!--
+            Using the Granger representation theorem we can decompose y_t into I(1) and I(0) components (Lütkepohl, 2005 page 252) as follows,
+            ▭(y_t=y_0^*+Ψ〖 Σ〗_(i=1)^t  u_i+Ψ^* (L) u_i )	(3)
+            where y_0^* are initial values, Ψ^* (L) u_i is an I(0) process, Ψ〖 Σ〗_(i=1)^t u_i is an I(1) process, Ψ=〖β_⊥ [〖α^'〗_⊥ (I_K-〖 Σ〗_(i=1)^(p-1) Γ_i  ) β_⊥ ]〗^(-1) α_⊥^' is the long-run impact matrix, and β_⊥is an orthogonal complement of β (similarly for α_⊥^').  The rows of Ψ are assumed to be identical because the different prices being considered correspond to the same commodity and therefore, in the long run, must be equal.  That is, for ψ being an identical row in Ψ, the long-run impact of innovations on each price is given by ψu_t and its variance is ψΩψ' (Hasbrouck 1995).  
+            -->
+            <div class="model-diagram">
+                <div class="equation" aria-label="Information Share equation">
+                    IS<sub>j</sub> = [ψΩ]<sub>j</sub><sup>2</sup> / [ψΩψ']
+                </div>
+                <p>Where:</p>
+                <ul class="small-text">
+                    <li>IS<sub>j</sub> measures information contribution of price series j to common efficient price
+                    </li>
+                    <li>Information Share quantifies how much each variable contributes to the price discovery process
+                    </li>
+                    <li>ψ is a common row vector containing the common long-run impact of all innovations</li>
+                    <li>Ω is the variance-covariance matrix of VECM innovations</li>
+                    <li>Based on Granger's representation theorem for cointegrated systems</li>
+                </ul>
+            </div>
+            <h3>Moving Average Representation</h3>
+            <div class="equation smaller" aria-label="Moving Average Representation">
+                Y<sub>t</sub> = Y<sub>0</sub>* + ψΣ<sub>i=1</sub><sup>t</sup>u<sub>i</sub> + ψ*(L)u<sub>t</sub>
+            </div>
+            <aside class="aside-box">
+                <p>The Innovation variance is decomposed using Cholesky factorization, making the measure
+                    order-dependent.
+                    This necessitates reporting upper and lower bounds, or using the Modified Information Share (MIS)
+                    approach.</p>
+            </aside>
         </section>
 
         <!-- MIS Slide -->
         <section class="slide" id="mis" aria-labelledby="mis-heading">
             <h2 id="mis-heading">Modified Information Share (MIS) Measure</h2>
+            <!--
+            When Ω is not diagonal, Lien and Shrestha (2009) propose the following factor structure for the innovations based on the innovation correlation matrix Φ:
+            ▭(u_t= Fu_t^* )	(4)
+            where Ω = FF^', F^*= [GΛ^(-1⁄2)  G^' V^(-1) ]^(-1), G is the matrix containing the eigenvectors of Φ in its columns, Λ is a diagonal matrix with diagonal elements being the eigenvalues of Φ, V is a diagonal matrix with diagonal elements being the innovations standard deviations (√(Ω_ii )), and u_t^* is the transformed innovation with E[u_t^* ]=0 and E[u_t^* u_t^(*^' ) ]=I.
+            Using the long-run impact of innovations defined above (ψu_t) and Lien and Shrestha’s (2009) factorization structure, their modified information share of price j is,
+            ▭(MIS_j=(ψF_j^2)/(ψΩψ^' ))	
+            -->
             <div class="model-diagram">
                 <div class="equation" aria-label="Modified Information Share equation">
                     MIS<sub>j</sub> = [ψF]<sub>j</sub><sup>2</sup> / [ψF]Ω[ψF]'
@@ -718,34 +765,23 @@
         <!-- Bibliography Slide -->
         <section class="slide" id="bibliography" aria-labelledby="bib-heading">
             <h2 id="bib-heading">Selected References</h2>
-            <ul class="small-text">
-                <li>Arzandeh, Mehdi, and Julieta Frank.“Price Discovery in Agricultural Futures Markets: Should We
-                    Look beyond the Best Bid-Ask Spread?” <a href="https://doi.org/10.1093/ajae/aaz001" rel="noopener"
-                        target="_blank">American Journal of Agricultural Economics, vol. 101, no. 5,
-                        2019, pp. 1482–98</a>.</li>
-                <li>Cao, Charles, Oliver Hansch, and Xiaoxin Wang. “The Information Content of an Open Limit-Order
-                    Book.” <a href="https://doi.org/10.1002/fut.20334" rel="noopener" target="_blank">The Journal of
-                        Futures Markets, vol. 29, no. 1, 2009, pp. 16–41</a>.</li>
-                <li>Hasbrouck, Joel. “One Security, Many Markets: Determining the Contributions to Price Discovery.”
-                    <a href="https://doi.org/10.1111/j.1540-6261.1995.tb04054.x" rel="noopener" target="_blank">The
-                        Journal of Finance (New York), vol. 50, no. 4, 1995, pp. 1175–99</a>.
-                </li>
-                <li>Lehecka, Georg V, Xiaoyang Wang, and Philip Garcia. “Gone in Ten Minutes: Intraday Evidence of
-                    Announcement Effects in the Electronic Corn Futures Market.” <a
-                        href="https://doi.org/10.1093/aepp/ppu010" rel="noopener" target="_blank">Applied Economic
-                        Perspectives and Policy, vol. 36, no. 3, 2014, pp. 504–26</a>.</li>
-                <li>Lien, Donald, and Keshab Shrestha. “A New Information Share Measure.” <a
-                        href="https://doi.org/10.1002/fut.20356" rel="noopener" target="_blank">The Journal of
-                        Futures Markets, vol. 29, no. 4, 2009, pp. 377–95</a>.</li>
-                <li>Putnin, Talis J. “What Do Price Discovery Metrics Really Measure?” <a
-                        href="https://doi.org/10.1016/j.jempfin.2013.05.004" rel="noopener" target="_blank">Journal
-                        of Empirical Finance, vol. 23, 2013, pp. 68–83</a>.</li>
-                <li>Wang, Xiaoyang, Philip Garcia, and Scott H Irwin. “The Behavior of Bid-Ask Spreads in the
-                    Electronically-Traded Corn Futures Market.” <a href="https://doi.org/10.1093/ajae/aat096"
-                        rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 96, no. 2,
-                        2014, pp. 557–77</a>.</li>
-            </ul>
 
+            <!-- Using object tag to embed the external HTML file -->
+            <object id="bibliography-container" data="bibliography.html" type="text/html" class="bibliography-object">
+                <!-- Fallback content if object fails to load -->
+                <p>Your browser doesn't support embedded HTML objects. You can view the bibliography <a
+                        href="bibliography.html">here</a>.</p>
+            </object>
+
+            <style>
+                .bibliography-object {
+                    width: 100%;
+                    height: 85%;
+                    /* Adjust height as needed */
+                    border: none;
+                    overflow: auto;
+                }
+            </style>
         </section>
     </main>
 
