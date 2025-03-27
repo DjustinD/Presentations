@@ -193,7 +193,11 @@ li {
 #daily-bar-chart .chart-object,
 #digit-distribution .chart-object,
 #info-share-visualization .chart-object {
-    height: 75vh;
+    width: 100%;
+    height: 65%;
+    border: none;
+    overflow: hidden;
+    margin-bottom: 10px;
     min-height: 500px;
 }
 
