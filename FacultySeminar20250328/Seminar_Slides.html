@@ -626,297 +626,218 @@
             </aside>
             <div class="slide-number" aria-hidden="true"></div>
         </section>
-<!-- Information Share Results (table) Slide -->
-<section class="slide" id="info-share-table" aria-labelledby="info-price-heading">
-    <h2 id="info-price-heading">Information Share Results Table</h2>
-    
-    <div id="table-container">
-        <!-- Table will be loaded here -->
-    </div>
-    
-    <aside class="aside-box">
-        <p>Information share results show the percentage of price discovery attributed to different order age groups.</p>
-        <p>Results are based on the Modified Information Share (MIS) measure.</p>
-    </aside>
-    <div class="slide-number" aria-hidden="true"></div>
-</section>
+        <!-- Information Share Results (table) Slide -->
+        <section class="slide" id="info-share-table" aria-labelledby="info-price-heading">
+            <h2 id="info-price-heading">Information Share Results Table</h2>
 
-        <!-- Information Share Results (visualization) Slide -->
-        <section class="slide" id="info-share-visualization" aria-labelledby="info-price-heading">
-            <h2 id="info-price-heading">Information Share Results Chart</h2>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
-                <!-- Background -->
-                <rect width="800" height="500" fill="#ffffff" />
-
-                <!-- Title -->
-                <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" text-anchor="middle"
-                    font-weight="bold">Information Share of the Limit Order Book</text>
-
-                <!-- Chart area -->
-                <rect x="100" y="80" width="650" height="350" fill="#f9f9f9" stroke="#ddd" stroke-width="1" />
-
-                <!-- Grid lines -->
-                <g stroke="#ddd" stroke-width="1">
-                    <!-- Vertical grid -->
-                    <line x1="100" y1="80" x2="100" y2="430" />
-                    <line x1="175" y1="80" x2="175" y2="430" />
-                    <line x1="250" y1="80" x2="250" y2="430" />
-                    <line x1="325" y1="80" x2="325" y2="430" />
-                    <line x1="400" y1="80" x2="400" y2="430" />
-                    <line x1="475" y1="80" x2="475" y2="430" />
-                    <line x1="550" y1="80" x2="550" y2="430" />
-                    <line x1="625" y1="80" x2="625" y2="430" />
-                    <line x1="700" y1="80" x2="700" y2="430" />
-                    <line x1="750" y1="80" x2="750" y2="430" />
-
-                    <!-- Horizontal grid -->
-                    <line x1="100" y1="430" x2="750" y2="430" />
-                    <line x1="100" y1="380" x2="750" y2="380" />
-                    <line x1="100" y1="330" x2="750" y2="330" />
-                    <line x1="100" y1="280" x2="750" y2="280" />
-                    <line x1="100" y1="230" x2="750" y2="230" />
-                    <line x1="100" y1="180" x2="750" y2="180" />
-                    <line x1="100" y1="130" x2="750" y2="130" />
-                    <line x1="100" y1="80" x2="750" y2="80" />
-                </g>
-
-                <!-- Y-axis labels -->
-                <g font-family="Arial, sans-serif" font-size="12" text-anchor="end">
-                    <text x="95" y="435">50</text>
-                    <text x="95" y="385">55</text>
-                    <text x="95" y="335">60</text>
-                    <text x="95" y="285">65</text>
-                    <text x="95" y="235">70</text>
-                    <text x="95" y="185">75</text>
-                    <text x="95" y="135">80</text>
-                    <text x="95" y="85">85</text>
-                </g>
-
-                <!-- X-axis labels -->
-                <g font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
-                    <text x="175" y="450">10</text>
-                    <text x="250" y="450">20</text>
-                    <text x="325" y="450">30</text>
-                    <text x="400" y="450">40</text>
-                    <text x="475" y="450">50</text>
-                    <text x="550" y="450">60</text>
-                    <text x="625" y="450">70</text>
-                    <text x="700" y="450">80</text>
-                </g>
-
-                <!-- Axis titles -->
-                <text x="425" y="480" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Orders Age
-                    (minutes)</text>
-                <text x="40" y="255" font-family="Arial, sans-serif" font-size="16" text-anchor="middle"
-                    transform="rotate(-90, 40, 255)">Information Share (%)</text>
-
-                <!-- Data points and lines -->
-                <!-- Corn LOB (Step 1 + Steps 2-10) -->
-                <polyline
-                    points="175,305.32 250,296.26 325,273.46 400,258.94 475,243.96 550,229.53 625,217.43 700,214.08"
-                    fill="none" stroke="#3366CC" stroke-width="3" />
-
-                <!-- Soybean LOB (Step 1 + Steps 2-10) -->
-                <polyline
-                    points="175,274.46 250,262.17 325,242.87 400,239.34 475,228.95 550,228.06 625,217.25 700,217.03"
-                    fill="none" stroke="#DC3912" stroke-width="3" />
-
-                <!-- Data points for Corn -->
-                <circle cx="175" cy="305.32" r="5" fill="#3366CC" />
-                <circle cx="250" cy="296.26" r="5" fill="#3366CC" />
-                <circle cx="325" cy="273.46" r="5" fill="#3366CC" />
-                <circle cx="400" cy="258.94" r="5" fill="#3366CC" />
-                <circle cx="475" cy="243.96" r="5" fill="#3366CC" />
-                <circle cx="550" cy="229.53" r="5" fill="#3366CC" />
-                <circle cx="625" cy="217.43" r="5" fill="#3366CC" />
-                <circle cx="700" cy="214.08" r="5" fill="#3366CC" />
-
-                <!-- Data points for Soybean -->
-                <circle cx="175" cy="274.46" r="5" fill="#DC3912" />
-                <circle cx="250" cy="262.17" r="5" fill="#DC3912" />
-                <circle cx="325" cy="242.87" r="5" fill="#DC3912" />
-                <circle cx="400" cy="239.34" r="5" fill="#DC3912" />
-                <circle cx="475" cy="228.95" r="5" fill="#DC3912" />
-                <circle cx="550" cy="228.06" r="5" fill="#DC3912" />
-                <circle cx="625" cy="217.25" r="5" fill="#DC3912" />
-                <circle cx="700" cy="217.03" r="5" fill="#DC3912" />
-
-                <!-- Legend -->
-                <rect x="550" y="50" width="200" height="60" fill="white" stroke="#ddd" stroke-width="1" rx="5"
-                    ry="5" />
-
-                <line x1="570" y1="70" x2="600" y2="70" stroke="#3366CC" stroke-width="3" />
-                <circle cx="585" cy="70" r="5" fill="#3366CC" />
-                <text x="610" y="75" font-family="Arial, sans-serif" font-size="14">Corn LOB</text>
-
-                <line x1="570" y1="95" x2="600" y2="95" stroke="#DC3912" stroke-width="3" />
-                <circle cx="585" cy="95" r="5" fill="#DC3912" />
-                <text x="610" y="100" font-family="Arial, sans-serif" font-size="14">Soybean LOB</text>
-            </svg>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-        <!-- Section 6: Implications for Market Microstructure -->
-        <section class="slide section-slide" id="section-6" aria-labelledby="section-6-heading">
-            <h2 id="section-6-heading">6. Implications for Market Microstructure</h2>
-            <div class="slide-number" aria-hidden="true"></div>
-            <nav class="navigation-links">
-                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-            </nav>
-        </section>
-
-        <!-- Theoretical Implications Slide -->
-        <section class="slide" id="theoretical-implications" aria-labelledby="theoretical-heading">
-            <h2 id="theoretical-heading">Theoretical Implications</h2>
-            <div class="two-column">
-                <div class="column">
-                    <h3>Information Theory</h3>
-                    <ul>
-                        <li>Supports asymmetric information models</li>
-                        <li>Confirms information lifecycle in limit orders</li>
-                        <li>Quantifies information decay rates</li>
-                        <li>Validates public vs. private information persistence patterns</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <h3>Market Efficiency</h3>
-                    <ul>
-                        <li>Information quickly incorporated in nearby price levels</li>
-                        <li>Deeper book levels contain less relevant information</li>
-                        <li>30-minute threshold suggests efficient processing speed</li>
-                        <li>Consistent with semi-strong form efficiency</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-        <!-- Practical Applications Slide -->
-        <section class="slide" id="practical-applications" aria-labelledby="practical-heading">
-            <h2 id="practical-heading">Practical Applications</h2>
-            <ul>
-                <li><strong>For Traders:</strong>
-                    <ul>
-                        <li>Focus on newer orders (< 30 min) for price signals</li>
-                        <li>Prioritize best bid/ask and nearby price steps for information</li>
-                        <li>Develop strategies that account for order information lifecycle</li>
-                    </ul>
-                </li>
-            </ul>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-
-
-        <!-- Section 7: Conclusions and Future Research -->
-        <section class="slide section-slide" id="section-7" aria-labelledby="section-7-heading">
-            <h2 id="section-7-heading">7. Conclusions and Future Research</h2>
-            <div class="slide-number" aria-hidden="true"></div>
-            <nav class="navigation-links">
-                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-            </nav>
-        </section>
-
-        <!-- Key Conclusions Slide -->
-        <section class="slide" id="key-conclusions" aria-labelledby="conclusions-heading">
-            <h2 id="conclusions-heading">Key Conclusions</h2>
-            <ul>
-                <li><strong>Order Age Matters:</strong> Limit orders lose significant information content after 30
-                    minutes in the book</li>
-                <li><strong>Price Proximity Importance:</strong> Best bid/ask and nearby price steps contain most
-                    valuable information</li>
-                <li><strong>Robust Findings:</strong> Consistent patterns across different market conditions and model
-                    specifications</li>
-                <li><strong>Information Efficiency:</strong> <s>Agricultural futures markets efficiently process
-                        information</s></li>
-                <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price
-                        discovery</s></li>
-            </ul>
-            <aside class="aside-box">
-                <p>Our research provides empirical evidence that order information decays over time, suggesting market
-                    participants should focus on newer orders near the current market price.</p>
-            </aside>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-        <!-- Future Research Directions Slide -->
-        <section class="slide" id="future-research" aria-labelledby="future-heading">
-            <h2 id="future-heading">Future Research Directions</h2>
-            <ul>
-                <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and
-                    non-agricultural futures</li>
-                <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading
-                    sessions</li>
-                <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain
-                    inforamtion</li>
-                <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information persistence
-                </li>
-                <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout the
-                    trading day
-            </ul>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-        <!-- Acknowledgments Slide -->
-        <section class="slide" id="acknowledgments" aria-labelledby="ack-heading">
-            <h2 id="ack-heading">Acknowledgments</h2>
-            <ul>
-                <li><strong>Thesis Advisor:</strong> Dr. Jullieta Frank, University of Manitoba</li>
-                <li><strong>Committee Member:</strong> Dr. Mehdi Arznadeh, Lakehead University</li>
-                <li><strong>Committee Member:</strong> Dr. Barry Coyle, University of Manitoba</li>
-                <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance
-                    Computing Center</li>
-                <li><strong>Funding:</strong> Natural Sciences and Engineering Research Council (NSERC)/li>
-                <li><strong>Additional Funding:</strong> Graduate Enhancement of Tri-Agency Stipends (GETS)</li>
-                <li><strong>Additional Funding:</strong> Winnipeg Commodity Excahnge Fellowship</li>
-                <li><strong>Computing Resources:</strong> University of Manitoba High Performance Computing Center</li>
-                <li><strong>Data Providers:</strong> MDP 3.0 Data licenced from CME Group</li>
-            </ul>
-            <aside class="aside-box">
-                <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the
-                    opportunity to present this research.</p>
-            </aside>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
-
-        <!-- Contact Information Slide -->
-        <section class="slide" id="contact-info" aria-labelledby="contact-heading">
-            <h2 id="contact-heading">Contact Information</h2>
-            <div class="two-column">
-                <div class="column">
-                    <h3>Primary Contact</h3>
-                    <ul>
-                        <li>Email: daniel.daniels@umanitoba.ca</li>
-                    </ul>
-                </div>
-                <div class="column">
-                    <h3>Research Group</h3>
-                    <ul>
-                        <li>Department of Agribusiness and Agricultural Economics</li>
-                        <li>Faculty of Agricultural and Food Sciences</li>
-                        <li>University of Manitoba</li>
-                        <li>https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics</li>
-                    </ul>
-                </div>
+            <div id="table-container">
+                <!-- Table will be loaded here -->
             </div>
 
+            <aside class="aside-box">
+                <p>Information share results show the percentage of price discovery attributed to different order age
+                    groups.</p>
+                <p>Results are based on the Modified Information Share (MIS) measure.</p>
+            </aside>
             <div class="slide-number" aria-hidden="true"></div>
-        </section>
 
-        <!-- Bibliography Slide -->
-        <section class="slide" id="bibliography" aria-labelledby="bib-heading">
-            <h2 id="bib-heading">Selected References</h2>
-            <ul class="small-text">
-                <li>Arzandeh, Mehdi, and Julieta Frank.“Price Discovery in Agricultural Futures Markets: Should We Look beyond the Best Bid-Ask Spread?” <a href="https://doi.org/10.1093/ajae/aaz001" rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 101, no. 5, 2019, pp. 1482–98</a>.</li>
-                <li>Cao, Charles, Oliver Hansch, and Xiaoxin Wang. “The Information Content of an Open Limit-Order Book.” <a href="https://doi.org/10.1002/fut.20334" rel="noopener" target="_blank">The Journal of Futures Markets, vol. 29, no. 1, 2009, pp. 16–41</a>.</li>
-                <li>Hasbrouck, Joel. “One Security, Many Markets: Determining the Contributions to Price Discovery.” <a href="https://doi.org/10.1111/j.1540-6261.1995.tb04054.x" rel="noopener" target="_blank">The Journal of Finance (New York), vol. 50, no. 4, 1995, pp. 1175–99</a>.</li>
-                <li>Lehecka, Georg V, Xiaoyang Wang, and Philip Garcia. “Gone in Ten Minutes: Intraday Evidence of Announcement Effects in the Electronic Corn Futures Market.” <a href="https://doi.org/10.1093/aepp/ppu010" rel="noopener" target="_blank">Applied Economic Perspectives and Policy, vol. 36, no. 3, 2014, pp. 504–26</a>.</li>
-                <li>Lien, Donald, and Keshab Shrestha. “A New Information Share Measure.” <a href="https://doi.org/10.1002/fut.20356" rel="noopener" target="_blank">The Journal of Futures Markets, vol. 29, no. 4, 2009, pp. 377–95</a>.</li>
-                <li>Putnin, Talis J. “What Do Price Discovery Metrics Really Measure?” <a href="https://doi.org/10.1016/j.jempfin.2013.05.004" rel="noopener" target="_blank">Journal of Empirical Finance, vol. 23, 2013, pp. 68–83</a>.</li>
-                <li>Wang, Xiaoyang, Philip Garcia, and Scott H Irwin. “The Behavior of Bid-Ask Spreads in the Electronically-Traded Corn Futures Market.” <a href="https://doi.org/10.1093/ajae/aat096" rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 96, no. 2, 2014, pp. 557–77</a>.</li>
-            </ul>
-            <div class="slide-number" aria-hidden="true"></div>
-        </section>
+            <!-- Information Share Results (visualization) Slide -->
+            <section class="slide" id="info-share-visualization" aria-labelledby="info-viz-heading">
+                <h2 id="info-viz-heading">Information Share Results Chart</h2>
+
+                <div id="chart-container">
+                    <p class="loading">Loading chart...</p>
+                </div>
+
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Section 6: Implications for Market Microstructure -->
+            <section class="slide section-slide" id="section-6" aria-labelledby="section-6-heading">
+                <h2 id="section-6-heading">6. Implications for Market Microstructure</h2>
+                <div class="slide-number" aria-hidden="true"></div>
+                <nav class="navigation-links">
+                    <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+                </nav>
+            </section>
+
+            <!-- Theoretical Implications Slide -->
+            <section class="slide" id="theoretical-implications" aria-labelledby="theoretical-heading">
+                <h2 id="theoretical-heading">Theoretical Implications</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Information Theory</h3>
+                        <ul>
+                            <li>Supports asymmetric information models</li>
+                            <li>Confirms information lifecycle in limit orders</li>
+                            <li>Quantifies information decay rates</li>
+                            <li>Validates public vs. private information persistence patterns</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Market Efficiency</h3>
+                        <ul>
+                            <li>Information quickly incorporated in nearby price levels</li>
+                            <li>Deeper book levels contain less relevant information</li>
+                            <li>30-minute threshold suggests efficient processing speed</li>
+                            <li>Consistent with semi-strong form efficiency</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Practical Applications Slide -->
+            <section class="slide" id="practical-applications" aria-labelledby="practical-heading">
+                <h2 id="practical-heading">Practical Applications</h2>
+                <ul>
+                    <li><strong>For Traders:</strong>
+                        <ul>
+                            <li>Focus on newer orders (< 30 min) for price signals</li>
+                            <li>Prioritize best bid/ask and nearby price steps for information</li>
+                            <li>Develop strategies that account for order information lifecycle</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+
+
+            <!-- Section 7: Conclusions and Future Research -->
+            <section class="slide section-slide" id="section-7" aria-labelledby="section-7-heading">
+                <h2 id="section-7-heading">7. Conclusions and Future Research</h2>
+                <div class="slide-number" aria-hidden="true"></div>
+                <nav class="navigation-links">
+                    <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+                </nav>
+            </section>
+
+            <!-- Key Conclusions Slide -->
+            <section class="slide" id="key-conclusions" aria-labelledby="conclusions-heading">
+                <h2 id="conclusions-heading">Key Conclusions</h2>
+                <ul>
+                    <li><strong>Order Age Matters:</strong> Limit orders lose significant information content after 30
+                        minutes in the book</li>
+                    <li><strong>Price Proximity Importance:</strong> Best bid/ask and nearby price steps contain most
+                        valuable information</li>
+                    <li><strong>Robust Findings:</strong> Consistent patterns across different market conditions and
+                        model
+                        specifications</li>
+                    <li><strong>Information Efficiency:</strong> <s>Agricultural futures markets efficiently process
+                            information</s></li>
+                    <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price
+                            discovery</s></li>
+                </ul>
+                <aside class="aside-box">
+                    <p>Our research provides empirical evidence that order information decays over time, suggesting
+                        market
+                        participants should focus on newer orders near the current market price.</p>
+                </aside>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Future Research Directions Slide -->
+            <section class="slide" id="future-research" aria-labelledby="future-heading">
+                <h2 id="future-heading">Future Research Directions</h2>
+                <ul>
+                    <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and
+                        non-agricultural futures</li>
+                    <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading
+                        sessions</li>
+                    <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain
+                        inforamtion</li>
+                    <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information
+                        persistence
+                    </li>
+                    <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout
+                        the
+                        trading day
+                </ul>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Acknowledgments Slide -->
+            <section class="slide" id="acknowledgments" aria-labelledby="ack-heading">
+                <h2 id="ack-heading">Acknowledgments</h2>
+                <ul>
+                    <li><strong>Thesis Advisor:</strong> Dr. Jullieta Frank, University of Manitoba</li>
+                    <li><strong>Committee Member:</strong> Dr. Mehdi Arznadeh, Lakehead University</li>
+                    <li><strong>Committee Member:</strong> Dr. Barry Coyle, University of Manitoba</li>
+                    <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance
+                        Computing Center</li>
+                    <li><strong>Funding:</strong> Natural Sciences and Engineering Research Council (NSERC)/li>
+                    <li><strong>Additional Funding:</strong> Graduate Enhancement of Tri-Agency Stipends (GETS)</li>
+                    <li><strong>Additional Funding:</strong> Winnipeg Commodity Excahnge Fellowship</li>
+                    <li><strong>Computing Resources:</strong> University of Manitoba High Performance Computing Center
+                    </li>
+                    <li><strong>Data Providers:</strong> MDP 3.0 Data licenced from CME Group</li>
+                </ul>
+                <aside class="aside-box">
+                    <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the
+                        opportunity to present this research.</p>
+                </aside>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Contact Information Slide -->
+            <section class="slide" id="contact-info" aria-labelledby="contact-heading">
+                <h2 id="contact-heading">Contact Information</h2>
+                <div class="two-column">
+                    <div class="column">
+                        <h3>Primary Contact</h3>
+                        <ul>
+                            <li>Email: <a href="mailto:daniel.daniels@umanitoba.ca">daniel.daniels@umanitoba.ca</a></li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Research Group</h3>
+                        <ul>
+                            <li>Department of Agribusiness and Agricultural Economics</li>
+                            <li>Faculty of Agricultural and Food Sciences</li>
+                            <li>University of Manitoba</li>
+                            <li><a href="https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics"
+                                    target="_blank"
+                                    rel="noopener">https://umanitoba.ca/agricultural-food-sciences/agribusiness-and-agricultural-economics</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
+
+            <!-- Bibliography Slide -->
+            <section class="slide" id="bibliography" aria-labelledby="bib-heading">
+                <h2 id="bib-heading">Selected References</h2>
+                <ul class="small-text">
+                    <li>Arzandeh, Mehdi, and Julieta Frank.“Price Discovery in Agricultural Futures Markets: Should We
+                        Look beyond the Best Bid-Ask Spread?” <a href="https://doi.org/10.1093/ajae/aaz001"
+                            rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 101, no. 5,
+                            2019, pp. 1482–98</a>.</li>
+                    <li>Cao, Charles, Oliver Hansch, and Xiaoxin Wang. “The Information Content of an Open Limit-Order
+                        Book.” <a href="https://doi.org/10.1002/fut.20334" rel="noopener" target="_blank">The Journal of
+                            Futures Markets, vol. 29, no. 1, 2009, pp. 16–41</a>.</li>
+                    <li>Hasbrouck, Joel. “One Security, Many Markets: Determining the Contributions to Price Discovery.”
+                        <a href="https://doi.org/10.1111/j.1540-6261.1995.tb04054.x" rel="noopener" target="_blank">The
+                            Journal of Finance (New York), vol. 50, no. 4, 1995, pp. 1175–99</a>.</li>
+                    <li>Lehecka, Georg V, Xiaoyang Wang, and Philip Garcia. “Gone in Ten Minutes: Intraday Evidence of
+                        Announcement Effects in the Electronic Corn Futures Market.” <a
+                            href="https://doi.org/10.1093/aepp/ppu010" rel="noopener" target="_blank">Applied Economic
+                            Perspectives and Policy, vol. 36, no. 3, 2014, pp. 504–26</a>.</li>
+                    <li>Lien, Donald, and Keshab Shrestha. “A New Information Share Measure.” <a
+                            href="https://doi.org/10.1002/fut.20356" rel="noopener" target="_blank">The Journal of
+                            Futures Markets, vol. 29, no. 4, 2009, pp. 377–95</a>.</li>
+                    <li>Putnin, Talis J. “What Do Price Discovery Metrics Really Measure?” <a
+                            href="https://doi.org/10.1016/j.jempfin.2013.05.004" rel="noopener" target="_blank">Journal
+                            of Empirical Finance, vol. 23, 2013, pp. 68–83</a>.</li>
+                    <li>Wang, Xiaoyang, Philip Garcia, and Scott H Irwin. “The Behavior of Bid-Ask Spreads in the
+                        Electronically-Traded Corn Futures Market.” <a href="https://doi.org/10.1093/ajae/aat096"
+                            rel="noopener" target="_blank">American Journal of Agricultural Economics, vol. 96, no. 2,
+                            2014, pp. 557–77</a>.</li>
+                </ul>
+                <div class="slide-number" aria-hidden="true"></div>
+            </section>
     </main>
 
     <!-- Navigation Slider -->
