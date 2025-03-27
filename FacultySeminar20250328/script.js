@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     // ====================================
     // Core Presentation Variables
@@ -331,6 +330,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    // Function to load external HTML components
+    function loadExternalComponent(containerId, filePath) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        
+        fetch(filePath)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
+                }
+                return response.text();
+            })
+            .then(html => {
+                container.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Error loading component:', error);
+                container.innerHTML = `<p class="error">Failed to load component. Error: ${error.message}</p>`;
+            });
+    }
+
+    // Load external components
+    loadExternalComponent('table-container', 'components/info-share-table.html');
 
     // Initialize side navigation
     setupSideNav();
