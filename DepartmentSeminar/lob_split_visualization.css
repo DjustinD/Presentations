@@ -1,10 +1,10 @@
-body {
+html, body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f8f9fa;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 
@@ -57,16 +57,23 @@ h1 {
     width: 100%;
     height: calc(100% - 150px); /* Adjust for header, mid-price, legend, and controls */
     overflow: hidden;
+    min-height: 400px; /* Ensures a minimum height for the chart */
 }
 
 #orderbook-chart {
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 
 #orderbook-chart svg {
     width: 100%;
     height: 100%;
+    display: block; /* Removes extra space below the SVG */
 }
 
 .tooltip {
