@@ -53,8 +53,35 @@ function transformRowToVisualizationData(row) {
     const lowestAsk = asks.length > 0 ? asks[0].price : 0;
     const midPrice = (highestBid + lowestAsk) / 2;
     
-    // Use tag60 as timestamp if available, otherwise use current time
-    const timestamp = row.tag60 ? new Date(parseInt(row.tag60.toString().slice(0, 13))) : new Date();
+    // Use tag60 as timestamp
+    let timestamp = row.tag60;
+    
+    // Parse the tag60 timestamp if it exists
+    if (timestamp) {
+        // Convert to string to ensure we can work with it
+        const timestampStr = timestamp.toString();
+        
+        // Check length to determine format
+        if (timestampStr.length >= 14) {
+            // Extract date components: YYYYMMDDHHMMSS format
+            const year = timestampStr.substring(0, 4);
+            const month = parseInt(timestampStr.substring(4, 6)) - 1; // Months are 0-indexed in JS
+            const day = timestampStr.substring(6, 8);
+            const hours = timestampStr.substring(8, 10);
+            const minutes = timestampStr.substring(10, 12);
+            const seconds = timestampStr.substring(12, 14);
+            
+            timestamp = new Date(year, month, day, hours, minutes, seconds);
+        } else {
+            // If format is different, try to parse as a numeric timestamp
+            timestamp = new Date(parseInt(timestampStr));
+        }
+    } else {
+        // Fallback to unix timestamp if available or current time
+        timestamp = row.tag60_unix_nanoseconds ? 
+            new Date(parseInt(row.tag60_unix_nanoseconds) / 1000000) : 
+            new Date();
+    }
     
     return {
         timestamp: timestamp,
@@ -115,9 +142,6 @@ function init(data) {
         nextFrame();
     });
     
-    // Handle file upload
-    document.getElementById("csv-input").addEventListener("change", handleFileUpload);
-    
     // Setup the visualization containers
     setupVisualization();
     
@@ -129,27 +153,6 @@ function init(data) {
     
     // Initial render
     updateVisualization(parsedData[currentDataIndex]);
-}
-
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        document.getElementById("file-name").textContent = file.name;
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const csvData = e.target.result;
-            const parsedCsvData = parseCSVData(csvData);
-            
-            // Reset current state
-            clearInterval(updateInterval);
-            currentDataIndex = 0;
-            
-            // Initialize with new data
-            init(parsedCsvData);
-        };
-        reader.readAsText(file);
-    }
 }
 
 function startUpdateInterval() {
@@ -407,7 +410,6 @@ async function loadCSVFromFile(filename) {
         return parseCSVData(csvData);
     } catch (error) {
         console.error("Error loading CSV:", error);
-        // Fallback to sample data if file can't be loaded
         return null;
     }
 }
@@ -420,44 +422,20 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupVisualization();
     
     try {
-        // Try to load the CSV file using the Fetch API
+        // Load the CSV file directly
         const csvFileName = 'lob_outright_20191226_fut_ZCH0_11.csv';
-        let data = await loadCSVFromFile(csvFileName);
+        const data = await loadCSVFromFile(csvFileName);
         
         if (data && data.length > 0) {
             console.log(`Successfully loaded ${data.length} rows from ${csvFileName}`);
             init(data);
         } else {
-            console.warn("Using FileReader API as fallback");
-            // Use FileReader API to access local file system
-            const inputElement = document.getElementById("csv-input");
-            
-            // Show a message to the user that they need to upload the CSV file
-            document.getElementById("update-time").textContent = "Please upload a CSV file";
-            
-            // Add a small amount of sample data to show the visualization format
-            const sampleData = [
-                {
-                    timestamp: new Date(),
-                    midPrice: 386.25,
-                    bids: [
-                        { price: 386.00, volume: 50 },
-                        { price: 385.75, volume: 35 },
-                        { price: 385.50, volume: 70 }
-                    ],
-                    asks: [
-                        { price: 386.50, volume: 45 },
-                        { price: 386.75, volume: 30 },
-                        { price: 387.00, volume: 65 }
-                    ]
-                }
-            ];
-            
-            // Initialize with sample data
-            parsedData = sampleData;
-            updateVisualization(parsedData[0]);
+            console.error("Failed to load CSV data");
+            // Show error message to the user
+            document.getElementById("update-time").textContent = "Error loading data";
         }
     } catch (error) {
         console.error("Error during initialization:", error);
+        document.getElementById("update-time").textContent = "Error loading data";
     }
 });
