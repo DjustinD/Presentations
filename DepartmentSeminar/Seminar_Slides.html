@@ -148,7 +148,8 @@
         <section class="slide" id="lob-structure" aria-labelledby="lob-heading">
             <h2 id="lob-heading">Limit Order Book Structure</h2>
             <figure class="chart-container">
-                <!--     <img src="/api/placeholder/800/350" alt="[Limit Order Book Visualization" />  -->
+                <!-- here we have an animation of the LOB structure changing over time, this uses real data with 10 second snapshots-->
+                <object id="chart-container" data="lob_single_visualization.html" type="text/html" class="chart-object"></object>
             </figure>
             <ul>
                 <li><strong>Bids:</strong> Buy orders arranged in descending price order</li>
@@ -213,6 +214,27 @@
             </aside>
 
         </section>
+
+
+<!--
+I want a slide here that references "lob_split_visualization.html" 
+which is a LOB animation that shows the LOB changing over time with two distince groups of orders (new and old)
+this uses real data with 10 second snapshots
+
+-->
+<section class="slide" id="lob-split" aria-labelledby="lob-split-heading">
+    <h2 id="lob-split-heading">Limit Order Book Split Visualization</h2>
+    <figure class="chart-container">
+        <object id="chart-container" data="lob_split_visualization.html" type="text/html" class="chart-object"></object>
+    </figure>
+    <ul>
+        <li>Visualization of new vs. old orders in the LOB</li>
+        <li>New orders are shown in darker colors</li>
+        <li>Old orders are shown in lighter colors</li>
+        <li>Demonstrates how order age affects market dynamics</li>
+    </ul>
+
+</section>
 
         <!-- Section 3: Data and Methodology -->
         <section class="slide section-slide" id="section-3" aria-labelledby="section-3-heading">
