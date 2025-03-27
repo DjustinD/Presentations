@@ -162,7 +162,7 @@ li {
 /* Chart Object Styling - CONSOLIDATED */
 .chart-object {
     width: 100%;  /* Full width of container */
-    height: 70vh; /* 70% of viewport height */
+    height: 100%; /* Full height of the container */
     border: none;
     overflow: hidden;
     margin: 0 auto 20px auto;
@@ -174,7 +174,9 @@ li {
 /* Specific adjustments for visualization slides */
 #lob-structure .chart-container,
 #lob-split .chart-container {
-    max-width: 100%;  /* Use full width of slide */
+    max-width: 90%;  /* Use 90% of the slide width */
+    max-height: 90%; /* Use 90% of the slide height */
+    margin: 0 auto; /* Center the chart */
     margin: 0 auto 20px auto;
     height: auto;
     overflow: visible;
@@ -182,7 +184,9 @@ li {
 
 #lob-structure .chart-container object,
 #lob-split .chart-container object {
-    height: 75vh;  /* Make it taller */
+    height: 100vh;  /* USe the full height of the container */
+    width: 100vh;  /* Use the full width of the container */
+    max-width: 100%; /* Ensure it doesn't exceed the container */
     min-height: 500px;  /* Ensure minimum height */
 }
 
