@@ -1,0 +1,33 @@
+.bibliography-container {
+    height: 85%;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.reference-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.reference-list li {
+    margin-bottom: 12px;
+    text-align: left;
+    line-height: 1.4;
+    font-size: 0.9em;
+}
+
+.authors {
+    font-weight: bold;
+}
+
+.title {
+    font-style: italic;
+}
+
+.journal {
+    font-weight: 500;
+}
+
+.volume {
+    font-weight: 500;
+}
