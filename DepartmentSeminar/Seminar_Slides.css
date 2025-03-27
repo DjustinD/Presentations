@@ -174,7 +174,13 @@ li {
     max-height: 70vh;
 }
 
-
+.chart-object {
+    width: 90vw; /* 90% of the viewport width */
+    height: 80vh; /* 80% of the viewport height */
+    border: none; /* Remove any default borders */
+    display: block; /* Ensure it behaves like a block element */
+    margin: 0 auto; /* Center the object horizontally */
+}
 
 .two-column {
     display: flex;
@@ -286,7 +292,16 @@ button {
 button:hover {
     background-color: var(--hover-color);
 }
-
+/* Enhanced Chart Object Styling */
+.chart-object {
+    width: 100%;  /* Use full width of container */
+    height: 70vh; /* Use 70% of viewport height */
+    border: none;
+    overflow: hidden;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
 /* Specific adjustments for LOB visualization */
 #lob-structure .chart-container {
