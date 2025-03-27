@@ -250,14 +250,26 @@
         <!-- Daily Bar Chart Slide -->
         <section class="slide" id="daily-bar-chart" aria-labelledby="daily-chart-heading">
             <h2 id="daily-chart-heading">Market Activity: Daily Bar Chart</h2>
-            <object id="chart-container" data="bar-chart.svg" type="image/svg+xml" class="chart-object"></object>
+            
+            <!-- Using object tag to embed the external HTML chart -->
+            <object id="chart-container" data="OHLC_chart.html" type="text/html" class="chart-object"></object>
+            
             <ul>
                 <li>Traditional price visualization showing trading ranges</li>
                 <li>Illustrates daily volatility and price trends</li>
                 <li>Provides context for microstructure analysis</li>
                 <li>Shows the market environment during our study period</li>
             </ul>
-
+            
+            <style>
+                .chart-object {
+                    width: 100%;
+                    height: 65%;
+                    border: none;
+                    overflow: hidden;
+                    margin-bottom: 10px;
+                }
+            </style>
         </section>
 
         <!-- Tick Chart Slide -->
