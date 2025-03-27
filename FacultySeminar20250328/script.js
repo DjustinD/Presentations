@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // Load external components
-    loadExternalComponent('table-container', 'components/info-share-table.html');
+    loadExternalComponent('table-container', 'info-share-table.html');
 
     // Initialize side navigation
     setupSideNav();
