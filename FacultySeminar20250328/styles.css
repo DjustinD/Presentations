@@ -159,6 +159,13 @@ li {
     box-shadow: var(--box-shadow);
 }
 
+#distribution-container {
+    width: 100%;
+    height: 60vh;
+    border: none;
+    max-height: 70vh;
+}
+
 #chart-container svg {
     width: 80%;
     height: auto;
