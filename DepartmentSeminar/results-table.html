@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modified Information Share Table</title>
+  <title>Improved Commodities Comparison Table</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
     }
     
     .container {
-      max-width: 1000px;
+      max-width: 1200px;
       margin: 0 auto;
     }
     
@@ -52,6 +52,15 @@
     .commodity-header {
       background-color: #e0e0e0;
       font-weight: bold;
+      text-align: center;
+    }
+    
+    .corn-header {
+      background-color: rgba(31, 119, 180, 0.2);
+    }
+    
+    .soybean-header {
+      background-color: rgba(148, 103, 189, 0.2);
     }
     
     tr:nth-child(even) {
@@ -67,11 +76,11 @@
       background-color: #f0f0f0;
     }
     
-    .highlight-corn {
+    .corn-cell {
       background-color: rgba(31, 119, 180, 0.1);
     }
     
-    .highlight-soybean {
+    .soybean-cell {
       background-color: rgba(148, 103, 189, 0.1);
     }
   </style>
@@ -79,21 +88,27 @@
 <body>
 
   <div class="container">
-    <h1>Modified Information Share Table</h1>
+    <h1>Improved Commodities Comparison Table</h1>
     
     <div class="table-container">
       <table id="data-table">
         <thead>
           <tr>
-            <th>Commodity</th>
-            <th>pLOB Age (minutes)</th>
-            <th>Last Price</th>
-            <th>New pLOB Step 1-10</th>
-            <th>Old pLOB Step 1-10</th>
+            <th rowspan="2">pLOB Age<br>(minutes)</th>
+            <th colspan="3" class="commodity-header corn-header">Corn</th>
+            <th colspan="3" class="commodity-header soybean-header">Soybean</th>
+          </tr>
+          <tr>
+            <th class="corn-header">Last Price</th>
+            <th class="corn-header">New pLOB<br>Step 1-10</th>
+            <th class="corn-header">Old pLOB<br>Step 1-10</th>
+            <th class="soybean-header">Last Price</th>
+            <th class="soybean-header">New pLOB<br>Step 1-10</th>
+            <th class="soybean-header">Old pLOB<br>Step 1-10</th>
           </tr>
         </thead>
         <tbody>
-          <!-- Data will be inserted here -->
+          <!-- Data will be inserted here by the script -->
         </tbody>
       </table>
     </div>
@@ -101,48 +116,81 @@
 
   <script>
     async function loadCSV() {
-      const response = await fetch('results-data.csv');
-      const data = await response.text();
-      const rows = data.split("\n").slice(1); // Remove header row
-
-      const tableBody = document.querySelector("#data-table tbody");
-
-      let previousCommodity = "";
-
-      rows.forEach(row => {
-        const cols = row.split(",");
-        if (cols.length < 5) return; // Skip invalid rows
-
-        const [commodity, age, lastPrice, newStep, oldStep] = cols;
-
-        const tr = document.createElement("tr");
-
-        // Add class based on commodity
-        if (commodity.trim() === "Corn") {
-          tr.classList.add("highlight-corn");
-        } else if (commodity.trim() === "Soybean") {
-          tr.classList.add("highlight-soybean");
-        }
-
-        // Add commodity header row if commodity changes
-        if (commodity !== previousCommodity) {
-          const headerRow = document.createElement("tr");
-          headerRow.classList.add("commodity-header");
-          headerRow.innerHTML = `<td colspan="5">${commodity}</td>`;
-          tableBody.appendChild(headerRow);
-          previousCommodity = commodity;
-        }
-
-        tr.innerHTML = `
-          <td>${commodity}</td>
-          <td class="time-cell">${age}</td>
-          <td>${lastPrice}</td>
-          <td>${newStep}</td>
-          <td>${oldStep}</td>
-        `;
-
-        tableBody.appendChild(tr);
-      });
+      try {
+        const response = await fetch('resultsdata.csv');
+        const data = await response.text();
+        const rows = data.split("\n").filter(row => row.trim() !== '');
+        
+        // Skip header row
+        const dataRows = rows.slice(1);
+        
+        // Group data by commodity and age
+        const cornData = {};
+        const soybeanData = {};
+        
+        dataRows.forEach(row => {
+          const cols = row.split(",").map(col => col.trim());
+          if (cols.length < 5) return; // Skip invalid rows
+          
+          const [commodity, age, lastPrice, newStep, oldStep] = cols;
+          
+          if (commodity === "Corn") {
+            cornData[age] = { lastPrice, newStep, oldStep };
+          } else if (commodity === "Soybean") {
+            soybeanData[age] = { lastPrice, newStep, oldStep };
+          }
+        });
+        
+        // Get all unique ages (time points)
+        const allAges = [...new Set([
+          ...Object.keys(cornData), 
+          ...Object.keys(soybeanData)
+        ])].sort((a, b) => parseInt(a) - parseInt(b));
+        
+        // Build the table
+        const tableBody = document.querySelector("#data-table tbody");
+        
+        allAges.forEach(age => {
+          const tr = document.createElement("tr");
+          
+          // Add time cell
+          tr.innerHTML = `<td class="time-cell">${age}</td>`;
+          
+          // Add Corn data
+          if (cornData[age]) {
+            tr.innerHTML += `
+              <td class="corn-cell">${cornData[age].lastPrice}</td>
+              <td class="corn-cell">${cornData[age].newStep}</td>
+              <td class="corn-cell">${cornData[age].oldStep}</td>
+            `;
+          } else {
+            tr.innerHTML += `
+              <td class="corn-cell">-</td>
+              <td class="corn-cell">-</td>
+              <td class="corn-cell">-</td>
+            `;
+          }
+          
+          // Add Soybean data
+          if (soybeanData[age]) {
+            tr.innerHTML += `
+              <td class="soybean-cell">${soybeanData[age].lastPrice}</td>
+              <td class="soybean-cell">${soybeanData[age].newStep}</td>
+              <td class="soybean-cell">${soybeanData[age].oldStep}</td>
+            `;
+          } else {
+            tr.innerHTML += `
+              <td class="soybean-cell">-</td>
+              <td class="soybean-cell">-</td>
+              <td class="soybean-cell">-</td>
+            `;
+          }
+          
+          tableBody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error("Error loading CSV data:", error);
+      }
     }
 
     document.addEventListener("DOMContentLoaded", loadCSV);
