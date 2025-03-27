@@ -175,9 +175,11 @@ li {
 }
 
 .chart-object {
-    width: 100%;
-    height: auto;
-    max-height: 70vh; /* Increase this from the current value */
+    width: 90vw; /* 90% of the viewport width */
+    height: 80vh; /* 80% of the viewport height */
+    border: none; /* Remove any default borders */
+    display: block; /* Ensure it behaves like a block element */
+    margin: 0 auto; /* Center the object horizontally */
 }
 
 .two-column {
