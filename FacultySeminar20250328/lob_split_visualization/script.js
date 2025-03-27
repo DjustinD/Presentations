@@ -1,17 +1,9 @@
-
-// Sample CSV data string - this will be replaced with actual loaded CSV
-const sampleCsvData = `timestamp,new_bid_01_price,new_bid_01_qty,new_bid_02_price,new_bid_02_qty,new_ask_01_price,new_ask_01_qty,new_ask_02_price,new_ask_02_qty,old_bid_01_price,old_bid_01_qty,old_bid_02_price,old_bid_02_qty,old_ask_01_price,old_ask_01_qty,old_ask_02_price,old_ask_02_qty
-        2023-03-24T10:45:32,384.00,10,383.75,15,384.50,12,384.75,8,384.00,11,383.75,13,384.50,21,384.75,20
-        2023-03-24T10:45:35,383.75,12,383.50,18,384.25,9,384.50,14,383.75,13,383.50,22,384.25,6,384.50,21
-        2023-03-24T10:45:38,383.50,20,383.25,14,384.00,11,384.25,7,383.50,18,383.25,10,384.00,12,384.25,11
-        2023-03-24T10:45:41,383.25,15,383.00,22,383.75,14,384.00,9,383.25,18,383.00,12,383.75,16,384.00,15
-        2023-03-24T10:45:44,383.00,18,382.75,19,383.50,17,383.75,12,383.00,16,382.75,21,383.50,10,383.75,19`;
-
-// Parse the CSV data
+// Initialize variables
 let parsedData = [];
 let currentDataIndex = 0;
 let isUpdating = true;
 let updateInterval = null;
+const csvFilename = "lob_outright_20191226_ZCH0_fut_11_0_5400000__5400000_518400000.csv";
 
 // Function to parse CSV data
 function parseCSVData(csvData) {
@@ -118,8 +110,22 @@ function transformRowToVisualizationData(row) {
     const lowestAsk = askPrices.length > 0 ? askPrices[0] : 0;
     const midPrice = (highestBid + lowestAsk) / 2;
 
+    // Format timestamp from tag60_unix_nanoseconds
+    let timestamp = row.new_tag60_unix_nanoseconds ? row.new_tag60_unix_nanoseconds.toString() : row.tag60;
+    
+    // Format: YYYYMMDDHHMMSSnnnnnnnnn
+    if (timestamp && timestamp.length >= 14) {
+        const year = timestamp.substring(0, 4);
+        const month = timestamp.substring(4, 6);
+        const day = timestamp.substring(6, 8);
+        const hour = timestamp.substring(8, 10);
+        const minute = timestamp.substring(10, 12);
+        const second = timestamp.substring(12, 14);
+        timestamp = `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+    }
+
     return {
-        timestamp: row.timestamp,
+        timestamp: timestamp,
         midPrice: midPrice,
         aggregatedBids,
         aggregatedAsks
@@ -144,45 +150,36 @@ const tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("opacity", 0);
 
-// Initialize the visualization with stacked view
-function init(data) {
-    parsedData = data.map(row => transformRowToVisualizationData(row));
+// Initialize the visualization
+async function init() {
+    try {
+        // Display the filename
+        document.getElementById("csv-filename").textContent = csvFilename;
+        
+        // Load CSV directly
+        const csvData = await window.fs.readFile(csvFilename, { encoding: 'utf8' });
+        const parsedCsvData = parseCSVData(csvData);
+        
+        parsedData = parsedCsvData.map(row => transformRowToVisualizationData(row));
 
-    // Set up event listeners for the buttons
-    document.getElementById("toggle-update").addEventListener("click", toggleUpdate);
-    document.getElementById("next-frame").addEventListener("click", () => {
-        if (isUpdating) toggleUpdate();
-        nextFrame();
-    });
+        // Set up event listeners for the buttons
+        document.getElementById("toggle-update").addEventListener("click", toggleUpdate);
+        document.getElementById("next-frame").addEventListener("click", () => {
+            if (isUpdating) toggleUpdate();
+            nextFrame();
+        });
 
-    // Handle file upload
-    document.getElementById("csv-input").addEventListener("change", handleFileUpload);
+        // Start the update interval
+        startUpdateInterval();
 
-    // Start the update interval
-    startUpdateInterval();
-
-    // Initial render
-    updateVisualization(parsedData[currentDataIndex]);
-}
-
-function handleFileUpload(event) {
-    const file = event.target.files[0];
-    if (file) {
-        document.getElementById("file-name").textContent = file.name;
-
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            const csvData = e.target.result;
-            const parsedCsvData = parseCSVData(csvData);
-
-            // Reset current state
-            clearInterval(updateInterval);
-            currentDataIndex = 0;
-
-            // Initialize with new data
-            init(parsedCsvData);
-        };
-        reader.readAsText(file);
+        // Initial render
+        if (parsedData.length > 0) {
+            updateVisualization(parsedData[currentDataIndex]);
+        } else {
+            console.error("No data found in CSV file");
+        }
+    } catch (error) {
+        console.error("Error loading CSV file:", error);
     }
 }
 
@@ -212,24 +209,12 @@ function toggleUpdate() {
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 function updateVisualization(data) {
     // Clear previous elements
     svg.selectAll("*").remove();
 
     // Update timestamp
-    document.getElementById("update-time").textContent = new Date(data.timestamp).toLocaleTimeString();
+    document.getElementById("update-time").textContent = data.timestamp;
 
     // Update mid price
     document.getElementById("mid-price").textContent = data.midPrice.toFixed(2);
@@ -558,5 +543,5 @@ function updateVisualization(data) {
         .text("Ask Volume");
 }
 
-// Initialize with the sample data
-init(parseCSVData(sampleCsvData));
+// Initialize with the direct CSV load
+window.addEventListener('DOMContentLoaded', init);
