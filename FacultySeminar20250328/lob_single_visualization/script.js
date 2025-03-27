@@ -1,16 +1,9 @@
-
-
-// Sample CSV data string - this will be replaced with actual loaded CSV
-const sampleCsvData = `timestamp,bid_01_price,bid_01_qty,bid_02_price,bid_02_qty,bid_03_price,bid_03_qty,bid_04_price,bid_04_qty,bid_05_price,bid_05_qty,bid_06_price,bid_06_qty,bid_07_price,bid_07_qty,bid_08_price,bid_08_qty,bid_09_price,bid_09_qty,bid_10_price,bid_10_qty,bid_11_price,bid_11_qty,ask_01_price,ask_01_qty,ask_02_price,ask_02_qty,ask_03_price,ask_03_qty,ask_04_price,ask_04_qty,ask_05_price,ask_05_qty,ask_06_price,ask_06_qty,ask_07_price,ask_07_qty,ask_08_price,ask_08_qty,ask_09_price,ask_09_qty,ask_10_price,ask_10_qty,ask_11_price,ask_11_qty
-2023-03-24T10:45:32,384.00,21,383.75,28,383.50,38,383.25,20,383.00,30,382.75,17,382.50,34,382.25,24,382.00,20,381.75,15,381.50,31,384.50,33,384.75,28,385.00,16,385.25,20,385.50,18,385.75,29,386.00,19,386.25,29,386.50,22,386.75,26,387.00,16
-2023-03-24T10:45:35,383.75,25,383.50,40,383.25,22,383.00,27,382.75,18,382.50,30,382.25,26,382.00,22,381.75,18,381.50,33,381.25,12,384.25,15,384.50,35,384.75,30,385.00,18,385.25,22,385.50,20,385.75,25,386.00,21,386.25,27,386.50,24,386.75,28
-2023-03-24T10:45:38,383.50,38,383.25,24,383.00,32,382.75,15,382.50,36,382.25,22,382.00,18,381.75,27,381.50,29,381.25,14,381.00,22,384.00,23,384.25,18,384.50,30,384.75,32,385.00,14,385.25,24,385.50,16,385.75,31,386.00,17,386.25,31,386.50,20`;
-
-// Parse the CSV data
+// Global variables
 let parsedData = [];
 let currentDataIndex = 0;
 let isUpdating = true;
 let updateInterval = null;
+let svg;
 
 // Function to parse CSV data
 function parseCSVData(csvData) {
@@ -60,8 +53,11 @@ function transformRowToVisualizationData(row) {
     const lowestAsk = asks.length > 0 ? asks[0].price : 0;
     const midPrice = (highestBid + lowestAsk) / 2;
     
+    // Use tag60 as timestamp if available, otherwise use current time
+    const timestamp = row.tag60 ? new Date(parseInt(row.tag60.toString().slice(0, 13))) : new Date();
+    
     return {
-        timestamp: row.timestamp,
+        timestamp: timestamp,
         midPrice: midPrice,
         bids: bids,
         asks: asks
@@ -73,22 +69,44 @@ const margin = { top: 20, right: 80, bottom: 50, left: 80 };
 const width = 900 - margin.left - margin.right;
 const height = 500 - margin.top - margin.bottom;
 
-// Create the SVG container
-const svg = d3.select("#orderbook-chart")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-    
 // Create tooltip div
-const tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+let tooltip;
+
+// Function to create SVG container and tooltip
+function setupVisualization() {
+    // Clear previous SVG if it exists
+    d3.select("#orderbook-chart svg").remove();
+    
+    // Create the SVG container
+    svg = d3.select("#orderbook-chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+    
+    // Create tooltip div if it doesn't exist
+    if (!tooltip) {
+        tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+    }
+}
 
 // Initialize the visualization
 function init(data) {
+    if (!data || data.length === 0) {
+        console.error("No data provided or empty data array");
+        return;
+    }
+    
+    // Transform the data for visualization
     parsedData = data.map(row => transformRowToVisualizationData(row));
+    
+    // Clear any existing intervals
+    if (updateInterval) {
+        clearInterval(updateInterval);
+    }
     
     // Set up event listeners for the buttons
     document.getElementById("toggle-update").addEventListener("click", toggleUpdate);
@@ -100,8 +118,14 @@ function init(data) {
     // Handle file upload
     document.getElementById("csv-input").addEventListener("change", handleFileUpload);
     
+    // Setup the visualization containers
+    setupVisualization();
+    
     // Start the update interval
     startUpdateInterval();
+    
+    // Reset to first frame
+    currentDataIndex = 0;
     
     // Initial render
     updateVisualization(parsedData[currentDataIndex]);
@@ -155,11 +179,19 @@ function toggleUpdate() {
 }
 
 function updateVisualization(data) {
+    if (!data) {
+        console.error("No data provided to updateVisualization");
+        return;
+    }
+    
     // Clear previous elements
     svg.selectAll("*").remove();
     
-    // Update timestamp
-    document.getElementById("update-time").textContent = new Date(data.timestamp).toLocaleTimeString();
+    // Update timestamp - format to show date and time
+    const formattedTime = data.timestamp instanceof Date ? 
+        data.timestamp.toLocaleString() : 
+        new Date().toLocaleString();
+    document.getElementById("update-time").textContent = formattedTime;
     
     // Update mid price
     document.getElementById("mid-price").textContent = data.midPrice.toFixed(2);
@@ -361,15 +393,71 @@ function updateVisualization(data) {
         .attr("x", 3*width/4)
         .attr("y", height + 40)
         .text("Ask Volume");
-        
-//            svg.append("text")
-//                .attr("class", "y-axis-label")
-//                .attr("text-anchor", "middle")
-//                .attr("transform", "rotate(-90)")
-//                .attr("x", -height/2)
-//                .attr("y", width/2 + 50)
-//                .text("Price");
 }
 
-// Initialize with sample data
-init(parseCSVData(sampleCsvData));
+// Function to load CSV from file
+async function loadCSVFromFile(filename) {
+    try {
+        console.log(`Loading CSV from: ${filename}`);
+        const response = await fetch(filename);
+        if (!response.ok) {
+            throw new Error(`Failed to load CSV: ${response.status} ${response.statusText}`);
+        }
+        const csvData = await response.text();
+        return parseCSVData(csvData);
+    } catch (error) {
+        console.error("Error loading CSV:", error);
+        // Fallback to sample data if file can't be loaded
+        return null;
+    }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', async function() {
+    console.log("DOM fully loaded");
+    
+    // Set up the visualization first (without data)
+    setupVisualization();
+    
+    try {
+        // Try to load the CSV file using the Fetch API
+        const csvFileName = 'lob_outright_20191226_fut_ZCH0_11.csv';
+        let data = await loadCSVFromFile(csvFileName);
+        
+        if (data && data.length > 0) {
+            console.log(`Successfully loaded ${data.length} rows from ${csvFileName}`);
+            init(data);
+        } else {
+            console.warn("Using FileReader API as fallback");
+            // Use FileReader API to access local file system
+            const inputElement = document.getElementById("csv-input");
+            
+            // Show a message to the user that they need to upload the CSV file
+            document.getElementById("update-time").textContent = "Please upload a CSV file";
+            
+            // Add a small amount of sample data to show the visualization format
+            const sampleData = [
+                {
+                    timestamp: new Date(),
+                    midPrice: 386.25,
+                    bids: [
+                        { price: 386.00, volume: 50 },
+                        { price: 385.75, volume: 35 },
+                        { price: 385.50, volume: 70 }
+                    ],
+                    asks: [
+                        { price: 386.50, volume: 45 },
+                        { price: 386.75, volume: 30 },
+                        { price: 387.00, volume: 65 }
+                    ]
+                }
+            ];
+            
+            // Initialize with sample data
+            parsedData = sampleData;
+            updateVisualization(parsedData[0]);
+        }
+    } catch (error) {
+        console.error("Error during initialization:", error);
+    }
+});
