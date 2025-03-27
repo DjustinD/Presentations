@@ -17,8 +17,7 @@
 }
 
 /* Base Styles */
-html,
-body {
+html, body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -35,7 +34,7 @@ body {
     height: 100vh;
     margin: 0;
     background: white;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
     position: relative;
 }
 
@@ -49,6 +48,7 @@ body {
     flex-direction: column;
     position: relative;
     overflow: auto;
+    transition: opacity 0.3s ease;
 }
 
 .slide.active {
@@ -56,88 +56,35 @@ body {
 }
 
 /* Title Slide */
-.title-slide {
+.title-slide, .section-slide {
     background: var(--primary-color);
     color: var(--light-text);
     text-align: center;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
 }
 
-.title-slide h1 {
+.title-slide h1, .section-slide h2 {
     font-size: 3em;
     margin-bottom: 20px;
-}
-
-.title-slide h2 {
-    font-size: 2.5em;
-    margin-bottom: 15px;
-    color: var(--light-text);
     opacity: 0.9;
-}
-
-.title-slide p {
-    font-size: 2em;
-    margin-bottom: 10px;
-    opacity: 0.9;
-}
-
-/* Section Slide */
-.section-slide {
-    background: var(--primary-color);
-    color: var(--light-text);
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-}
-
-.section-slide h2 {
-    font-size: 3em;
-    margin-bottom: 15px;
-    color: var(--light-text);
-    opacity: 0.9;
-    border-bottom: none;
 }
 
 /* Typography */
-h1 {
-    font-size: 3em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
+h1, h2, h3 {
+    color: var(--primary-color);
 }
 
 h2 {
-    color: var(--primary-color);
     font-size: 2.5em;
-    margin-top: 0;
     margin-bottom: 30px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--accent-color);
 }
 
-h3 {
-    margin-top: 0;
-    color: var(--primary-color);
-}
-
-ul,
-ol {
-    margin-bottom: 20px;
-}
-
-li {
-    margin-bottom: 12px;
-}
-
 .highlight {
     color: var(--accent-color);
     font-weight: bold;
-}
-
-
-.small-text {
-    font-size: 1.5em;
 }
 
 /* Layout Components */
@@ -151,130 +98,46 @@ li {
 .chart {
     width: 100%;
     max-width: 800px;
-    height: auto;
-    margin: 20px auto;
-    background: white;
     padding: 20px;
     border-radius: 5px;
     box-shadow: var(--box-shadow);
 }
 
-#distribution-container {
+/* Improved Chart Object Styling */
+.chart-object {
     width: 100%;
-    height: 50vh;
+    height: 70vh;
     border: none;
     overflow: hidden;
     margin: 0 auto;
     display: block;
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
 }
 
-#chart-container svg {
-    width: 80%;
+/* Specific Chart Adjustments */
+#lob-structure .chart-container,
+#lob-split .chart-container {
+    max-width: 100%;
+    margin: 0 auto 20px;
     height: auto;
-    max-height: 70vh;
+    overflow: visible;
 }
 
-.chart-object {
-    width: 90vw; /* 90% of the viewport width */
-    height: 80vh; /* 80% of the viewport height */
-    border: none; /* Remove any default borders */
-    display: block; /* Ensure it behaves like a block element */
-    margin: 0 auto; /* Center the object horizontally */
+#lob-structure .chart-container object,
+#lob-split .chart-container object {
+    height: 75vh;
+    min-height: 500px;
 }
 
-.two-column {
-    display: flex;
-    justify-content: space-between;
-    gap: 30px;
-}
-
-.column {
-    flex: 1;
-}
-
-.aside-box {
-    background-color: #f8f8f8;
-    border-left: 4px solid var(--accent-color);
-    padding: 15px;
-    margin: 20px 0;
-    font-style: italic;
-    font-size: 1.1em;
-    color: #666;
-}
-
-.model-diagram {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0;
-}
-
-.equation {
-    font-family: 'Times New Roman', Times, serif;
-    font-style: italic;
-    font-size: 2.5em;
-    margin: 15px 0;
-    text-align: center;
-}
-
-/* Table Styles */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-}
-
-th,
-td {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    text-align: center;
-}
-
-th {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
-
-.header-row {
-    background-color: #e6e6e6;
-}
-
-.subheader {
-    background-color: #f9f9f9;
-}
-
-.footnote {
-    font-size: 0.8em;
-    font-style: italic;
-    text-align: left;
-}
-
-#chart-container svg {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
-}
-
-/* For loading state */
-.loading {
-    color: #777;
-    font-style: italic;
-    text-align: center;
-    padding: 20px;
+#distribution-container {
+    height: 65vh;
+    min-height: 400px;
 }
 
 /* Navigation and Controls */
-.controls {
+.controls, .nav-slider-container, .side-nav-toggle, .side-nav, .navigation-links {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    gap: 10px;
     z-index: 100;
 }
 
@@ -292,283 +155,18 @@ button {
 button:hover {
     background-color: var(--hover-color);
 }
-/* Enhanced Chart Object Styling */
-.chart-object {
-    width: 100%;  /* Use full width of container */
-    height: 70vh; /* Use 70% of viewport height */
-    border: none;
-    overflow: hidden;
-    margin: 0 auto;
-    display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Specific adjustments for LOB visualization */
-#lob-structure .chart-container {
-    max-width: 95%;  /* Slightly wider than default */
-    margin: 0 auto 20px auto;  /* Center and add bottom margin */
-    height: auto;
-}
-
-#lob-structure ul {
-    margin-top: 10px;  /* Add some space between chart and list */
-}
-
-/* Ensure the slide has enough space for the chart */
-#lob-structure {
-    padding-bottom: 20px;
-}
-.navigation-links {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 15px;
-}
-
-.nav-link {
-    color: var(--primary-color);
-    text-decoration: none;
-    padding: 5px 10px;
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    font-size: 0.8em;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.nav-link:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.agenda-link {
-    cursor: pointer;
-    color: var(--accent-color);
-    text-decoration: underline;
-    transition: color 0.2s ease;
-}
-
-.agenda-link:hover {
-    color: var(--primary-color);
-}
-
-/* Progress Bar (automatically created by JS) */
-.progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 3px;
-    background: var(--accent-color);
-    transition: width 0.3s;
-    width: 0;
-    z-index: 1000;
-}
-
-/* Slider Navigation */
-.nav-slider-container {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60%;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 8px 16px;
-    border-radius: 20px;
-    box-shadow: var(--nav-shadow);
-    z-index: 100;
-}
-
-.nav-slider {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 6px;
-    border-radius: 3px;
-    background: #d3d3d3;
-    outline: none;
-    transition: opacity 0.2s;
-}
-
-.nav-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    cursor: pointer;
-    border: 2px solid white;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.nav-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    background: var(--accent-color);
-    cursor: pointer;
-    border: 2px solid white;
-}
-
-.slider-label {
-    min-width: 60px;
-    text-align: center;
-    margin-left: 12px;
-    font-size: 14px;
-    color: var(--primary-color);
-    font-weight: bold;
-}
-
-/* Side Navigation */
-.side-nav-toggle {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: var(--primary-color);
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 200;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.side-nav-toggle:hover {
-    background: var(--hover-color);
-    transform: scale(1.05);
-}
-
-.side-nav {
-    position: fixed;
-    top: 0;
-    left: -300px;
-    width: 300px;
-    height: 100vh;
-    background: white;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 300;
-    transition: left 0.3s ease;
-    display: flex;
-    flex-direction: column;
-}
-
-.side-nav.open {
-    left: 0;
-}
-
-.side-nav-header {
-    padding: 15px;
-    background: var(--primary-color);
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.side-nav-header h3 {
-    margin: 0;
-    font-size: 18px;
-    color: white;
-}
-
-.close-nav {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-    padding: 0;
-    line-height: 1;
-}
-
-.side-nav-content {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 0;
-}
-
-.nav-slide-item {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.2s ease;
-}
-
-.nav-slide-item:hover {
-    background: #f5f5f5;
-}
-
-.nav-slide-item.active {
-    background: var(--accent-color);
-    color: white;
-    font-weight: bold;
-}
-
-.nav-section-title {
-    padding: 10px 15px;
-    background: #f1f1f1;
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 14px;
-}
-
-/* Animation for transitions */
-.slide {
-    transition: opacity 0.3s ease;
-}
-
-/* control of the font size in lists in a slide */
-.slide ul,
-.slide ol {
-    font-size: 1.2em;
-    line-height: 1.6;
-}
-
-.slide li {
-    font-size: inherit;
-}
-
-.slide ul ul,
-.slide ol ul,
-.slide ul ol,
-.slide ol ol {
-    font-size: 1em;
-    margin-left: 20px;
-    list-style-type: circle;
-}
-
-
 
 /* Print styles */
 @media print {
-
-    .controls,
-    .nav-slider-container,
-    .side-nav-toggle,
-    .side-nav,
-    .navigation-links {
+    .controls, .nav-slider-container, .side-nav-toggle, .side-nav, .navigation-links {
         display: none !important;
     }
-
     .slide {
         page-break-after: always;
         display: block !important;
         opacity: 1 !important;
     }
-
-    body,
-    html {
+    body, html {
         overflow: visible;
         height: auto;
     }
@@ -578,77 +176,25 @@ button:hover {
 @media (max-width: 768px) {
     .nav-slider-container {
         width: 80%;
-        bottom: 15px;
     }
-
-    .side-nav {
-        width: 80%;
-        max-width: 300px;
-        left: -80%;
-    }
-
     .two-column {
         flex-direction: column;
         gap: 15px;
     }
-
-    .slide {
-        padding: 20px;
-    }
-
     h2 {
         font-size: 1.5em;
-    }
-
-    .title-slide h1 {
-        font-size: 2em;
     }
 }
 
 @media (max-width: 480px) {
-    .controls {
-        bottom: 10px;
-        right: 10px;
-    }
-
     button {
         padding: 6px 12px;
         font-size: 0.9em;
     }
-
     .title-slide h1 {
         font-size: 1.8em;
     }
-
     .slide {
         padding: 15px;
     }
-}
-
-/* OHLC Chart Styles */
-.price-line {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.open-tick {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.close-tick {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.grid line {
-    stroke: lightgrey;
-    stroke-opacity: 0.3;
-}
-
-.ohlc-chart-container {
-    width: 800px;
-    height: 350px;
-    margin: 0 auto;
-    background-color: white;
 }
