@@ -1,0 +1,106 @@
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .chart-container {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .chart {
+        background-color: #f9f9f9;
+        border-radius: 5px;
+        padding: 20px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 1.2em;
+        color: #444;
+    }
+
+    .axis line,
+    .axis path {
+        stroke: #ddd;
+    }
+
+    .axis text {
+        fill: #666;
+        font-size: 12px;
+    }
+
+    .legend {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+
+    .legend-color {
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        border-radius: 3px;
+    }
+
+    .tooltip {
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.95);
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 8px;
+        pointer-events: none;
+        font-size: 14px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .tab-container {
+        margin-bottom: 20px;
+    }
+
+    .tab {
+        display: inline-block;
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #f0f0f0;
+        border: 1px solid #ddd;
+        border-bottom: none;
+        border-radius: 5px 5px 0 0;
+        margin-right: 5px;
+    }
+
+    .tab.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+
+    .chart-view {
+        display: none;
+    }
+
+    .chart-view.active {
+        display: block;
+    }

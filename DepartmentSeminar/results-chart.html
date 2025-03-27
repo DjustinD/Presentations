@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modified Information Share Visualization</title>
+  
+  <!-- Include D3.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+  
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="results-chart.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Modified Information Share Analysis</h1>
+    
+    <div class="tab-container">
+      <div class="tab active" data-tab="combined">Combined View</div>
+      <div class="tab" data-tab="corn">Corn</div>
+      <div class="tab" data-tab="soybean">Soybean</div>
+    </div>
+    
+    <div class="chart-container">
+      <div id="combined-view" class="chart-view active">
+        <div class="chart">
+          <div class="chart-title">Combined Information Share by Age (minutes)</div>
+          <div id="combined-chart"></div>
+        </div>
+      </div>
+      
+      <div id="corn-view" class="chart-view">
+        <div class="chart">
+          <div class="chart-title">Corn Information Share by Age (minutes)</div>
+          <div id="corn-chart"></div>
+        </div>
+      </div>
+      
+      <div id="soybean-view" class="chart-view">
+        <div class="chart">
+          <div class="chart-title">Soybean Information Share by Age (minutes)</div>
+          <div id="soybean-chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Link to external JavaScript -->
+  <script src="results-chart.js"></script>
+</body>
+</html>
