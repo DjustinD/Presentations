@@ -158,6 +158,18 @@ li {
     box-shadow: var(--box-shadow);
 }
 
+#chart-container svg {
+    width: 100%;
+    height: auto;
+    max-height: 70vh; /* Increasing from 500px to 70% of viewport height */
+}
+
+.chart-object {
+    width: 100%;
+    height: auto;
+    max-height: 70vh; /* Increase this from the current value */
+}
+
 .two-column {
     display: flex;
     justify-content: space-between;
@@ -499,10 +511,7 @@ button:hover {
     list-style-type: circle;
 }
 
-.chart-object {
-    width: 100%;
-    height: auto;
-}
+
 
 /* Print styles */
 @media print {
