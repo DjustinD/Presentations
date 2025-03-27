@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <!-- Background and border -->
+  <rect width="800" height="500" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+
+  
+  <!-- Title -->
+  <text x="400" y="30" font-family="Arial" font-size="20" text-anchor="middle" font-weight="bold">Modified Information Share</text>
+  <text x="400" y="55" font-family="Arial" font-size="16" text-anchor="middle">Corn and Soybean</text>
+  
+  <!-- Define the graph area -->
+  <g transform="translate(80, 120)">
+    <!-- X-axis -->
+    <line x1="0" y1="350" x2="650" y2="350" stroke="#000000" stroke-width="1"/>
+    
+    <!-- Y-axis -->
+    <line x1="0" y1="0" x2="0" y2="350" stroke="#000000" stroke-width="1"/>
+    
+    <!-- X-axis labels -->
+    <text x="60" y="370" font-family="Arial" font-size="12" text-anchor="middle">10</text>
+    <text x="125" y="370" font-family="Arial" font-size="12" text-anchor="middle">20</text>
+    <text x="190" y="370" font-family="Arial" font-size="12" text-anchor="middle">30</text>
+    <text x="255" y="370" font-family="Arial" font-size="12" text-anchor="middle">40</text>
+    <text x="320" y="370" font-family="Arial" font-size="12" text-anchor="middle">50</text>
+    <text x="385" y="370" font-family="Arial" font-size="12" text-anchor="middle">60</text>
+    <text x="450" y="370" font-family="Arial" font-size="12" text-anchor="middle">70</text>
+    <text x="515" y="370" font-family="Arial" font-size="12" text-anchor="middle">80</text>
+    <text x="580" y="370" font-family="Arial" font-size="12" text-anchor="middle">All *</text>
+    <text x="645" y="370" font-family="Arial" font-size="12" text-anchor="middle">**</text>
+    
+    <text x="325" y="395" font-family="Arial" font-size="14" text-anchor="middle">Orders age (min)</text>
+    
+    <!-- Y-axis labels -->
+    <text x="-10" y="0" font-family="Arial" font-size="12" text-anchor="end">50</text>
+    <text x="-10" y="70" font-family="Arial" font-size="12" text-anchor="end">40</text>
+    <text x="-10" y="140" font-family="Arial" font-size="12" text-anchor="end">30</text>
+    <text x="-10" y="210" font-family="Arial" font-size="12" text-anchor="end">20</text>
+    <text x="-10" y="280" font-family="Arial" font-size="12" text-anchor="end">10</text>
+    <text x="-10" y="350" font-family="Arial" font-size="12" text-anchor="end">0</text>
+    
+    <text transform="translate(-40, 175) rotate(-90)" font-family="Arial" font-size="14" text-anchor="middle">Information Share (%)</text>
+    
+    <!-- Grid lines (horizontal) -->
+    <line x1="0" y1="0" x2="650" y2="0" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="0" y1="70" x2="650" y2="70" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="0" y1="140" x2="650" y2="140" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="0" y1="210" x2="650" y2="210" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="0" y1="280" x2="650" y2="280" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    
+    <!-- Grid lines (vertical) -->
+    <line x1="60" y1="0" x2="60" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="125" y1="0" x2="125" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="190" y1="0" x2="190" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="255" y1="0" x2="255" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="320" y1="0" x2="320" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="385" y1="0" x2="385" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="450" y1="0" x2="450" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="515" y1="0" x2="515" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="580" y1="0" x2="580" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    <line x1="645" y1="0" x2="645" y2="350" stroke="#dddddd" stroke-width="1" stroke-dasharray="5,5"/>
+    
+    <!-- Data lines -->
+    <!-- Corn Last Price -->
+    <polyline points="
+      60,17.4
+      125,34.8
+      190,56.4
+      255,67.0
+      320,78.6
+      385,92.4
+      450,102.2
+      515,110.0
+      580,112.9
+      645,110.4
+    " fill="none" stroke="#0066cc" stroke-width="2"/>
+    
+    <!-- Corn LOB Step 1 -->
+    <polyline points="
+      60,33.1
+      125,26.0
+      190,35.9
+      255,51.1
+      320,59.0
+      385,68.7
+      450,70.8
+      515,69.7
+      580,63.8
+      645,77.7
+    " fill="none" stroke="#cc0000" stroke-width="2"/>
+    
+    <!-- Corn LOB Step 2-10 -->
+    <polyline points="
+      60,267.0
+      125,257.2
+      190,232.2
+      255,211.1
+      320,189.1
+      385,176.4
+      450,163.0
+      515,158.2
+      580,162.0
+      645,153.0
+    " fill="none" stroke="#009900" stroke-width="2"/>
+    
+    <!-- Soybean Last Price -->
+    <polyline points="
+      60,55.2
+      125,63.5
+      190,79.5
+      255,83.5
+      320,90.6
+      385,94.7
+      450,98.9
+      515,97.9
+      580,99.6
+      645,104.3
+    " fill="none" stroke="#9900cc" stroke-width="2" stroke-dasharray="5,3"/>
+    
+    <!-- Soybean LOB Step 1 -->
+    <polyline points="
+      60,46.8
+      125,52.0
+      190,60.9
+      255,65.0
+      320,64.9
+      385,106.6
+      450,64.3
+      515,65.4
+      580,64.8
+      645,70.6
+    " fill="none" stroke="#ff6600" stroke-width="2" stroke-dasharray="5,3"/>
+    
+    <!-- Soybean LOB Step 2-10 -->
+    <polyline points="
+      60,221.3
+      125,207.4
+      190,185.2
+      255,175.9
+      320,167.7
+      385,166.0
+      450,163.5
+      515,162.9
+      580,162.1
+      645,159.3
+    " fill="none" stroke="#33cc33" stroke-width="2" stroke-dasharray="5,3"/>
+    
+    <!-- Clear legend with proper position -->
+    <rect x="100" y="-53" width="500" height="45" fill="#ffffff" stroke="#000000" stroke-width="1"/>
+    
+    <!-- Legend items in a single row -->
+    <!-- Corn -->
+    <line x1="110" y1="-42" x2="140" y2="-42" stroke="#0066cc" stroke-width="2"/>
+    <text x="150" y="-40" font-family="Arial" font-size="11">Corn Last Price</text>
+    
+    <line x1="250" y1="-42" x2="280" y2="-42" stroke="#cc0000" stroke-width="2"/>
+    <text x="285" y="-40" font-family="Arial" font-size="11">Corn LOB Step 1</text>
+    
+    <line x1="400" y1="-42" x2="430" y2="-42" stroke="#009900" stroke-width="2"/>
+    <text x="435" y="-40" font-family="Arial" font-size="11">Corn LOB Step 2-10</text>
+    
+    <!-- Soybean -->
+    <line x1="110" y1="-24" x2="140" y2="-24" stroke="#9900cc" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="145" y="-20" font-family="Arial" font-size="11">Soybean Last Price</text>
+    
+    <line x1="250" y1="-24" x2="280" y2="-24" stroke="#ff6600" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="285" y="-20" font-family="Arial" font-size="11">Soybean LOB Step 1</text>
+    
+    <line x1="400" y1="-24" x2="430" y2="-24" stroke="#33cc33" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="435" y="-20" font-family="Arial" font-size="11">Soybean LOB Step 2-10</text>
+  </g>
+</svg>
