@@ -4,12 +4,13 @@ body {
     padding: 0;
     background-color: #f8f9fa;
     height: 100vh;
+    width: 100vw;
     overflow: hidden;
 }
 
 .container {
     width: 100%;
-    height: 100vh;
+    height: 100%;
     margin: 0;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -25,8 +26,7 @@ body {
     align-items: center;
     padding: 10px 20px;
     flex-wrap: wrap;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 h1 {
@@ -52,10 +52,10 @@ h1 {
 }
 
 .chart-container {
-    flex: 1;
-    display: flex;
     position: relative;
+    flex-grow: 1;
     width: 100%;
+    height: calc(100% - 150px); /* Adjust for header, mid-price, legend, and controls */
     overflow: hidden;
 }
 
@@ -83,17 +83,16 @@ h1 {
 .legend {
     display: flex;
     justify-content: center;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-top: 1px solid #ddd;
+    padding: 10px 0;
     flex-wrap: wrap;
+    flex-shrink: 0;
 }
 
 .legend-item {
     display: flex;
     align-items: center;
     margin-right: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .legend-color {
@@ -108,16 +107,14 @@ h1 {
     text-align: center;
     padding: 5px 0;
     color: #ff6600;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 .controls {
-    padding: 10px;
+    padding: 10px 0;
     display: flex;
     justify-content: center;
-    background-color: #f8f9fa;
-    border-top: 1px solid #ddd;
+    flex-shrink: 0;
 }
 
 button {
@@ -164,4 +161,43 @@ button.paused:hover {
     stroke: #333;
     stroke-width: 1.5;
     stroke-dasharray: 3, 2;
+}
+
+/* Responsive adjustments for small screens */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    h1 {
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+    
+    .legend-item {
+        margin-right: 10px;
+        font-size: 12px;
+    }
+    
+    .chart-container {
+        height: calc(100% - 170px); /* Adjusted for stacked header */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 18px;
+    }
+    
+    .legend {
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding: 5px 10px;
+    }
+    
+    button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
 }
