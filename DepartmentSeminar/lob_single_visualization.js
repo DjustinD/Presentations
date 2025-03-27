@@ -100,16 +100,26 @@ const height = 500 - margin.top - margin.bottom;
 // Create tooltip div
 let tooltip;
 
-// Function to create SVG container and tooltip
+// Function to set up SVG dimensions and margins
 function setupVisualization() {
+    // Get the container dimensions
+    const chartContainer = document.getElementById("orderbook-chart");
+    const containerWidth = chartContainer.clientWidth;
+    const containerHeight = chartContainer.clientHeight;
+    
     // Clear previous SVG if it exists
     d3.select("#orderbook-chart svg").remove();
     
-    // Create the SVG container
+    // Update width and height to be responsive
+    const margin = { top: 20, right: 80, bottom: 50, left: 80 };
+    const width = containerWidth - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
+    
+    // Create the SVG container with full size
     svg = d3.select("#orderbook-chart")
         .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
+        .attr("width", containerWidth)
+        .attr("height", containerHeight)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
     
@@ -119,6 +129,9 @@ function setupVisualization() {
             .attr("class", "tooltip")
             .style("opacity", 0);
     }
+    
+    // Return the dimensions for use in updateVisualization
+    return { width, height };
 }
 
 // Initialize the visualization
@@ -146,16 +159,16 @@ function init(data) {
         nextFrame();
     });
     
-    // Setup the visualization containers
+    // Reset to first frame
+    currentDataIndex = 0;
+    
+    // Setup the visualization containers - this will now return the dimensions
     setupVisualization();
     
     // Start the update interval
     startUpdateInterval();
     
-    // Reset to first frame
-    currentDataIndex = 0;
-    
-    // Initial render
+    // Initial render with the first data point
     updateVisualization(parsedData[currentDataIndex]);
 }
 
@@ -185,11 +198,22 @@ function toggleUpdate() {
     }
 }
 
+// Update the updateVisualization function to use the dynamic dimensions
 function updateVisualization(data) {
     if (!data) {
         console.error("No data provided to updateVisualization");
         return;
     }
+    
+    // Get the current dimensions
+    const chartContainer = document.getElementById("orderbook-chart");
+    const containerWidth = chartContainer.clientWidth;
+    const containerHeight = chartContainer.clientHeight;
+    
+    // Update margin and calculate available space
+    const margin = { top: 20, right: 80, bottom: 50, left: 80 };
+    const width = containerWidth - margin.left - margin.right;
+    const height = containerHeight - margin.top - margin.bottom;
     
     // Clear previous elements
     svg.selectAll("*").remove();
@@ -425,7 +449,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Display the filename
     document.getElementById("csv-filename").textContent = csvFilename;
     
-    // Set up the visualization first (without data)
+    // Set up the visualization containers BEFORE loading data
     setupVisualization();
     
     try {
@@ -443,5 +467,13 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error("Error during initialization:", error);
         document.getElementById("update-time").textContent = "Error loading data";
+    }
+});
+    
+// Add window resize event listener to make the chart responsive
+window.addEventListener('resize', function() {
+    if (parsedData.length > 0) {
+        setupVisualization();
+        updateVisualization(parsedData[currentDataIndex]);
     }
 });
