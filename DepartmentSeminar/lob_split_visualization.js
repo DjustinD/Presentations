@@ -5,6 +5,9 @@ let isUpdating = true;
 let updateInterval = null;
 const csvFilename = "lob_outright_20191226_ZCH0_fut_11_0_5400000__5400000_518400000.csv";
 
+// Chart dimensions and SVG container
+let svg, width, height, margin;
+
 // Function to parse CSV data
 function parseCSVData(csvData) {
     return Papa.parse(csvData, {
@@ -132,29 +135,51 @@ function transformRowToVisualizationData(row) {
     };
 }
 
-// Set up SVG dimensions and margins
-const margin = { top: 20, right: 80, bottom: 50, left: 80 };
-const width = 900 - margin.left - margin.right;
-const height = 500 - margin.top - margin.bottom;
+// Function to setup SVG and dimensions
+function setupChart() {
+    // Get current container dimensions
+    const container = document.getElementById('orderbook-chart');
+    const containerRect = container.getBoundingClientRect();
+    
+    // Set up SVG dimensions and margins - use smaller margins on smaller screens
+    const screenWidth = window.innerWidth;
+    margin = screenWidth < 768 ? 
+        { top: 10, right: 40, bottom: 30, left: 40 } : 
+        { top: 20, right: 80, bottom: 50, left: 80 };
+    
+    width = containerRect.width - margin.left - margin.right;
+    height = containerRect.height - margin.top - margin.bottom;
 
-// Create the SVG container
-let svg = d3.select("#orderbook-chart")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
+    // Remove existing SVG if any
+    d3.select("#orderbook-chart svg").remove();
+    
+    // Create the SVG container with 100% width and height
+    svg = d3.select("#orderbook-chart")
+        .append("svg")
+        .attr("width", "100%")
+        .attr("height", "100%")
+        .attr("viewBox", `0 0 ${containerRect.width} ${containerRect.height}`)
+        .attr("preserveAspectRatio", "xMidYMid meet")
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+}
 
 // Create tooltip div
-const tooltip = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
+let tooltip;
 
 // Initialize the visualization
 async function init() {
     try {
+        // Setup tooltip
+        tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+            
         // Display the filename
         document.getElementById("csv-filename").textContent = csvFilename;
+        
+        // Initialize the SVG
+        setupChart();
         
         // Sample CSV data for initial display until the actual file loads
         const sampleCsvData = `timestamp,new_bid_01_price,new_bid_01_qty,new_bid_02_price,new_bid_02_qty,new_ask_01_price,new_ask_01_qty,new_ask_02_price,new_ask_02_qty,old_bid_01_price,old_bid_01_qty,old_bid_02_price,old_bid_02_qty,old_ask_01_price,old_ask_01_qty,old_ask_02_price,old_ask_02_qty
@@ -196,6 +221,15 @@ async function init() {
             nextFrame();
         });
 
+        // Handle window resize - this is crucial for responsiveness
+        window.addEventListener('resize', debounce(() => {
+            console.log("Window resized - rebuilding chart");
+            setupChart();
+            if (parsedData.length > 0) {
+                updateVisualization(parsedData[currentDataIndex]);
+            }
+        }, 100)); // Reduced delay for more responsive updates
+
         // Start the update interval
         startUpdateInterval();
 
@@ -206,6 +240,17 @@ async function init() {
     } catch (error) {
         console.error("Error initializing visualization:", error);
     }
+}
+
+// Debounce function to limit resize events
+function debounce(func, delay) {
+    let timer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timer);
+        timer = setTimeout(() => func.apply(context, args), delay);
+    };
 }
 
 function startUpdateInterval() {
@@ -235,6 +280,18 @@ function toggleUpdate() {
 }
 
 function updateVisualization(data) {
+    // First get container dimensions again to ensure accuracy
+    const container = document.getElementById('orderbook-chart');
+    const containerRect = container.getBoundingClientRect();
+    
+    // Update dimensions
+    width = containerRect.width - margin.left - margin.right;
+    height = containerRect.height - margin.top - margin.bottom;
+    
+    // Update the SVG viewBox to match container
+    d3.select("#orderbook-chart svg")
+        .attr("viewBox", `0 0 ${containerRect.width} ${containerRect.height}`);
+        
     // Clear previous elements
     svg.selectAll("*").remove();
 
@@ -337,8 +394,8 @@ function updateVisualization(data) {
         .attr("stroke", "#e0e0e0")
         .attr("stroke-width", 0.5);
 
-    // Calculate bar heights
-    const barHeight = Math.min(12, height / (allPrices.length * 1.5));
+    // Calculate bar heights - responsive
+    const barHeight = Math.min(14, Math.max(6, height / (uniquePrices.length * 2.5)));
 
     // STACKED MODE VISUALIZATION
 
@@ -490,57 +547,62 @@ function updateVisualization(data) {
         .attr("fill", "#333")
         .text(d => d.totalVolume);
 
-    // Add volume labels for new bid volumes (inside the bars with white text)
-    svg.selectAll(".new-bid-text")
-        .data(data.aggregatedBids)
-        .enter()
-        .append("text")
-        .attr("class", "new-bid-text total-volume-label")
-        .attr("x", d => xScaleBids(d.oldVolume + d.newVolume / 2))
-        .attr("y", d => yScale(d.price) + 4)
-        .attr("text-anchor", "middle")
-        .attr("fill", "white")
-        .attr("font-weight", "bold")
-        .text(d => d.newVolume > 0 ? d.newVolume : "");
+    // Conditionally add volume labels based on available space
+    const shouldShowLabels = width > 500;
+    
+    if (shouldShowLabels) {
+        // Add volume labels for new bid volumes (inside the bars with white text)
+        svg.selectAll(".new-bid-text")
+            .data(data.aggregatedBids)
+            .enter()
+            .append("text")
+            .attr("class", "new-bid-text total-volume-label")
+            .attr("x", d => xScaleBids(d.oldVolume + d.newVolume / 2))
+            .attr("y", d => yScale(d.price) + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .attr("font-weight", "bold")
+            .text(d => d.newVolume > 0 ? d.newVolume : "");
 
-    // Add volume labels for old bid volumes
-    svg.selectAll(".old-bid-text")
-        .data(data.aggregatedBids)
-        .enter()
-        .append("text")
-        .attr("class", "old-bid-text total-volume-label")
-        .attr("x", d => xScaleBids(d.oldVolume / 2))
-        .attr("y", d => yScale(d.price) + 4)
-        .attr("text-anchor", "middle")
-        .attr("fill", "white")
-        .attr("font-weight", "bold")
-        .text(d => d.oldVolume > 0 ? d.oldVolume : "");
+        // Add volume labels for old bid volumes
+        svg.selectAll(".old-bid-text")
+            .data(data.aggregatedBids)
+            .enter()
+            .append("text")
+            .attr("class", "old-bid-text total-volume-label")
+            .attr("x", d => xScaleBids(d.oldVolume / 2))
+            .attr("y", d => yScale(d.price) + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .attr("font-weight", "bold")
+            .text(d => d.oldVolume > 0 ? d.oldVolume : "");
 
-    // Add volume labels for new ask volumes (inside the bars with white text)
-    svg.selectAll(".new-ask-text")
-        .data(data.aggregatedAsks)
-        .enter()
-        .append("text")
-        .attr("class", "new-ask-text total-volume-label")
-        .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) + (xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume)) / 2)
-        .attr("y", d => yScale(d.price) + 4)
-        .attr("text-anchor", "middle")
-        .attr("fill", "white")
-        .attr("font-weight", "bold")
-        .text(d => d.newVolume > 0 ? d.newVolume : "");
+        // Add volume labels for new ask volumes
+        svg.selectAll(".new-ask-text")
+            .data(data.aggregatedAsks)
+            .enter()
+            .append("text")
+            .attr("class", "new-ask-text total-volume-label")
+            .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) + (xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume)) / 2)
+            .attr("y", d => yScale(d.price) + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .attr("font-weight", "bold")
+            .text(d => d.newVolume > 0 ? d.newVolume : "");
 
-    // Add volume labels for old ask volumes
-    svg.selectAll(".old-ask-text")
-        .data(data.aggregatedAsks)
-        .enter()
-        .append("text")
-        .attr("class", "old-ask-text total-volume-label")
-        .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) / 2)
-        .attr("y", d => yScale(d.price) + 4)
-        .attr("text-anchor", "middle")
-        .attr("fill", "white")
-        .attr("font-weight", "bold")
-        .text(d => d.oldVolume > 0 ? d.oldVolume : "");
+        // Add volume labels for old ask volumes
+        svg.selectAll(".old-ask-text")
+            .data(data.aggregatedAsks)
+            .enter()
+            .append("text")
+            .attr("class", "old-ask-text total-volume-label")
+            .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) / 2)
+            .attr("y", d => yScale(d.price) + 4)
+            .attr("text-anchor", "middle")
+            .attr("fill", "white")
+            .attr("font-weight", "bold")
+            .text(d => d.oldVolume > 0 ? d.oldVolume : "");
+    }
 
     // Add mid price line
     svg.append("line")
@@ -552,20 +614,22 @@ function updateVisualization(data) {
         .attr("stroke-width", 1.5)
         .attr("stroke-dasharray", "5,3");
 
-    // Add axis labels
-    svg.append("text")
-        .attr("class", "x-axis-label")
-        .attr("text-anchor", "middle")
-        .attr("x", width / 4)
-        .attr("y", height + 40)
-        .text("Bid Volume");
+    // Add axis labels if enough space
+    if (height > 300) {
+        svg.append("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", width / 4)
+            .attr("y", height + 40)
+            .text("Bid Volume");
 
-    svg.append("text")
-        .attr("class", "x-axis-label")
-        .attr("text-anchor", "middle")
-        .attr("x", 3 * width / 4)
-        .attr("y", height + 40)
-        .text("Ask Volume");
+        svg.append("text")
+            .attr("class", "x-axis-label")
+            .attr("text-anchor", "middle")
+            .attr("x", 3 * width / 4)
+            .attr("y", height + 40)
+            .text("Ask Volume");
+    }
 }
 
 // Initialize with the direct CSV load
