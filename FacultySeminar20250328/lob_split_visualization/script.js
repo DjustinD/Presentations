@@ -156,11 +156,38 @@ async function init() {
         // Display the filename
         document.getElementById("csv-filename").textContent = csvFilename;
         
-        // Load CSV directly
-        const csvData = await window.fs.readFile(csvFilename, { encoding: 'utf8' });
-        const parsedCsvData = parseCSVData(csvData);
+        // Sample CSV data for initial display until the actual file loads
+        const sampleCsvData = `timestamp,new_bid_01_price,new_bid_01_qty,new_bid_02_price,new_bid_02_qty,new_ask_01_price,new_ask_01_qty,new_ask_02_price,new_ask_02_qty,old_bid_01_price,old_bid_01_qty,old_bid_02_price,old_bid_02_qty,old_ask_01_price,old_ask_01_qty,old_ask_02_price,old_ask_02_qty
+        2023-03-24T10:45:32,384.00,10,383.75,15,384.50,12,384.75,8,384.00,11,383.75,13,384.50,21,384.75,20
+        2023-03-24T10:45:35,383.75,12,383.50,18,384.25,9,384.50,14,383.75,13,383.50,22,384.25,6,384.50,21`;
         
-        parsedData = parsedCsvData.map(row => transformRowToVisualizationData(row));
+        // Initialize with sample data temporarily
+        const initialData = parseCSVData(sampleCsvData);
+        parsedData = initialData.map(row => transformRowToVisualizationData(row));
+        
+        // Load actual CSV file using fetch
+        fetch(csvFilename)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(csvData => {
+                const parsedCsvData = parseCSVData(csvData);
+                parsedData = parsedCsvData.map(row => transformRowToVisualizationData(row));
+                
+                // Update visualization with the first data point
+                if (parsedData.length > 0) {
+                    currentDataIndex = 0;
+                    updateVisualization(parsedData[currentDataIndex]);
+                }
+            })
+            .catch(error => {
+                console.error("Error loading CSV file:", error);
+                // Keep using sample data if file can't be loaded
+                alert("Could not load CSV file. Using sample data instead.");
+            });
 
         // Set up event listeners for the buttons
         document.getElementById("toggle-update").addEventListener("click", toggleUpdate);
@@ -172,14 +199,12 @@ async function init() {
         // Start the update interval
         startUpdateInterval();
 
-        // Initial render
+        // Initial render with sample data
         if (parsedData.length > 0) {
             updateVisualization(parsedData[currentDataIndex]);
-        } else {
-            console.error("No data found in CSV file");
         }
     } catch (error) {
-        console.error("Error loading CSV file:", error);
+        console.error("Error initializing visualization:", error);
     }
 }
 
