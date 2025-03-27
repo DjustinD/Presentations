@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digit Frequency Heatmap</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        .heatmap rect {
+            stroke: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <svg width="600" height="400"></svg>
+    <script>
+        const width = 600, height = 400;
+        const numDigits = 19;
+        const svg = d3.select("svg").attr("width", width).attr("height", height);
+
+        // Load data from CSV
+        d3.csv("https://raw.githubusercontent.com/DjustinD/Presentations/refs/heads/main/distribution_of_csv_numbers.csv").then(data => {
+            // Parse numbers from the CSV file
+            const parsedData = data.map(d => d.numbers.split('').map(Number));
+
+            // Compute frequency of each digit at each position
+            const frequencies = Array.from({ length: 10 }, () => Array(numDigits).fill(0));
+            parsedData.forEach(number => {
+                number.forEach((digit, pos) => {
+                    frequencies[digit][pos]++;
+                });
+            });
+
+            // Flatten data for D3
+            const flatData = [];
+            frequencies.forEach((row, digit) => {
+                row.forEach((value, pos) => {
+                    flatData.push({ digit, pos, value });
+                });
+            });
+
+            // Define scales
+            const xScale = d3.scaleBand().domain(d3.range(numDigits)).range([50, width - 50]).padding(0.05);
+            const yScale = d3.scaleBand().domain(d3.range(10)).range([50, height - 50]).padding(0.05);
+            const colorScale = d3.scaleLinear().domain([0, d3.max(flatData, d => d.value)]).range(["#ffffff", "#000000"]);
+
+            // Draw heatmap
+            svg.append("g")
+                .selectAll("rect")
+                .data(flatData)
+                .enter().append("rect")
+                .attr("x", d => xScale(d.pos))
+                .attr("y", d => yScale(d.digit))
+                .attr("width", xScale.bandwidth())
+                .attr("height", yScale.bandwidth())
+                .attr("fill", d => colorScale(d.value))
+                .attr("class", "heatmap");
+
+            // Add axes
+            const xAxis = d3.axisBottom(xScale).tickFormat(d => d);
+            const yAxis = d3.axisLeft(yScale).tickFormat(d => d);
+            svg.append("g").attr("transform", `translate(0,${height - 50})`).call(xAxis);
+            svg.append("g").attr("transform", "translate(50,0)").call(yAxis);
+        }).catch(error => {
+            console.error("Error loading the CSV file:", error);
+        });
+    </script>
+</body>
+</html>
