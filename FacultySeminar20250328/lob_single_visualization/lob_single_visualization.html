@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Limit Order Book Visualization</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Real-time Limit Order Book</h1>
+            <div class="time-info">Last Update: <span id="update-time">-</span></div>
+        </div>
+
+        <div class="mid-price">Mid Price: <span id="mid-price">-</span></div>
+
+        <div class="chart-container">
+            <div id="orderbook-chart"></div>
+        </div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: rgba(0, 166, 81, 0.8);"></div>
+                <span>Bid Orders</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: rgba(0, 174, 239, 0.8);"></div>
+                <span>Ask Orders</span>
+            </div>
+        </div>
+
+        <div id="file-upload">
+            <label for="csv-input" class="file-upload-label">Upload CSV Data</label>
+            <input type="file" id="csv-input" accept=".csv" />
+            <span class="file-name" id="file-name"></span>
+        </div>
+
+        <div class="controls">
+            <button id="toggle-update">Pause Updates</button>
+            <button id="next-frame">Next Frame</button>
+        </div>
+    </div>
+    <script>
+        src = "script.js"
+    </script>
+
+
+</body>
+
+</html>
