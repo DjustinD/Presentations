@@ -95,6 +95,8 @@
                         <li>Limited data availability</li>
                         <li>Daily price series analyses</li>
                         <li>Focus on end-of-day settlement prices</li>
+                        <li>Regular spaced (wall clock time) data</li>
+                        <li>Close prices result in a single time series</li>
                     </ul>
                 </div>
                 <div class="column">
@@ -103,7 +105,9 @@
                         <li>Complete order book records</li>
                         <li>Nanosecond timestamp precision</li>
                         <li>Full visibility of limit order lifecycle</li>
-                        <li>Ability to track individual order information</li>
+                        <li>Ability to track individual order information, but not the sender information</li>
+                        <li>Irregular time between datapoints (event time)</li>
+                        <li>Streaming data of multiple dimensions (side, prices, update type)</li>
                     </ul>
                 </div>
             </div>
@@ -132,12 +136,82 @@
                     </ul>
                 </div>
             </div>
+            <aside class="aside-box">
+                <p>Keep in mind we are taling aobut private information.</p>
+                <p>public information is generally available (in the news or rapidly disceminated)</p>
+                <p>Private information is NOT available and must be teased out of the data</p>
+            </aside>
+        </section>
+
+
+        <!-- Section 2: Data and Methodology -->
+        <section class="slide section-slide" id="section-2" aria-labelledby="section-2-heading">
+            <h2 id="section-3-heading">2. Data and Methodology</h2>
+
+            <nav class="navigation-links">
+                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+            </nav>
+        </section>
+
+        <!-- Data Description Slide -->
+        <section class="slide" id="data-description" aria-labelledby="data-heading">
+            <h2 id="data-heading">Market by Orders (MBO) Dataset</h2>
+            <ul>
+                <li><strong>Time Period:</strong> December 2, 2018 to December 27, 2019</li>
+                <li><strong>Markets:</strong> Corn and Soybeans futures contracts</li>
+                <li><strong>Data Type:</strong> Complete order book updates with 10 second snapshots</li>
+                <li><strong>Time Precision:</strong> Nanosecond timestamps</li>
+                <li><strong>Special Handling:</strong>
+                    <ul>
+                        <li>Holidays excluded from analysis</li>
+                        <li>Short trading days adjusted accordingly</li>
+                        <li>Filter out the evening session</li>
+                    </ul>
+                </li>
+            </ul>
+            <aside class="aside-box">
+                <p>The MBO dataset provides every single orderbook update, allowing for precise tracking of order age
+                    and information content.</p>
+                <p>Electrical signals traveling at the speed of light (299,792,458 m/s) travel 0.3 meters in one
+                    nanosecond.</p>
+            </aside>
 
         </section>
 
-        <!-- Section 2: Background on Limit Order Books -->
-        <section class="slide section-slide" id="section-2" aria-labelledby="section-2-heading">
-            <h2 id="section-2-heading">2. Background on Limit Order Books</h2>
+        <!-- Daily Bar Chart Slide -->
+        <section class="slide" id="daily-bar-chart" aria-labelledby="daily-chart-heading">
+            <h2 id="daily-chart-heading">Market Activity: Daily Bar Chart</h2>
+            
+            <!-- Using object tag to embed the external HTML chart -->
+            <object id="chart-container" data="ohlc-chart.html" type="text/html" class="chart-object"></object>
+            
+            <ul>
+                <li>Traditional price visualization showing trading ranges</li>
+                <li>Illustrates daily volatility and price trends</li>
+                <li>Provides context for microstructure analysis</li>
+                <li>Shows the market environment during our study period</li>
+            </ul>
+            
+
+        </section>
+
+        <!-- Tick Chart Slide -->
+        <section class="slide" id="tick-chart" aria-labelledby="tick-chart-heading">
+            <h2 id="tick-chart-heading">High-Frequency Market Activity</h2>
+            <figure class="chart-container">
+                <!--   <img src="/api/placeholder/800/350" alt="[Tick chart for a week of trade]" />   -->
+            </figure>
+            <ul>
+                <li>Each tick represents an individual trade</li>
+                <li>Demonstrates market microstructure at fine timescales</li>
+                <li>Shows intraday volatility patterns</li>
+                <li>Reveals market reaction to information arrival</li>
+            </ul>
+
+        </section>
+        <!-- Section 3: Background on Limit Order Books -->
+        <section class="slide section-slide" id="section-3" aria-labelledby="section-3-heading">
+            <h2 id="section-2-heading">3. Background on Limit Order Books</h2>
 
             <nav class="navigation-links">
                 <a class="nav-link" data-goto="agenda">Back to Agenda</a>
@@ -186,7 +260,7 @@
 
                     <h3>Trade Events</h3>
                     <ul>
-                        <li><strong>Add:</strong> New trade occurs</li>
+                        <li><strong>New:</strong> New trade occurs</li>
                         <ul>
                             <li>Note: trades are not changed or deleted</li>
                         </ul>
@@ -215,12 +289,6 @@
         </section>
 
 
-<!--
-I want a slide here that references "lob_split_visualization.html" 
-which is a LOB animation that shows the LOB changing over time with two distince groups of orders (new and old)
-this uses real data with 10 second snapshots
-
--->
 <section class="slide" id="lob-split-structure" aria-labelledby="lob-split-heading">
     <h2 id="lob-split-heading">Limit Order Book Split Visualization</h2>
         <object id="chart-container" data="lob_split_visualization.html" type="text/html" class="chart-object"></object>
@@ -231,81 +299,6 @@ this uses real data with 10 second snapshots
         <li>Demonstrates how order age affects market dynamics</li>
     </ul>
 </section>
-<!--
-<style>
-    .chart-object {
-        width: 90vw; /* 90% of the viewport width */
-        height: 80vh; /* 80% of the viewport height */
-        border: none; /* Remove any default borders */
-        display: block; /* Ensure it behaves like a block element */
-        margin: 0 auto; /* Center the object horizontally */
-    }
-</style>
--->
-        <!-- Section 3: Data and Methodology -->
-        <section class="slide section-slide" id="section-3" aria-labelledby="section-3-heading">
-            <h2 id="section-3-heading">3. Data and Methodology</h2>
-
-            <nav class="navigation-links">
-                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-            </nav>
-        </section>
-
-        <!-- Data Description Slide -->
-        <section class="slide" id="data-description" aria-labelledby="data-heading">
-            <h2 id="data-heading">Market by Orders (MBO) Dataset</h2>
-            <ul>
-                <li><strong>Time Period:</strong> December 2, 2018 to December 27, 2019</li>
-                <li><strong>Markets:</strong> Corn and Soybeans futures contracts</li>
-                <li><strong>Data Type:</strong> Complete order book updates with 10 second snapshots</li>
-                <li><strong>Time Precision:</strong> Nanosecond timestamps</li>
-                <li><strong>Special Handling:</strong>
-                    <ul>
-                        <li>Holidays excluded from analysis</li>
-                        <li>Short trading days adjusted accordingly</li>
-                    </ul>
-                </li>
-            </ul>
-            <aside class="aside-box">
-                <p>The MBO dataset provides every single orderbook update, allowing for precise tracking of order age
-                    and information content.</p>
-                <p>Electrical signals traveling at the speed of light (299,792,458 m/s) travel 0.3 meters in one
-                    nanosecond.</p>
-            </aside>
-
-        </section>
-
-        <!-- Daily Bar Chart Slide -->
-        <section class="slide" id="daily-bar-chart" aria-labelledby="daily-chart-heading">
-            <h2 id="daily-chart-heading">Market Activity: Daily Bar Chart</h2>
-            
-            <!-- Using object tag to embed the external HTML chart -->
-            <object id="chart-container" data="ohlc-chart.html" type="text/html" class="chart-object"></object>
-            
-            <ul>
-                <li>Traditional price visualization showing trading ranges</li>
-                <li>Illustrates daily volatility and price trends</li>
-                <li>Provides context for microstructure analysis</li>
-                <li>Shows the market environment during our study period</li>
-            </ul>
-            
-
-        </section>
-
-        <!-- Tick Chart Slide -->
-        <section class="slide" id="tick-chart" aria-labelledby="tick-chart-heading">
-            <h2 id="tick-chart-heading">High-Frequency Market Activity</h2>
-            <figure class="chart-container">
-                <!--   <img src="/api/placeholder/800/350" alt="[Tick chart for a week of trade]" />   -->
-            </figure>
-            <ul>
-                <li>Each tick represents an individual trade</li>
-                <li>Demonstrates market microstructure at fine timescales</li>
-                <li>Shows intraday volatility patterns</li>
-                <li>Reveals market reaction to information arrival</li>
-            </ul>
-
-        </section>
 
         <!-- LOB Visualization Slide -->
         <section class="slide" id="lob-visualization" aria-labelledby="lob-viz-heading">
