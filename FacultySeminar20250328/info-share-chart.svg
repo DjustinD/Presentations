@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+    <!-- Background -->
+    <rect width="800" height="500" fill="#ffffff" />
+
+    <!-- Title -->
+    <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" text-anchor="middle"
+        font-weight="bold">Information Share of the Limit Order Book</text>
+
+    <!-- Chart area -->
+    <rect x="100" y="80" width="650" height="350" fill="#f9f9f9" stroke="#ddd" stroke-width="1" />
+
+    <!-- Grid lines -->
+    <g stroke="#ddd" stroke-width="1">
+        <!-- Vertical grid -->
+        <line x1="100" y1="80" x2="100" y2="430" />
+        <line x1="175" y1="80" x2="175" y2="430" />
+        <line x1="250" y1="80" x2="250" y2="430" />
+        <line x1="325" y1="80" x2="325" y2="430" />
+        <line x1="400" y1="80" x2="400" y2="430" />
+        <line x1="475" y1="80" x2="475" y2="430" />
+        <line x1="550" y1="80" x2="550" y2="430" />
+        <line x1="625" y1="80" x2="625" y2="430" />
+        <line x1="700" y1="80" x2="700" y2="430" />
+        <line x1="750" y1="80" x2="750" y2="430" />
+
+        <!-- Horizontal grid -->
+        <line x1="100" y1="430" x2="750" y2="430" />
+        <line x1="100" y1="380" x2="750" y2="380" />
+        <line x1="100" y1="330" x2="750" y2="330" />
+        <line x1="100" y1="280" x2="750" y2="280" />
+        <line x1="100" y1="230" x2="750" y2="230" />
+        <line x1="100" y1="180" x2="750" y2="180" />
+        <line x1="100" y1="130" x2="750" y2="130" />
+        <line x1="100" y1="80" x2="750" y2="80" />
+    </g>
+
+    <!-- Y-axis labels -->
+    <g font-family="Arial, sans-serif" font-size="12" text-anchor="end">
+        <text x="95" y="435">50</text>
+        <text x="95" y="385">55</text>
+        <text x="95" y="335">60</text>
+        <text x="95" y="285">65</text>
+        <text x="95" y="235">70</text>
+        <text x="95" y="185">75</text>
+        <text x="95" y="135">80</text>
+        <text x="95" y="85">85</text>
+    </g>
+
+    <!-- X-axis labels -->
+    <g font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
+        <text x="175" y="450">10</text>
+        <text x="250" y="450">20</text>
+        <text x="325" y="450">30</text>
+        <text x="400" y="450">40</text>
+        <text x="475" y="450">50</text>
+        <text x="550" y="450">60</text>
+        <text x="625" y="450">70</text>
+        <text x="700" y="450">80</text>
+    </g>
+
+    <!-- Axis titles -->
+    <text x="425" y="480" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Orders Age
+        (minutes)</text>
+    <text x="40" y="255" font-family="Arial, sans-serif" font-size="16" text-anchor="middle"
+        transform="rotate(-90, 40, 255)">Information Share (%)</text>
+
+    <!-- Data points and lines -->
+    <!-- Corn LOB (Step 1 + Steps 2-10) -->
+    <polyline
+        points="175,305.32 250,296.26 325,273.46 400,258.94 475,243.96 550,229.53 625,217.43 700,214.08"
+        fill="none" stroke="#3366CC" stroke-width="3" />
+
+    <!-- Soybean LOB (Step 1 + Steps 2-10) -->
+    <polyline
+        points="175,274.46 250,262.17 325,242.87 400,239.34 475,228.95 550,228.06 625,217.25 700,217.03"
+        fill="none" stroke="#DC3912" stroke-width="3" />
+
+    <!-- Data points for Corn -->
+    <circle cx="175" cy="305.32" r="5" fill="#3366CC" />
+    <circle cx="250" cy="296.26" r="5" fill="#3366CC" />
+    <circle cx="325" cy="273.46" r="5" fill="#3366CC" />
+    <circle cx="400" cy="258.94" r="5" fill="#3366CC" />
+    <circle cx="475" cy="243.96" r="5" fill="#3366CC" />
+    <circle cx="550" cy="229.53" r="5" fill="#3366CC" />
+    <circle cx="625" cy="217.43" r="5" fill="#3366CC" />
+    <circle cx="700" cy="214.08" r="5" fill="#3366CC" />
+
+    <!-- Data points for Soybean -->
+    <circle cx="175" cy="274.46" r="5" fill="#DC3912" />
+    <circle cx="250" cy="262.17" r="5" fill="#DC3912" />
+    <circle cx="325" cy="242.87" r="5" fill="#DC3912" />
+    <circle cx="400" cy="239.34" r="5" fill="#DC3912" />
+    <circle cx="475" cy="228.95" r="5" fill="#DC3912" />
+    <circle cx="550" cy="228.06" r="5" fill="#DC3912" />
+    <circle cx="625" cy="217.25" r="5" fill="#DC3912" />
+    <circle cx="700" cy="217.03" r="5" fill="#DC3912" />
+
+    <!-- Legend -->
+    <rect x="550" y="50" width="200" height="60" fill="white" stroke="#ddd" stroke-width="1" rx="5"
+        ry="5" />
+
+    <line x1="570" y1="70" x2="600" y2="70" stroke="#3366CC" stroke-width="3" />
+    <circle cx="585" cy="70" r="5" fill="#3366CC" />
+    <text x="610" y="75" font-family="Arial, sans-serif" font-size="14">Corn LOB</text>
+
+    <line x1="570" y1="95" x2="600" y2="95" stroke="#DC3912" stroke-width="3" />
+    <circle cx="585" cy="95" r="5" fill="#DC3912" />
+    <text x="610" y="100" font-family="Arial, sans-serif" font-size="14">Soybean LOB</text>
+</svg>

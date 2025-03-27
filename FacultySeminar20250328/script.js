@@ -331,10 +331,13 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Function to load external HTML components
+    // Load external components
     function loadExternalComponent(containerId, filePath) {
         const container = document.getElementById(containerId);
-        if (!container) return;
+        if (!container) {
+            console.error(`Container with ID '${containerId}' not found`);
+            return;
+        }
         
         fetch(filePath)
             .then(response => {
