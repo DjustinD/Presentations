@@ -292,7 +292,32 @@ button {
 button:hover {
     background-color: var(--hover-color);
 }
+/* Enhanced Chart Object Styling */
+.chart-object {
+    width: 100%;  /* Use full width of container */
+    height: 70vh; /* Use 70% of viewport height */
+    border: none;
+    overflow: hidden;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+/* Specific adjustments for LOB visualization */
+#lob-structure .chart-container {
+    max-width: 95%;  /* Slightly wider than default */
+    margin: 0 auto 20px auto;  /* Center and add bottom margin */
+    height: auto;
+}
+
+#lob-structure ul {
+    margin-top: 10px;  /* Add some space between chart and list */
+}
+
+/* Ensure the slide has enough space for the chart */
+#lob-structure {
+    padding-bottom: 20px;
+}
 .navigation-links {
     position: absolute;
     bottom: 10px;
