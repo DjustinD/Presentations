@@ -230,6 +230,19 @@ tr:nth-child(even) {
     text-align: left;
 }
 
+#chart-container svg {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+}
+
+/* For loading state */
+.loading {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 20px;
+}
 
 /* Navigation and Controls */
 .controls {
