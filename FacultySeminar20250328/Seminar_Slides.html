@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <linke rel = "stylesheet" href = "styles.css">
-    <title>Faculty Seminar</title>
     <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <title>Faculty Seminar</title>
 </head>
 
 <body>
-    
+
     <!-- Main Controls -->
     <div class="controls" aria-label="Presentation Controls">
         <button id="prevBtn" aria-label="Previous Slide">Previous</button>
@@ -135,7 +135,7 @@
         <section class="slide" id="lob-structure" aria-labelledby="lob-heading">
             <h2 id="lob-heading">Limit Order Book Structure</h2>
             <figure class="chart-container">
-           <!--     <img src="/api/placeholder/800/350" alt="[Limit Order Book Visualization" />  -->
+                <!--     <img src="/api/placeholder/800/350" alt="[Limit Order Book Visualization" />  -->
             </figure>
             <ul>
                 <li><strong>Bids:</strong> Buy orders arranged in descending price order</li>
@@ -168,7 +168,7 @@
                     </ul>
                 </div>
                 <div class="column">
-                    <h3>Temporal Characteristics</h3> 
+                    <h3>Temporal Characteristics</h3>
                     <!-- Temporal = time-related 
                      In this context, "temporal" refers to time-related characteristics or aspects. 
                      Specifically, it describes how the lifespan or duration of limit orders in the order book varies over time. 
@@ -359,7 +359,7 @@
         <section class="slide" id="tick-chart" aria-labelledby="tick-chart-heading">
             <h2 id="tick-chart-heading">High-Frequency Market Activity</h2>
             <figure class="chart-container">
-             <!--   <img src="/api/placeholder/800/350" alt="[Tick chart for a week of trade]" />   -->
+                <!--   <img src="/api/placeholder/800/350" alt="[Tick chart for a week of trade]" />   -->
             </figure>
             <ul>
                 <li>Each tick represents an individual trade</li>
@@ -374,7 +374,7 @@
         <section class="slide" id="lob-visualization" aria-labelledby="lob-viz-heading">
             <h2 id="lob-viz-heading">Limit Order Book Visualization</h2>
             <figure class="chart-container">
-            <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book visualization]" />   -->
+                <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book visualization]" />   -->
             </figure>
             <ul>
                 <li>Horizontal bars showing bid (buy) and ask (sell) volumes</li>
@@ -393,7 +393,7 @@
             Keep in mind that the full LOB isn't limited to the first 10 steps.  
             Partitioning the LOB is a general practice when using LOB data-->
             <figure class="chart-container">
-            <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book showing 30 minute age split]" />  -->
+                <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book showing 30 minute age split]" />  -->
             </figure>
             <ul>
                 <li>Orders color-coded by age (new vs. old)</li>
@@ -433,7 +433,7 @@
                     <h3>New Orders (< threshold minutes)</h3>
                             <ul>
                                 <li>Concentrated near market price</li>
-                              <!--  <li>Higher execution probability</li> need to check into this with further research -->
+                                <!--  <li>Higher execution probability</li> need to check into this with further research -->
                                 <li>Reflect recent information</li>
                                 <li>Narrower price distribution</li>
 
@@ -485,19 +485,22 @@
             <div class="slide-number" aria-hidden="true"></div>
         </section>
 
-<!-- Model Specifications Slide -->
-<section class="slide" id="model-specifications" aria-labelledby="model-specs-heading">
-    <h2 id="model-specs-heading">Model Specifications Overview</h2>
-    <ul>
-        <li>Variable 1: Last Trade Price</li>
-        <li>Variable 2: New pLOB (Step 1)</li>
-        <li>Variable 3: New pLOB (Steps 2-10)</li>
-    </ul>
-    <aside class="aside-box">
-    <p>The model consists of a partial LOB that is built from orders under a certain age cutoff. We will test age limits of 10, 20, 30, 40, 50, 60, 70, 80 minutes, and we will compare with information in an LOB that is built from all orders regardless of age. Further, we will cross-reference our results with the 2019 results from Arzandeh and Frank.</p>
-    </aside>
-    <div class="slide-number" aria-hidden="true"></div>
-</section>
+        <!-- Model Specifications Slide -->
+        <section class="slide" id="model-specifications" aria-labelledby="model-specs-heading">
+            <h2 id="model-specs-heading">Model Specifications Overview</h2>
+            <ul>
+                <li>Variable 1: Last Trade Price</li>
+                <li>Variable 2: New pLOB (Step 1)</li>
+                <li>Variable 3: New pLOB (Steps 2-10)</li>
+            </ul>
+            <aside class="aside-box">
+                <p>The model consists of a partial LOB that is built from orders under a certain age cutoff. We will
+                    test age limits of 10, 20, 30, 40, 50, 60, 70, 80 minutes, and we will compare with information in
+                    an LOB that is built from all orders regardless of age. Further, we will cross-reference our results
+                    with the 2019 results from Arzandeh and Frank.</p>
+            </aside>
+            <div class="slide-number" aria-hidden="true"></div>
+        </section>
 
 
 
@@ -595,7 +598,8 @@
                 <li><strong>Information Content:</strong> Information persists in orders as old as 60 minutes</li>
                 <li><strong>Information Decay:</strong> Order information content declines after 20 minutes</li>
                 <li><strong>Optimal Price Depth:</strong> The most valuable information is in the top steps</li>
-                <li><strong>Best Bid/Ask Dominance:</strong> Step 1 (best bid/ask) provides 60-70% of all limit order book information</li>
+                <li><strong>Best Bid/Ask Dominance:</strong> Step 1 (best bid/ask) provides 60-70% of all limit order
+                    book information</li>
             </ul>
             <ul>
                 <li>Information share of new orders (< threshold) vs. old orders (≥ threshold)</li>
@@ -727,7 +731,8 @@
                 </tr>
             </table>
             <aside class="aside-box">
-                <p>Information share results show the percentage of price discovery attributed to different order age groups.</p>
+                <p>Information share results show the percentage of price discovery attributed to different order age
+                    groups.</p>
                 <p>Results are based on the Modified Information Share (MIS) measure.</p>
             </aside>
             <div class="slide-number" aria-hidden="true"></div>
@@ -740,83 +745,80 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
                 <!-- Background -->
                 <rect width="800" height="500" fill="#ffffff" />
-                
+
                 <!-- Title -->
-                <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" font-weight="bold">Information Share of the Limit Order Book</text>
-                
+                <text x="400" y="40" font-family="Arial, sans-serif" font-size="24" text-anchor="middle"
+                    font-weight="bold">Information Share of the Limit Order Book</text>
+
                 <!-- Chart area -->
                 <rect x="100" y="80" width="650" height="350" fill="#f9f9f9" stroke="#ddd" stroke-width="1" />
-                
+
                 <!-- Grid lines -->
                 <g stroke="#ddd" stroke-width="1">
-                  <!-- Vertical grid -->
-                  <line x1="100" y1="80" x2="100" y2="430" />
-                  <line x1="175" y1="80" x2="175" y2="430" />
-                  <line x1="250" y1="80" x2="250" y2="430" />
-                  <line x1="325" y1="80" x2="325" y2="430" />
-                  <line x1="400" y1="80" x2="400" y2="430" />
-                  <line x1="475" y1="80" x2="475" y2="430" />
-                  <line x1="550" y1="80" x2="550" y2="430" />
-                  <line x1="625" y1="80" x2="625" y2="430" />
-                  <line x1="700" y1="80" x2="700" y2="430" />
-                  <line x1="750" y1="80" x2="750" y2="430" />
-                  
-                  <!-- Horizontal grid -->
-                  <line x1="100" y1="430" x2="750" y2="430" />
-                  <line x1="100" y1="380" x2="750" y2="380" />
-                  <line x1="100" y1="330" x2="750" y2="330" />
-                  <line x1="100" y1="280" x2="750" y2="280" />
-                  <line x1="100" y1="230" x2="750" y2="230" />
-                  <line x1="100" y1="180" x2="750" y2="180" />
-                  <line x1="100" y1="130" x2="750" y2="130" />
-                  <line x1="100" y1="80" x2="750" y2="80" />
+                    <!-- Vertical grid -->
+                    <line x1="100" y1="80" x2="100" y2="430" />
+                    <line x1="175" y1="80" x2="175" y2="430" />
+                    <line x1="250" y1="80" x2="250" y2="430" />
+                    <line x1="325" y1="80" x2="325" y2="430" />
+                    <line x1="400" y1="80" x2="400" y2="430" />
+                    <line x1="475" y1="80" x2="475" y2="430" />
+                    <line x1="550" y1="80" x2="550" y2="430" />
+                    <line x1="625" y1="80" x2="625" y2="430" />
+                    <line x1="700" y1="80" x2="700" y2="430" />
+                    <line x1="750" y1="80" x2="750" y2="430" />
+
+                    <!-- Horizontal grid -->
+                    <line x1="100" y1="430" x2="750" y2="430" />
+                    <line x1="100" y1="380" x2="750" y2="380" />
+                    <line x1="100" y1="330" x2="750" y2="330" />
+                    <line x1="100" y1="280" x2="750" y2="280" />
+                    <line x1="100" y1="230" x2="750" y2="230" />
+                    <line x1="100" y1="180" x2="750" y2="180" />
+                    <line x1="100" y1="130" x2="750" y2="130" />
+                    <line x1="100" y1="80" x2="750" y2="80" />
                 </g>
-                
+
                 <!-- Y-axis labels -->
                 <g font-family="Arial, sans-serif" font-size="12" text-anchor="end">
-                  <text x="95" y="435">50</text>
-                  <text x="95" y="385">55</text>
-                  <text x="95" y="335">60</text>
-                  <text x="95" y="285">65</text>
-                  <text x="95" y="235">70</text>
-                  <text x="95" y="185">75</text>
-                  <text x="95" y="135">80</text>
-                  <text x="95" y="85">85</text>
+                    <text x="95" y="435">50</text>
+                    <text x="95" y="385">55</text>
+                    <text x="95" y="335">60</text>
+                    <text x="95" y="285">65</text>
+                    <text x="95" y="235">70</text>
+                    <text x="95" y="185">75</text>
+                    <text x="95" y="135">80</text>
+                    <text x="95" y="85">85</text>
                 </g>
-                
+
                 <!-- X-axis labels -->
                 <g font-family="Arial, sans-serif" font-size="12" text-anchor="middle">
-                  <text x="175" y="450">10</text>
-                  <text x="250" y="450">20</text>
-                  <text x="325" y="450">30</text>
-                  <text x="400" y="450">40</text>
-                  <text x="475" y="450">50</text>
-                  <text x="550" y="450">60</text>
-                  <text x="625" y="450">70</text>
-                  <text x="700" y="450">80</text>
+                    <text x="175" y="450">10</text>
+                    <text x="250" y="450">20</text>
+                    <text x="325" y="450">30</text>
+                    <text x="400" y="450">40</text>
+                    <text x="475" y="450">50</text>
+                    <text x="550" y="450">60</text>
+                    <text x="625" y="450">70</text>
+                    <text x="700" y="450">80</text>
                 </g>
-                
+
                 <!-- Axis titles -->
-                <text x="425" y="480" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Orders Age (minutes)</text>
-                <text x="40" y="255" font-family="Arial, sans-serif" font-size="16" text-anchor="middle" transform="rotate(-90, 40, 255)">Information Share (%)</text>
-                
+                <text x="425" y="480" font-family="Arial, sans-serif" font-size="16" text-anchor="middle">Orders Age
+                    (minutes)</text>
+                <text x="40" y="255" font-family="Arial, sans-serif" font-size="16" text-anchor="middle"
+                    transform="rotate(-90, 40, 255)">Information Share (%)</text>
+
                 <!-- Data points and lines -->
                 <!-- Corn LOB (Step 1 + Steps 2-10) -->
                 <polyline
-                  points="175,305.32 250,296.26 325,273.46 400,258.94 475,243.96 550,229.53 625,217.43 700,214.08"
-                  fill="none"
-                  stroke="#3366CC"
-                  stroke-width="3"
-                />
-                
+                    points="175,305.32 250,296.26 325,273.46 400,258.94 475,243.96 550,229.53 625,217.43 700,214.08"
+                    fill="none" stroke="#3366CC" stroke-width="3" />
+
                 <!-- Soybean LOB (Step 1 + Steps 2-10) -->
                 <polyline
-                  points="175,274.46 250,262.17 325,242.87 400,239.34 475,228.95 550,228.06 625,217.25 700,217.03"
-                  fill="none"
-                  stroke="#DC3912"
-                  stroke-width="3"
-                />
-                
+                    points="175,274.46 250,262.17 325,242.87 400,239.34 475,228.95 550,228.06 625,217.25 700,217.03"
+                    fill="none" stroke="#DC3912" stroke-width="3" />
+
                 <!-- Data points for Corn -->
                 <circle cx="175" cy="305.32" r="5" fill="#3366CC" />
                 <circle cx="250" cy="296.26" r="5" fill="#3366CC" />
@@ -826,7 +828,7 @@
                 <circle cx="550" cy="229.53" r="5" fill="#3366CC" />
                 <circle cx="625" cy="217.43" r="5" fill="#3366CC" />
                 <circle cx="700" cy="214.08" r="5" fill="#3366CC" />
-                
+
                 <!-- Data points for Soybean -->
                 <circle cx="175" cy="274.46" r="5" fill="#DC3912" />
                 <circle cx="250" cy="262.17" r="5" fill="#DC3912" />
@@ -836,18 +838,19 @@
                 <circle cx="550" cy="228.06" r="5" fill="#DC3912" />
                 <circle cx="625" cy="217.25" r="5" fill="#DC3912" />
                 <circle cx="700" cy="217.03" r="5" fill="#DC3912" />
-                
+
                 <!-- Legend -->
-                <rect x="550" y="50" width="200" height="60" fill="white" stroke="#ddd" stroke-width="1" rx="5" ry="5" />
-                
+                <rect x="550" y="50" width="200" height="60" fill="white" stroke="#ddd" stroke-width="1" rx="5"
+                    ry="5" />
+
                 <line x1="570" y1="70" x2="600" y2="70" stroke="#3366CC" stroke-width="3" />
                 <circle cx="585" cy="70" r="5" fill="#3366CC" />
                 <text x="610" y="75" font-family="Arial, sans-serif" font-size="14">Corn LOB</text>
-                
+
                 <line x1="570" y1="95" x2="600" y2="95" stroke="#DC3912" stroke-width="3" />
                 <circle cx="585" cy="95" r="5" fill="#DC3912" />
                 <text x="610" y="100" font-family="Arial, sans-serif" font-size="14">Soybean LOB</text>
-              </svg>
+            </svg>
             <div class="slide-number" aria-hidden="true"></div>
         </section>
 
@@ -923,8 +926,9 @@
                 <li><strong>Robust Findings:</strong> Consistent patterns across different market conditions and model
                     specifications</li>
                 <li><strong>Information Efficiency:</strong> <s>Agricultural futures markets efficiently process
-                    information</s></li>
-                <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price discovery</s></li>
+                        information</s></li>
+                <li><strong>Market Design:</strong> <s>Current market structure shows evidence of effective price
+                        discovery</s></li>
             </ul>
             <aside class="aside-box">
                 <p>Our research provides empirical evidence that order information decays over time, suggesting market
@@ -937,11 +941,17 @@
         <section class="slide" id="future-research" aria-labelledby="future-heading">
             <h2 id="future-heading">Future Research Directions</h2>
             <ul>
-                <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and non-agricultural futures</li>
-                <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading sessions</li>
-                <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain inforamtion</li>
-                <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information persistence</li>
-                <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout the trading day</ul>
+                <li><strong>Cross-Market Analysis:</strong> Extend methodology to other agricultural and
+                    non-agricultural futures</li>
+                <li><strong>High/Low Volume Periods:</strong> Compare information dynamics during different trading
+                    sessions</li>
+                <li><strong>High/Low Volatility Periods:</strong> Does Volatility impact which orders contain
+                    inforamtion</li>
+                <li><strong>News Announcement Impact:</strong> Study how scheduled news affects information persistence
+                </li>
+                <li><strong>Intraday Patterns:</strong> Investigate whether information lifecycle varies throughout the
+                    trading day
+            </ul>
             <div class="slide-number" aria-hidden="true"></div>
         </section>
 
@@ -952,7 +962,8 @@
                 <li><strong>Thesis Advisor:</strong> Dr. Jullieta Frank, University of Manitoba</li>
                 <li><strong>Committee Member:</strong> Dr. Mehdi Arznadeh, Lakehead University</li>
                 <li><strong>Committee Member:</strong> Dr. Barry Coyle, University of Manitoba</li>
-                <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance Computing Center</li>
+                <li><strong>Computing Support:</strong> Dr. Ali Kerrache, University of Manitoba High Performance
+                    Computing Center</li>
                 <li><strong>Funding:</strong> Natural Sciences and Engineering Research Council (NSERC)/li>
                 <li><strong>Additional Funding:</strong> Graduate Enhancement of Tri-Agency Stipends (GETS)</li>
                 <li><strong>Additional Funding:</strong> Winnipeg Commodity Excahnge Fellowship</li>
@@ -960,7 +971,8 @@
                 <li><strong>Data Providers:</strong> MDP 3.0 Data licenced from CME Group</li>
             </ul>
             <aside class="aside-box">
-                <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the opportunity to present this research.</p>
+                <p>Special thanks to the Seminar organizers Dr. Mostafa Shartaj & Dr. Alankrita Goswami for the
+                    opportunity to present this research.</p>
             </aside>
             <div class="slide-number" aria-hidden="true"></div>
         </section>
