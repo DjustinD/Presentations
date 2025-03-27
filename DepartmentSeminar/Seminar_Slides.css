@@ -49,6 +49,7 @@ body {
     flex-direction: column;
     position: relative;
     overflow: auto;
+    transition: opacity 0.3s ease;
 }
 
 .slide.active {
@@ -135,7 +136,6 @@ li {
     font-weight: bold;
 }
 
-
 .small-text {
     font-size: 1.5em;
 }
@@ -159,9 +159,44 @@ li {
     box-shadow: var(--box-shadow);
 }
 
+/* Chart Object Styling - CONSOLIDATED */
+.chart-object {
+    width: 100%;  /* Full width of container */
+    height: 70vh; /* 70% of viewport height */
+    border: none;
+    overflow: hidden;
+    margin: 0 auto 20px auto;
+    display: block;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Specific adjustments for visualization slides */
+#lob-structure .chart-container,
+#lob-split .chart-container {
+    max-width: 100%;  /* Use full width of slide */
+    margin: 0 auto 20px auto;
+    height: auto;
+    overflow: visible;
+}
+
+#lob-structure .chart-container object,
+#lob-split .chart-container object {
+    height: 75vh;  /* Make it taller */
+    min-height: 500px;  /* Ensure minimum height */
+}
+
+#daily-bar-chart .chart-object,
+#digit-distribution .chart-object,
+#info-share-visualization .chart-object {
+    height: 75vh;
+    min-height: 500px;
+}
+
 #distribution-container {
     width: 100%;
-    height: 50vh;
+    height: 65vh;
+    min-height: 400px;
     border: none;
     overflow: hidden;
     margin: 0 auto;
@@ -169,19 +204,31 @@ li {
 }
 
 #chart-container svg {
-    width: 80%;
+    width: 100%;
     height: auto;
-    max-height: 70vh;
+    max-height: 500px;
 }
 
-.chart-object {
-    width: 90vw; /* 90% of the viewport width */
-    height: 80vh; /* 80% of the viewport height */
-    border: none; /* Remove any default borders */
-    display: block; /* Ensure it behaves like a block element */
-    margin: 0 auto; /* Center the object horizontally */
+/* Ensure specific slides have proper styling */
+#lob-structure,
+#lob-split {
+    padding-bottom: 30px;
 }
 
+#lob-structure h2,
+#lob-split h2 {
+    margin-bottom: 15px;
+    font-size: 2.2em;
+}
+
+#lob-structure ul,
+#lob-split ul {
+    margin-top: 10px;
+    font-size: 1em;
+    margin-bottom: 10px;
+}
+
+/* Additional Layout Components */
 .two-column {
     display: flex;
     justify-content: space-between;
@@ -254,12 +301,6 @@ tr:nth-child(even) {
     text-align: left;
 }
 
-#chart-container svg {
-    width: 100%;
-    height: auto;
-    max-height: 500px;
-}
-
 /* For loading state */
 .loading {
     color: #777;
@@ -292,32 +333,7 @@ button {
 button:hover {
     background-color: var(--hover-color);
 }
-/* Enhanced Chart Object Styling */
-.chart-object {
-    width: 100%;  /* Use full width of container */
-    height: 70vh; /* Use 70% of viewport height */
-    border: none;
-    overflow: hidden;
-    margin: 0 auto;
-    display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-/* Specific adjustments for LOB visualization */
-#lob-structure .chart-container {
-    max-width: 95%;  /* Slightly wider than default */
-    margin: 0 auto 20px auto;  /* Center and add bottom margin */
-    height: auto;
-}
-
-#lob-structure ul {
-    margin-top: 10px;  /* Add some space between chart and list */
-}
-
-/* Ensure the slide has enough space for the chart */
-#lob-structure {
-    padding-bottom: 20px;
-}
 .navigation-links {
     position: absolute;
     bottom: 10px;
@@ -523,11 +539,6 @@ button:hover {
     font-size: 14px;
 }
 
-/* Animation for transitions */
-.slide {
-    transition: opacity 0.3s ease;
-}
-
 /* control of the font size in lists in a slide */
 .slide ul,
 .slide ol {
@@ -548,11 +559,36 @@ button:hover {
     list-style-type: circle;
 }
 
+/* OHLC Chart Styles */
+.price-line {
+    stroke: black;
+    stroke-width: 1;
+}
 
+.open-tick {
+    stroke: black;
+    stroke-width: 1;
+}
+
+.close-tick {
+    stroke: black;
+    stroke-width: 1;
+}
+
+.grid line {
+    stroke: lightgrey;
+    stroke-opacity: 0.3;
+}
+
+.ohlc-chart-container {
+    width: 800px;
+    height: 350px;
+    margin: 0 auto;
+    background-color: white;
+}
 
 /* Print styles */
 @media print {
-
     .controls,
     .nav-slider-container,
     .side-nav-toggle,
@@ -623,94 +659,4 @@ button:hover {
     .slide {
         padding: 15px;
     }
-}
-
-/* OHLC Chart Styles */
-.price-line {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.open-tick {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.close-tick {
-    stroke: black;
-    stroke-width: 1;
-}
-
-.grid line {
-    stroke: lightgrey;
-    stroke-opacity: 0.3;
-}
-
-.ohlc-chart-container {
-    width: 800px;
-    height: 350px;
-    margin: 0 auto;
-    background-color: white;
-}
-/* Improved Chart Object Styling */
-.chart-object {
-    width: 100%;  /* Full width of container */
-    height: 70vh; /* 70% of viewport height */
-    border: none;
-    overflow: hidden;
-    margin: 0 auto 20px auto;
-    display: block;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-}
-
-/* Specific adjustments for LOB visualization slides */
-#lob-structure .chart-container,
-#lob-split .chart-container {
-    max-width: 100%;  /* Use full width of slide */
-    margin: 0 auto 20px auto;
-    height: auto;
-    overflow: visible;
-}
-
-/* Add more vertical space for the chart */
-#lob-structure .chart-container object,
-#lob-split .chart-container object {
-    height: 75vh;  /* Make it taller */
-    min-height: 500px;  /* Ensure minimum height */
-}
-
-/* Reduce bullet point text size to make more room for chart */
-#lob-structure ul,
-#lob-split ul {
-    margin-top: 10px;
-    font-size: 1em;
-    margin-bottom: 10px;
-}
-
-/* Ensure enough spacing at the bottom of these slides */
-#lob-structure,
-#lob-split {
-    padding-bottom: 30px;
-}
-
-/* Reduce heading size to allocate more space to visualization */
-#lob-structure h2,
-#lob-split h2 {
-    margin-bottom: 15px;
-    font-size: 2.2em;
-}
-
-/* Apply similar improvements to other chart slides */
-#daily-bar-chart .chart-object,
-#digit-distribution .chart-object,
-#info-share-visualization .chart-object {
-    height: 75vh;
-    min-height: 500px;
-}
-
-/* Make sure other charts scale appropriately */
-#distribution-container {
-    height: 65vh;
-    min-height: 400px;
 }
