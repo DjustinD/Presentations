@@ -352,30 +352,11 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     }
 
-    // Function to load external SVG components
-    function loadSVGComponent(containerId, filePath) {
-        const container = document.getElementById(containerId);
-        if (!container) return;
-        
-        fetch(filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(svgContent => {
-                container.innerHTML = svgContent;
-            })
-            .catch(error => {
-                console.error('Error loading SVG component:', error);
-                container.innerHTML = `<p class="error">Failed to load SVG. Error: ${error.message}</p>`;
-            });
-    }
+
 
     // Load external components
     loadExternalComponent('table-container', 'info-share-table.html');
-    loadSVGComponent('chart-container', 'info-share-chart.svg');
+
 
     // Initialize side navigation
     setupSideNav();
