@@ -143,7 +143,6 @@
             </aside>
         </section>
 
-
         <!-- Section 2: Data and Methodology -->
         <section class="slide section-slide" id="section-2" aria-labelledby="section-2-heading">
             <h2 id="section-3-heading">2. Data and Methodology</h2>
@@ -169,8 +168,6 @@
                     </ul>
                 </li>
             </ul>
-
-
         </section>
 
         <!-- Daily Bar Chart Slide -->
@@ -194,30 +191,6 @@
                 <li>Shows intraday volatility patterns</li>
                 <li>Reveals market reaction to information arrival</li>
             </ul>
-
-        </section>
-        <!-- Section 3: Background on Limit Order Books -->
-        <section class="slide section-slide" id="section-3" aria-labelledby="section-3-heading">
-            <h2 id="section-2-heading">3. Background on Limit Order Books</h2>
-
-            <nav class="navigation-links">
-                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
-            </nav>
-        </section>
-
-        <!-- LOB Structure Slide -->
-        <section class="slide" id="lob-structure" aria-labelledby="lob-heading">
-            <h2 id="lob-heading">Limit Order Book Structure</h2>
-            <!-- here we have an animation of the LOB structure changing over time, this uses real data with 10 second snapshots-->
-            <!-- Using object tag to embed the external HTML chart -->
-            <object id="chart-container2" data="lob_single_visualization.html" type="text/html" class="chart-object"></object>
-            <ul>
-                <li><strong>Bids:</strong> Buy orders arranged in descending price order</li>
-                <li><strong>Asks:</strong> Sell orders arranged in ascending price order</li>
-                <li><strong>Price Steps:</strong> Discrete price levels across the order book</li>
-                <li><strong>Market Depth:</strong> Volume of orders at each price level</li>
-            </ul>
-
         </section>
 
         <!-- Order Lifecycle Slide -->
@@ -231,18 +204,15 @@
                         <ul>
                             <li>New orders arrive from a trader</li>
                         </ul>
-
                         <li><strong>Change:</strong> Modification to an existing order</li>
                         <ul>
                             <li>Orders can have qty changed though a user edit, or a partial trade</li>
                             <li>Order can have price changed through a user edit</li>
                         </ul>
-
                         <li><strong>Delete:</strong> Removal of an order</li>
                         <ul>
                             <li>Order can be deleted through a user action, or a complete trade</li>
                         </ul>
-
                     </ul>
 
                     <h3>Trade Events</h3>
@@ -272,55 +242,79 @@
             <aside class="aside-box">
                 <p>Our research specifically examines how order age affects information content in price discovery.</p>
             </aside>
-
         </section>
 
 
-<section class="slide" id="lob-split-structure" aria-labelledby="lob-split-heading">
-    <h2 id="lob-split-heading">Limit Order Book Split Visualization</h2>
-        <object id="chart-container3" data="lob_split_visualization.html" type="text/html" class="chart-object"></object>
-    <ul>
-        <li>Visualization of new vs. old orders in the LOB</li>
-        <li>New orders are shown in darker colors</li>
-        <li>Old orders are shown in lighter colors</li>
-        <li>Demonstrates how order age affects market dynamics</li>
-    </ul>
-</section>
 
-        <!-- LOB Visualization Slide -->
-        <section class="slide" id="lob-visualization" aria-labelledby="lob-viz-heading">
-            <h2 id="lob-viz-heading">Limit Order Book Visualization</h2>
-            <figure class="chart-container">
-                <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book visualization]" />   -->
-            </figure>
-            <ul>
-                <li>Horizontal bars showing bid (buy) and ask (sell) volumes</li>
-                <li>Market depth represented by bar length</li>
-                <li>Price levels on y axis</li> <!-- y axis = vertical axis -->
-                <li>Volume on x axis</li> <!-- x axis = horizontal axis -->
-                <li>Bid-ask spread visible at center</li>
-            </ul>
 
+
+
+
+
+        <!-- Section 3: Background on Limit Order Books -->
+        <section class="slide section-slide" id="section-3" aria-labelledby="section-3-heading">
+            <h2 id="section-2-heading">3. Background on Limit Order Books</h2>
+
+            <nav class="navigation-links">
+                <a class="nav-link" data-goto="agenda">Back to Agenda</a>
+            </nav>
         </section>
 
-        <!-- Order Age Split Slide -->
-        <section class="slide" id="order-age-split" aria-labelledby="age-split-heading">
-            <h2 id="age-split-heading">Age-Based Order Book Partitioning</h2>
+        <!-- LOB Structure Slide -->
+        <section class="slide" id="lob-structure" aria-labelledby="lob-heading">
+            <h2 id="lob-heading">Limit Order Book Structure</h2>
+            <!-- here we have an animation of the LOB structure changing over time, this uses real data with 10 second snapshots-->
+            <!-- Using object tag to embed the external HTML chart, make sure the object id is unique, and use the class="chart-object" for consisency accross slides -->
+            <object id="chart-container2" data="lob_single_visualization.html" type="text/html"
+                class="chart-object"></object>
+            <div class="two-column">
+                <div class="column">
+                    <ul>
+                        <li><strong>Bids:</strong> Buy orders arranged in descending price order</li>
+                        <li><strong>Asks:</strong> Sell orders arranged in ascending price order</li>
+                        <li><strong>Price Steps:</strong> Discrete price levels across the order book</li>
+                        <li><strong>Market Depth:</strong> Volume of orders at each price level</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Horizontal bars showing bid (buy) and ask (sell) volumes</li>
+                        <li>Market depth represented by bar length</li>
+                        <li>Price levels on y axis</li> <!-- y axis = vertical axis -->
+                        <li>Volume on x axis</li> <!-- x axis = horizontal axis -->
+                        <li>Bid-ask spread visible at center</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOB Split Visualization Slide -->
+        <section class="slide" id="lob-split-structure" aria-labelledby="lob-split-heading">
+            <h2 id="lob-split-heading">Limit Order Book Split Visualization</h2>
             <!--What do we mean by partitioning?  we are just using a portion of the full LOB.  
             Keep in mind that the full LOB isn't limited to the first 10 steps.  
             Partitioning the LOB is a general practice when using LOB data-->
-            <figure class="chart-container">
-                <!--    <img src="/api/placeholder/800/350" alt="[Limit Order Book showing 30 minute age split]" />  -->
-            </figure>
-            <ul>
-                <li>Orders color-coded by age (new vs. old)</li>
-                <li>New orders (< 30 min) shown in darker colors</li>
-                <li>Old orders (≥ 30 min) shown in lighter colors</li>
-                <li>Visual representation of our key research concept</li>
-            </ul>
-
+            <object id="chart-container3" data="lob_split_visualization.html" type="text/html"
+                class="chart-object"></object>
+            <div class="two-column">
+                <div class="column">
+                    <ul>
+                        <li>Visualization of new vs. old orders in the LOB</li>
+                        <li>New orders are shown in darker colors</li>
+                        <li>Old orders are shown in lighter colors</li>
+                        <li>Demonstrates how order age affects market dynamics</li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <ul>
+                        <li>Orders color-coded by age (new vs. old)</li>
+                        <li>New orders (< 30 min) shown in darker colors</li>
+                        <li>Old orders (≥ 30 min) shown in lighter colors</li>
+                        <li>Visual representation of our key research concept</li>
+                    </ul>
+                </div>
+            </div>
         </section>
-
         <!-- Partial LOBs Slide -->
         <section class="slide" id="partial-lobs" aria-labelledby="plob-heading">
             <h2 id="plob-heading">Partial Limit Order Books (pLOBs)</h2>
@@ -395,9 +389,10 @@
                         <li>Compare information content across orders of different ages</li>
                     </ul>
                 </li>
-                <!-- not sure if this belongs here
+                <!--TODO: are you sure this should be here?-->
                 <li><strong>Theoretical Context:</strong> Public vs. private information persistence in order book</li>
-                -->
+                
+                
             </ul>
 
         </section>
