@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timestamp Digit Frequency Heatmap</title>
+    <link rel="stylesheet" href="digit-heatmap.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <svg id="heatmap" width="900" height="600"></svg>
+        <div class="footnote">Data source: <span id="filename">futures_data.csv</span></div>
+    </div>
+    <script src="digit-heatmap.js"></script>
+</body>
+</html>
