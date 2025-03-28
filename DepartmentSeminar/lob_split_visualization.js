@@ -407,9 +407,9 @@ function updateVisualization(data) {
         .append("rect")
         .attr("class", "old-bid-bar stacked-bar")
         .attr("x", d => xScaleBids(d.oldVolume))
-        .attr("y", d => yScale(d.price) - barHeight / 2)
+        .attr("y", d => yScale(d.price)) // Remove the - barHeight / 2
         .attr("width", d => width / 2 - xScaleBids(d.oldVolume))
-        .attr("height", barHeight)
+        .attr("height", barHeight + 1) // Add 1px to eliminate gaps
         .attr("fill", "rgba(50, 205, 50, 0.6)")
         .on("mouseover", function (event, d) {
             tooltip.transition()
@@ -432,9 +432,9 @@ function updateVisualization(data) {
         .append("rect")
         .attr("class", "new-bid-bar stacked-bar")
         .attr("x", d => xScaleBids(d.totalVolume))
-        .attr("y", d => yScale(d.price) - barHeight / 2)
+        .attr("y", d => yScale(d.price)) // Remove the - barHeight / 2
         .attr("width", d => xScaleBids(d.oldVolume) - xScaleBids(d.totalVolume))
-        .attr("height", barHeight)
+        .attr("height", barHeight + 1) // Add 1px to eliminate gaps
         .attr("fill", "rgba(0, 166, 81, 0.8)")
         .on("mouseover", function (event, d) {
             tooltip.transition()
@@ -458,8 +458,8 @@ function updateVisualization(data) {
         .attr("class", "bid-total-marker total-marker")
         .attr("x1", d => xScaleBids(d.totalVolume))
         .attr("x2", d => xScaleBids(d.totalVolume))
-        .attr("y1", d => yScale(d.price) - barHeight / 2 - 3)
-        .attr("y2", d => yScale(d.price) + barHeight / 2 + 3);
+        .attr("y1", d => yScale(d.price) - 3) // Adjust for new bar position
+        .attr("y2", d => yScale(d.price) + barHeight + 3); // Adjust for new bar position
 
     // Add total volume text for bids
     svg.selectAll(".bid-total-text")
@@ -481,9 +481,9 @@ function updateVisualization(data) {
         .append("rect")
         .attr("class", "old-ask-bar stacked-bar")
         .attr("x", width / 2 + 1) // Start at center line
-        .attr("y", d => yScale(d.price) - barHeight / 2)
+        .attr("y", d => yScale(d.price)) // Remove the - barHeight / 2
         .attr("width", d => xScaleAsks(d.oldVolume))
-        .attr("height", barHeight)
+        .attr("height", barHeight + 1) // Add 1px to eliminate gaps
         .attr("fill", "rgba(70, 130, 180, 0.6)")
         .on("mouseover", function (event, d) {
             tooltip.transition()
@@ -506,9 +506,9 @@ function updateVisualization(data) {
         .append("rect")
         .attr("class", "new-ask-bar stacked-bar")
         .attr("x", d => width / 2 + 1 + xScaleAsks(d.oldVolume))
-        .attr("y", d => yScale(d.price) - barHeight / 2)
+        .attr("y", d => yScale(d.price)) // Remove the - barHeight / 2
         .attr("width", d => xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume))
-        .attr("height", barHeight)
+        .attr("height", barHeight + 1) // Add 1px to eliminate gaps
         .attr("fill", "rgba(0, 174, 239, 0.8)")
         .on("mouseover", function (event, d) {
             tooltip.transition()
@@ -532,8 +532,8 @@ function updateVisualization(data) {
         .attr("class", "ask-total-marker total-marker")
         .attr("x1", d => width / 2 + xScaleAsks(d.totalVolume))
         .attr("x2", d => width / 2 + xScaleAsks(d.totalVolume))
-        .attr("y1", d => yScale(d.price) - barHeight / 2 - 3)
-        .attr("y2", d => yScale(d.price) + barHeight / 2 + 3);
+        .attr("y1", d => yScale(d.price) - 3) // Adjust for new bar position
+        .attr("y2", d => yScale(d.price) + barHeight + 3); // Adjust for new bar position
 
     // Add total volume labels for asks
     svg.selectAll(".ask-total-text")
@@ -558,7 +558,7 @@ function updateVisualization(data) {
             .append("text")
             .attr("class", "new-bid-text total-volume-label")
             .attr("x", d => xScaleBids(d.oldVolume + d.newVolume / 2))
-            .attr("y", d => yScale(d.price) + 4)
+            .attr("y", d => yScale(d.price) + barHeight / 2 + 4) // Center in the new bar position
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .attr("font-weight", "bold")
@@ -571,7 +571,7 @@ function updateVisualization(data) {
             .append("text")
             .attr("class", "old-bid-text total-volume-label")
             .attr("x", d => xScaleBids(d.oldVolume / 2))
-            .attr("y", d => yScale(d.price) + 4)
+            .attr("y", d => yScale(d.price) + barHeight / 2 + 4) // Center in the new bar position
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .attr("font-weight", "bold")
@@ -584,7 +584,7 @@ function updateVisualization(data) {
             .append("text")
             .attr("class", "new-ask-text total-volume-label")
             .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) + (xScaleAsks(d.totalVolume) - xScaleAsks(d.oldVolume)) / 2)
-            .attr("y", d => yScale(d.price) + 4)
+            .attr("y", d => yScale(d.price) + barHeight / 2 + 4) // Center in the new bar position
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .attr("font-weight", "bold")
@@ -597,7 +597,7 @@ function updateVisualization(data) {
             .append("text")
             .attr("class", "old-ask-text total-volume-label")
             .attr("x", d => width / 2 + xScaleAsks(d.oldVolume) / 2)
-            .attr("y", d => yScale(d.price) + 4)
+            .attr("y", d => yScale(d.price) + barHeight / 2 + 4) // Center in the new bar position
             .attr("text-anchor", "middle")
             .attr("fill", "white")
             .attr("font-weight", "bold")
