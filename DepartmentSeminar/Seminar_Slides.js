@@ -342,7 +342,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Load external components
-    loadExternalComponent('table-container', 'info-share-table.html');
+    loadExternalComponent('table-container', 'results-table.html');
 
 
     // Initialize side navigation
