@@ -161,8 +161,10 @@ li {
 
 /* Chart Object Styling - CONSOLIDATED */
 .chart-object {
-    width: 100%;  /* Full width of container */
-    height: 100%; /* Full height of the container */
+    width: 100%;
+    /* Full width of container */
+    height: 100%;
+    /* Full height of the container */
     border: none;
     overflow: hidden;
     margin: 0 auto 20px auto;
@@ -174,9 +176,12 @@ li {
 /* Specific adjustments for visualization slides */
 #lob-structure .chart-container,
 #lob-split .chart-container {
-    max-width: 90%;  /* Use 90% of the slide width */
-    max-height: 90%; /* Use 90% of the slide height */
-    margin: 0 auto; /* Center the chart */
+    max-width: 90%;
+    /* Use 90% of the slide width */
+    max-height: 90%;
+    /* Use 90% of the slide height */
+    margin: 0 auto;
+    /* Center the chart */
     margin: 0 auto 20px auto;
     height: auto;
     overflow: visible;
@@ -184,10 +189,14 @@ li {
 
 #lob-structure .chart-container object,
 #lob-split .chart-container object {
-    height: 100vh;  /* USe the full height of the container */
-    width: 100vh;  /* Use the full width of the container */
-    max-width: 100%; /* Ensure it doesn't exceed the container */
-    min-height: 500px;  /* Ensure minimum height */
+    height: 100vh;
+    /* USe the full height of the container */
+    width: 100vh;
+    /* Use the full width of the container */
+    max-width: 100%;
+    /* Ensure it doesn't exceed the container */
+    min-height: 500px;
+    /* Ensure minimum height */
 }
 
 #daily-bar-chart .chart-object,
@@ -271,6 +280,40 @@ li {
     font-size: 2.5em;
     margin: 15px 0;
     text-align: center;
+}
+
+.summation {
+    display: inline-block;
+    position: relative;
+    font-size: 2em;
+    text-align: middle;
+    line-height: 1;
+    margin-right: 50px;
+}
+
+.upper-limit {
+    position: absolute;
+    top: 0.1em;
+    /* Instead of +8px */
+    right: -1.8em;
+    /* Instead of -20px */
+    font-size: 0.35em;
+    /* Instead of 14px */
+}
+
+.lower-limit {
+    position: absolute;
+    bottom: -0.1em;
+    /* Instead of -3px */
+    right: -1.8em;
+    /* Instead of -20px */
+    font-size: 0.35em;
+    /* Instead of 14px */
+}
+
+.term {
+    display: inline-block;
+    margin: 0 5px;
 }
 
 /* Table Styles */
@@ -598,6 +641,7 @@ button:hover {
 
 /* Print styles */
 @media print {
+
     .controls,
     .nav-slider-container,
     .side-nav-toggle,
@@ -648,6 +692,15 @@ button:hover {
     .title-slide h1 {
         font-size: 2em;
     }
+
+    .equation {
+        font-size: 2em;
+    }
+
+    .summation {
+        font-size: 1.8em;
+        margin-right: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -667,5 +720,15 @@ button:hover {
 
     .slide {
         padding: 15px;
+    }
+
+
+    .equation {
+        font-size: 1.5em;
+    }
+
+    .summation {
+        font-size: 1.6em;
+        margin-right: 15px;
     }
 }
