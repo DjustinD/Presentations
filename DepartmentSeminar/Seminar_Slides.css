@@ -306,7 +306,20 @@ li {
     font-size: 0.35em;
     text-align: left;
 }
-
+.upper-limit0 {
+    position: absolute;
+    top: 0.1em;
+    right: -1em;
+    font-size: 0.45em;
+    text-align: left;
+}
+.lower-limit0 {
+    position: absolute;
+    bottom: -0.1em;
+    right: -1em;
+    font-size: 0.45em;
+    text-align: left;
+}
 .term {
     display: inline-block;
     margin: 0 5px;
