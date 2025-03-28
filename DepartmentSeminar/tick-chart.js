@@ -1,8 +1,11 @@
 // Function to parse the CSV file and render the chart
 async function renderTickChart() {
+    // Define the CSV filename
+    const csvFilename = 'mbo_trades_20191226_fut_ZCH0.csv';
+    
     try {
         // Load the CSV data
-        const response = await fetch('mbo_trades_20191226_fut_ZCH0.csv');
+        const response = await fetch(csvFilename);
         const csvData = await response.text();
         
         // Parse the CSV data using D3
@@ -30,14 +33,17 @@ async function renderTickChart() {
             d.timeDate = new Date(d.time / 1000000); // Convert nanoseconds to milliseconds
         });
         
-        // Create the chart
-        createChart(processedData);
+        // Create the chart with filename
+        createChart(processedData, csvFilename);
         
         // Add window resize listener for responsiveness
         window.addEventListener('resize', () => {
             d3.select('#tick-chart').selectAll('*').remove();
-            createChart(processedData);
+            createChart(processedData, csvFilename);
         });
+        
+        // Create the chart with filename
+        createChart(processedData, csvFilename);
         
     } catch (error) {
         console.error('Error loading or parsing CSV data:', error);
@@ -50,7 +56,7 @@ async function renderTickChart() {
 }
 
 // Function to create the D3 chart
-function createChart(data) {
+function createChart(data, csvFilename) {
     // Get the dimensions of the container
     const container = document.getElementById('tick-chart');
     const width = container.clientWidth;
@@ -140,6 +146,14 @@ function createChart(data) {
         .append('div')
         .attr('class', 'tooltip')
         .style('opacity', 0);
+        
+    // Add footnote with filename
+    svg.append('text')
+        .attr('class', 'footnote')
+        .attr('x', width - margin.right)
+        .attr('y', height - 5)
+        .style('text-anchor', 'end')
+        .text(`Data source: ${csvFilename}`);
     
     // Add interactive dots for each data point
     g.selectAll('.dot')
