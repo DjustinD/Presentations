@@ -294,21 +294,17 @@ li {
 .upper-limit {
     position: absolute;
     top: 0.1em;
-    /* Instead of +8px */
     right: -1.8em;
-    /* Instead of -20px */
     font-size: 0.35em;
-    /* Instead of 14px */
+    text-align: left;
 }
 
 .lower-limit {
     position: absolute;
     bottom: -0.1em;
-    /* Instead of -3px */
     right: -1.8em;
-    /* Instead of -20px */
     font-size: 0.35em;
-    /* Instead of 14px */
+    text-align: left;
 }
 
 .term {
