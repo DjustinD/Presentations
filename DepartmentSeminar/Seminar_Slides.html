@@ -176,7 +176,7 @@
         <!-- Daily Bar Chart Slide -->
         <section class="slide" id="daily-bar-chart" aria-labelledby="daily-chart-heading">
             <h2 id="daily-chart-heading">Market Activity: Daily Bar Chart</h2>
-            <object class="chart-container" data="ohlc-chart.html" type="text/html" class="chart-object"></object>
+            <object id="chart-container1" data="ohlc-chart.html" type="text/html" class="chart-object"></object>
             
             <ul>
                 <li>Traditional price visualization showing daily trading ranges</li>
@@ -213,7 +213,7 @@
             <h2 id="lob-heading">Limit Order Book Structure</h2>
             <!-- here we have an animation of the LOB structure changing over time, this uses real data with 10 second snapshots-->
             <!-- Using object tag to embed the external HTML chart -->
-            <object class="chart-container" data="lob_single_visualization.html" type="text/html" class="chart-object"></object>
+            <object id="chart-container2" data="lob_single_visualization.html" type="text/html" class="chart-object"></object>
             <ul>
                 <li><strong>Bids:</strong> Buy orders arranged in descending price order</li>
                 <li><strong>Asks:</strong> Sell orders arranged in ascending price order</li>
@@ -281,7 +281,7 @@
 
 <section class="slide" id="lob-split-structure" aria-labelledby="lob-split-heading">
     <h2 id="lob-split-heading">Limit Order Book Split Visualization</h2>
-        <object class="chart-container" data="lob_split_visualization.html" type="text/html" class="chart-object"></object>
+        <object id="chart-container3" data="lob_split_visualization.html" type="text/html" class="chart-object"></object>
     <ul>
         <li>Visualization of new vs. old orders in the LOB</li>
         <li>New orders are shown in darker colors</li>
@@ -614,8 +614,7 @@
         <!-- Information Share Results (visualization) Slide -->
         <section class="slide" id="info-share-visualization" aria-labelledby="info-viz-heading">
             <h2 id="info-viz-heading">Information Share Results Chart</h2>
-            <object class="chart-container" data="info-share-chart3.svg" type="image/svg+xml"
-                class="chart-object"></object>
+            <object id="chart-container4" data="info-share-chart3.svg" type="image/svg+xml" class="chart-object"></object>
 
         </section>
 
