@@ -1,0 +1,17 @@
+.heatmap rect {
+        stroke: #fff;
+        stroke-width: 1px;
+    }
+
+.title {
+        font-family: Arial, sans-serif;
+        font-size: 18px;
+        font-weight: bold;
+        text-anchor: middle;
+    }
+
+.axis-label {
+        font-family: Arial, sans-serif;
+        font-size: 12px;
+        text-anchor: middle;
+    }

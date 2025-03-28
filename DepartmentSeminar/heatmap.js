@@ -1,0 +1,166 @@
+
+const width = 700, height = 500;
+const margin = { top: 60, right: 100, bottom: 80, left: 60 };
+const numDigits = 19;
+
+// Adjust the drawing area accounting for margins
+const innerWidth = width - margin.left - margin.right;
+const innerHeight = height - margin.top - margin.bottom;
+
+const svg = d3.select("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+// Create a group element for the chart with margin transform
+const chart = svg.append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+// Add title centered over the chart
+svg.append("text")
+    .attr("class", "title")
+    .attr("x", width / 2)
+    .attr("y", margin.top / 2)
+    .text("Digit Frequency Heatmap");
+
+// Load data from CSV
+d3.csv("distribution_of_csv_numbers.csv").then(data => {
+    // Parse numbers from the CSV file
+    const parsedData = data.map(d => d.numbers.split('').map(Number));
+
+    // Compute frequency of each digit at each position
+    const frequencies = Array.from({ length: 10 }, () => Array(numDigits).fill(0));
+    parsedData.forEach(number => {
+        number.forEach((digit, pos) => {
+            frequencies[digit][pos]++;
+        });
+    });
+
+    // Flatten data for D3
+    const flatData = [];
+    frequencies.forEach((row, digit) => {
+        row.forEach((value, pos) => {
+            flatData.push({ digit, pos, value });
+        });
+    });
+
+    // Find max value for color scale
+    const maxValue = d3.max(flatData, d => d.value);
+
+    // Define scales
+    const xScale = d3.scaleBand()
+        .domain(d3.range(numDigits))
+        .range([0, innerWidth])
+        .padding(0.1);
+
+    const yScale = d3.scaleBand()
+        .domain(d3.range(10))
+        .range([0, innerHeight])
+        .padding(0.1);
+
+    const colorScale = d3.scaleSequential()
+        .domain([0, maxValue])
+        .interpolator(d3.interpolateBlues);
+
+    // Draw heatmap
+    chart.append("g")
+        .attr("class", "heatmap")
+        .selectAll("rect")
+        .data(flatData)
+        .enter().append("rect")
+        .attr("x", d => xScale(d.pos))
+        .attr("y", d => yScale(d.digit))
+        .attr("width", xScale.bandwidth())
+        .attr("height", yScale.bandwidth())
+        .attr("fill", d => colorScale(d.value));
+
+    // Add axes
+    const xAxis = d3.axisBottom(xScale).tickFormat(d => d);
+    const yAxis = d3.axisLeft(yScale).tickFormat(d => d);
+
+    chart.append("g")
+        .attr("transform", `translate(0, ${innerHeight})`)
+        .call(xAxis);
+
+    chart.append("g")
+        .call(yAxis);
+
+    // Add axis labels
+    svg.append("text")
+        .attr("class", "axis-label")
+        .attr("x", width / 2)
+        .attr("y", height - margin.bottom / 2)
+        .text("Position");
+
+    svg.append("text")
+        .attr("class", "axis-label")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -(height / 2))
+        .attr("y", margin.left / 3)
+        .text("Digit");
+
+    // Create a vertical legend
+    const legendWidth = 20;
+    const legendHeight = innerHeight;
+    const legendX = innerWidth + margin.left + 30;
+    const legendY = margin.top;
+
+    // Create gradient for the legend
+    const defs = svg.append("defs");
+    const linearGradient = defs.append("linearGradient")
+        .attr("id", "linear-gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "0%")
+        .attr("y2", "0%");
+
+    // Set the gradient color stops
+    linearGradient.selectAll("stop")
+        .data([
+            { offset: "0%", color: colorScale(0) },
+            { offset: "100%", color: colorScale(maxValue) }
+        ])
+        .enter().append("stop")
+        .attr("offset", d => d.offset)
+        .attr("stop-color", d => d.color);
+
+    // Draw the legend rectangle
+    svg.append("rect")
+        .attr("x", legendX)
+        .attr("y", legendY)
+        .attr("width", legendWidth)
+        .attr("height", legendHeight)
+        .style("fill", "url(#linear-gradient)")
+        .style("stroke", "#ccc")
+        .style("stroke-width", "1px");
+
+    // Add legend title
+    svg.append("text")
+        .attr("class", "axis-label")
+        .attr("x", legendX + legendWidth / 2)
+        .attr("y", legendY - 10)
+        .style("text-anchor", "middle")
+        .text("Frequency");
+
+    // Add legend scale
+    const legendScale = d3.scaleLinear()
+        .domain([0, maxValue])
+        .range([legendHeight, 0]);
+
+    const legendAxis = d3.axisRight(legendScale)
+        .ticks(5);
+
+    svg.append("g")
+        .attr("transform", `translate(${legendX + legendWidth}, ${legendY})`)
+        .call(legendAxis);
+
+}).catch(error => {
+    console.error("Error loading the CSV file:", error);
+
+    // Display error message on the SVG
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height / 2)
+        .attr("text-anchor", "middle")
+        .style("fill", "red")
+        .text("Error loading data: " + error.message);
+});
