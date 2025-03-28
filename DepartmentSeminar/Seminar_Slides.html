@@ -457,7 +457,14 @@
             -->
             <div class="model-diagram">
                 <div class="equation" aria-label="Vector Error Correction Model equation">
-                    ΔY<sub>t</sub> = μ + αβ'Y<sub>t-1</sub> + ∑<sub>l=1</sub><sup>p-1</sup>Γ<sub>l</sub>ΔY<sub>t-l</sub>
+                    ΔY<sub>t</sub> = μ + αβ'Y<sub>t-1</sub> + 
+                    <span class="term">
+                        <span class="summation">∑
+                            <span class="upper-limit">p</span>
+                            <span class="lower-limit">l=1</span>
+                        </span>
+                        Γ<sub>l</sub>ΔY<sub>t-l</sub>
+                    </span> 
                     + u<sub>t</sub>
                 </div>
                 <p>Where:</p>
