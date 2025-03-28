@@ -191,6 +191,7 @@ li {
 }
 
 #daily-bar-chart .chart-object,
+#tick-chart .chart-object,
 #digit-distribution .chart-object,
 #info-share-visualization .chart-object {
     width: 100%;
