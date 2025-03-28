@@ -137,7 +137,7 @@
                 </div>
             </div>
             <aside class="aside-box">
-                <p>Keep in mind we are talking aobut private information.</p>
+                <p>Keep in mind we are talking about private information.</p>
                 <p>Public information is generally available (in the news or rapidly disseminated)</p>
                 <p>Private information is NOT available and must be teased out of the data</p>
             </aside>
@@ -162,6 +162,7 @@
                 <li><strong>Time Precision:</strong> Nanosecond timestamps</li>
                 <li><strong>Special Handling:</strong>
                     <ul>
+                        <li>Analyse nearby contract</li>
                         <li>Filter out the evening session</li>
                         <li>Short trading days adjusted accordingly</li>
                         <li>Holidays are excluded</li>
@@ -487,6 +488,18 @@
 
         <!-- Information Share Slide-->
         <section class="slide" id="information-share" aria-labelledby="info-share-heading">
+            <h2>Moving Average Representation</h2>
+            <div class="equation smaller" aria-label="Moving Average Representation">
+                Y<sub>t</sub> = Y<sub>0</sub> + ψ
+                <span class="term">
+                    <span class="summation">Σ</span>
+                    <span class="upper-limit">t</span>
+                    <span class="lower-limit">i=1</span>
+                </span>
+                t</sup>u<sub>i</sub> + ψ*(L)u<sub>t</sub>
+            </div>
+
+
             <h2 id="info-share-heading">Information Share (IS) Measure</h2>
             <!--
             Using the Granger representation theorem we can decompose y_t into I(1) and I(0) components (Lütkepohl, 2005 page 252) as follows,
@@ -508,10 +521,7 @@
                     <li>Based on Granger's representation theorem for cointegrated systems</li>
                 </ul>
             </div>
-            <h3>Moving Average Representation</h3>
-            <div class="equation smaller" aria-label="Moving Average Representation">
-                Y<sub>t</sub> = Y<sub>0</sub>* + ψΣ<sub>i=1</sub><sup>t</sup>u<sub>i</sub> + ψ*(L)u<sub>t</sub>
-            </div>
+
             <aside class="aside-box">
                 <p>The Innovation variance is decomposed using Cholesky factorization, making the measure
                     order-dependent.
@@ -629,7 +639,6 @@
                     <ul>
                         <li>Information quickly incorporated in nearby price levels</li>
                         <li>Deeper book levels contain less relevant information</li>
-                        <li>30-minute threshold suggests efficient processing speed</li>
                         <li>Consistent with semi-strong form efficiency</li>
                     </ul>
                 </div>
