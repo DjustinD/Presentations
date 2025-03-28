@@ -403,14 +403,13 @@
             <h2 id="model-specs-heading">Model Specifications Overview</h2>
             <ul>
                 <li>Variable 1: Last Trade Price</li>
-                <li>Variable 2: New pLOB (Step 1)</li>
-                <li>Variable 3: New pLOB (Steps 2-10)</li>
+                <li>Variable 2: New pLOB (Step 1-10)</li>
+                <li>Variable 3: Old pLOB (Steps 1-10)</li>
             </ul>
             <aside class="aside-box">
                 <p>The model consists of a partial LOB that is built from orders under a certain age cutoff. We will
                     test age limits of 10, 20, 30, 40, 50, 60, 70, 80 minutes, and we will compare with information in
-                    an LOB that is built from all orders regardless of age. Further, we will cross-reference our results
-                    with the 2019 results from Arzandeh and Frank.</p>
+                    an LOB that is built from all orders regardless of age.</p>
             </aside>
 
         </section>
@@ -502,7 +501,7 @@
             </div>
 
 
-            <h3 id="info-share-heading">Information Share (IS) Measure</h3>
+            <h2 id="info-share-heading">Information Share (IS) Measure</h2>
             <!--
             Using the Granger representation theorem we can decompose y_t into I(1) and I(0) components (Lütkepohl, 2005 page 252) as follows,
             ▭(y_t=y_0^*+Ψ〖 Σ〗_(i=1)^t  u_i+Ψ^* (L) u_i )	(3)
@@ -525,11 +524,12 @@
                     <li>ψ is a common row vector containing the common long-run impact of all innovations</li>
                     <li>Ω is the variance-covariance matrix of VECM innovations</li>
                     <li>Based on Granger's representation theorem for cointegrated systems</li>
+                    <li>Ω = MM' where M is the lower triangular matrix</li>
                 </ul>
             </div>
 
             <aside class="aside-box">
-                <p>The Innovation variance is decomposed using Cholesky factorization, making the measure
+                <p>The innovation variance is decomposed using Cholesky factorization, making the measure
                     order-dependent.
                     This necessitates reporting upper and lower bounds, or using the Modified Information Share (MIS)
                     approach.</p>
