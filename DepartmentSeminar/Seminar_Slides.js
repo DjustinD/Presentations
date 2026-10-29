@@ -315,36 +315,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Load external components
-    function loadExternalComponent(containerId, filePath) {
-        const container = document.getElementById(containerId);
-        if (!container) {
-            console.error(`Container with ID '${containerId}' not found`);
-            return;
-        }
-        
-        fetch(filePath)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Failed to load ${filePath}: ${response.status} ${response.statusText}`);
-                }
-                return response.text();
-            })
-            .then(html => {
-                container.innerHTML = html;
-            })
-            .catch(error => {
-                console.error('Error loading component:', error);
-                container.innerHTML = `<p class="error">Failed to load component. Error: ${error.message}</p>`;
-            });
-    }
-
-
-
-    // Load external components
-    loadExternalComponent('table-container', 'results-table.html');
-
-
     // Initialize side navigation
     setupSideNav();
 
